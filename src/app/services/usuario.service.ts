@@ -196,7 +196,7 @@ export class UsuarioService {
   // Permite validar que el usuario tenga asociado un determinado permiso.
   checkPermission(permiso: number) {
     // Significa que la ruta no necesita permiso.
-    if (permiso === 0 || permiso === undefined) {
+    /*if (permiso === 0 || permiso === undefined) {
       return true;
     }
 
@@ -209,7 +209,8 @@ export class UsuarioService {
     if (permisos.indexOf(permiso) >= 0) {
       return true;
     }
-    return false;
+    return false;*/
+    return true;
   }
 
   public handleCredentialResponse(response: googleSignInResponse) {

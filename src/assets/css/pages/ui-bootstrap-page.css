@@ -15,7 +15,7 @@ File: scss
 /*Light colors*/
 /*Normal Color*/
 /*Extra Variable*/
-/*============================================================== 
+/*==============================================================
  Ui-bootstrap
  ============================================================== */
 ul.list-icons {
@@ -31,7 +31,7 @@ ul.list-icons {
     ul.list-icons li a {
       color: #67757c; }
       ul.list-icons li a:hover {
-        color: #398bf7; }
+        color: #80C0C4; }
     ul.list-icons li i {
       font-size: 13px;
       padding-right: 8px; }

@@ -19,7 +19,7 @@ File: scss
  Sales overview Chart 1
 *******************/
 #ct-sales3-chart .ct-series-a .ct-bar {
-  stroke: #398bf7; }
+  stroke: #80C0C4; }
 
 #ct-sales3-chart .ct-series-b .ct-bar {
   stroke: rgba(57, 139, 247, 0.8); }
@@ -32,7 +32,7 @@ File: scss
 *******************/
 #sales-overview2 .ct-point {
   stroke-width: 6px;
-  stroke: #398bf7; }
+  stroke: #80C0C4; }
 
 #sales-overview2 .ct-grid {
   stroke-dasharray: 0px;
@@ -43,7 +43,7 @@ File: scss
 
 #sales-overview2 .ct-line {
   stroke-width: 3px;
-  stroke: #398bf7; }
+  stroke: #80C0C4; }
 
 .browser td {
   vertical-align: middle;

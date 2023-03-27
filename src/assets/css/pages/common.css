@@ -15,8 +15,8 @@ File: scss
 /*Light colors*/
 /*Normal Color*/
 /*Extra Variable*/
-/*============================================================== 
- For all pages 
+/*==============================================================
+ For all pages
  ============================================================== */
 #main-wrapper {
   width: 100%;
@@ -225,7 +225,7 @@ File: scss
 
 .topbar ul.dropdown-user li a:hover {
   background: #e9edf2;
-  color: #398bf7;
+  color: #80C0C4;
   text-decoration: none;
 }
 
@@ -392,7 +392,7 @@ Notify
 .hdr-nav-bar .navbar .navbar-nav > li.active > a,
 .hdr-nav-bar .navbar .navbar-nav > li:hover > a,
 .hdr-nav-bar .navbar .navbar-nav > li > a:focus {
-  border-color: #398bf7;
+  border-color: #80C0C4;
 }
 
 .hdr-nav-bar .navbar .navbar-nav .dropdown-toggle:after {
@@ -461,7 +461,7 @@ Notify
 
 .lstick {
   width: 2px;
-  background: #398bf7;
+  background: #80C0C4;
   height: 30px;
   margin-left: -20px;
   margin-right: 18px;
@@ -556,7 +556,7 @@ Notify
   color: #ffffff;
   text-transform: uppercase;
   font-size: 15px;
-  background: #398bf7;
+  background: #80C0C4;
 }
 
 .right-sidebar .rpanel-title span {
@@ -665,7 +665,7 @@ ul#themecolors li a.working:before {
 }
 
 .blue-theme {
-  background: #398bf7;
+  background: #80C0C4;
 }
 
 .purple-theme {
@@ -716,13 +716,13 @@ ul#themecolors li a.working:before {
 .blue-dark-theme {
   background: #263238;
   /* Old browsers */
-  background: -moz-linear-gradient(left, #263238 0%, #263238 23%, #398bf7 23%, #398bf7 99%);
+  background: -moz-linear-gradient(left, #263238 0%, #263238 23%, #80C0C4 23%, #80C0C4 99%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, #263238 0%, #263238 23%, #398bf7 23%, #398bf7 99%);
+  background: -webkit-linear-gradient(left, #263238 0%, #263238 23%, #80C0C4 23%, #80C0C4 99%);
   /* Chrome10-25,Safari5.1-6 */
-  background: -webkit-gradient(linear, left top, right top, from(#263238), color-stop(23%, #263238), color-stop(23%, #398bf7), color-stop(99%, #398bf7));
-  background: -o-linear-gradient(left, #263238 0%, #263238 23%, #398bf7 23%, #398bf7 99%);
-  background: linear-gradient(to right, #263238 0%, #263238 23%, #398bf7 23%, #398bf7 99%);
+  background: -webkit-gradient(linear, left top, right top, from(#263238), color-stop(23%, #263238), color-stop(23%, #80C0C4), color-stop(99%, #80C0C4));
+  background: -o-linear-gradient(left, #263238 0%, #263238 23%, #80C0C4 23%, #80C0C4 99%);
+  background: linear-gradient(to right, #263238 0%, #263238 23%, #80C0C4 23%, #80C0C4 99%);
 }
 
 .purple-dark-theme {
@@ -1009,13 +1009,13 @@ Other comon js for all pages
 
 .profile-tab li a.nav-link.active,
 .customtab li a.nav-link.active {
-  border-bottom: 2px solid #398bf7;
-  color: #398bf7;
+  border-bottom: 2px solid #80C0C4;
+  color: #80C0C4;
 }
 
 .profile-tab li a.nav-link:hover,
 .customtab li a.nav-link:hover {
-  color: #398bf7;
+  color: #80C0C4;
 }
 
 html body .jqstooltip,
@@ -1036,7 +1036,7 @@ body .jqstooltip {
 Notification page Jquery toaster
 ******************/
 .jq-icon-info {
-  background-color: #398bf7;
+  background-color: #80C0C4;
   color: #ffffff;
 }
 
