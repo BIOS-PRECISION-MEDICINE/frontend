@@ -56,7 +56,7 @@ Contact app Page
       display: block;
       color: #67757c; }
       .list-style-none li a:hover {
-        color: #398bf7; }
+        color: #80C0C4; }
       .list-style-none li a span {
         float: right; }
 
@@ -71,8 +71,8 @@ Contact app Page
   color: #67757c; }
   .profile-tab li a.nav-link.active,
   .customtab li a.nav-link.active {
-    border-bottom: 2px solid #398bf7;
-    color: #398bf7; }
+    border-bottom: 2px solid #80C0C4;
+    color: #80C0C4; }
   .profile-tab li a.nav-link:hover,
   .customtab li a.nav-link:hover {
-    color: #398bf7; }
+    color: #80C0C4; }

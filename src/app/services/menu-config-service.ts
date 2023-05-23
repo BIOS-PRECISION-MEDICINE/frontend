@@ -2,28 +2,31 @@ import { Injectable } from '@angular/core';
 
 // Models and Constants.
 import { Menu } from '../models/menu.model';
-import { SubMenu } from '../models/subMenu.model';
 import { ORIGEN_PERMISSIONS } from '../constants/origen-permissions.constants';
+import { SubMenu } from '../models/subMenu.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MenuOrigenService {
+export class MenuConfigService {
 
   constructor() { }
 
   /* Método que permite crear el menu con los permisos correspondientes para el core digital. */
-  createMenuCoreDigital(): Array<Menu>{
+  createMenuConfig(): Array<Menu>{
     let menu: Array<Menu> = [
       {
-        titulo: 'Core Digital',
+        titulo: 'Ajustes',
         icono: 'fa fa-cogs',
         subMenu: [
           new SubMenu(
-            'Autenticación', 'auth-origen', ORIGEN_PERMISSIONS.AUTH_ORIGEN
+            'Usuarios', 'config-usuarios', ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           ),
           new SubMenu(
-            'Detalle del producto', 'product-details' , ORIGEN_PERMISSIONS.CONSULTA_ORIGEN
+            'Roles', 'config-roles' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Permisos', 'config-permisos' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           )
         ]
       }

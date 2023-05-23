@@ -6,7 +6,7 @@ File: scss
 */
 
 @import '../variable';
-$themecolor: #398bf7;
+$themecolor: #80C0C4;
 $themecolor-dark: #028ee1;
 $topbar: #fff;
 $sidebar:#242a33;
@@ -15,7 +15,7 @@ $sidebar-icons: #424a56;
 $sidebar-dark: #1c2128;
 $sidebar-alt:#1c2128;
 $themecolor-alt: #26c6da;
-$topbar-alt: #398bf7;
+$topbar-alt: #80C0C4;
 
 /*******************
 /*Top bar
@@ -40,7 +40,7 @@ $topbar-alt: #398bf7;
             }
         }
     }
-    
+
 }
 
 .logo-center .topbar {
@@ -202,7 +202,7 @@ a.link {
 }
 @media (min-width: 768px){
     .mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-        
+
         background: $sidebar-alt;
     }
 }

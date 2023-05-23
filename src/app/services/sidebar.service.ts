@@ -1,8 +1,10 @@
+import { MenuConfigService } from './menu-config-service';
 import { Injectable } from '@angular/core';
 
 // Services.
 import { UsuarioService } from './usuario.service';
-import { MenuOrigenService } from './menu-origen.service';
+import { MenuPipelineService } from './menu-pipeline.service';
+import { MenuHistoricoService } from './menu-historico.service';
 
 // Models and Constants.
 import { Menu } from '../models/menu.model';
@@ -14,7 +16,10 @@ import { SubMenu } from '../models/subMenu.model';
 })
 export class SidebarService {
 
-  constructor(private _usuarioService: UsuarioService, private _menuOrigen: MenuOrigenService){
+  constructor(private _usuarioService: UsuarioService,
+    private _menuPipeline: MenuPipelineService,
+    private _menuHistorico: MenuHistoricoService,
+    private _menuConfig: MenuConfigService){
   }
 
   public menu: Array<Menu> = [];
@@ -22,19 +27,17 @@ export class SidebarService {
   loadMenu() {
     let menu: Array<Menu> = [
       {
-        titulo: 'Home',
+        titulo: 'Dashboard',
         icono: 'mdi mdi-gauge',
-        subMenu: [
-          new SubMenu(
-            'Inicio', '/',
-          )
-        ]
+        subMenu: []
       },
     ];
 
     // Se agregan los menu por cada proyecto(Core).
 
-    this.createMenu(menu, this._menuOrigen.createMenuCoreDigital());
+    this.createMenu(menu, this._menuPipeline.createMenuPipeline());
+    this.createMenu(menu, this._menuHistorico.createMenuHistorico());
+    this.createMenu(menu, this._menuConfig.createMenuConfig());
 
     this.validatePermissionMenu(menu);
   }
@@ -57,7 +60,7 @@ export class SidebarService {
       })
 
       // Se valida si el menú tiene por lo menos un subMenu.
-      if(m.subMenu.length > 0){
+      if(m.subMenu.length >= 0){
         this.menu.push(m);
       }
     });

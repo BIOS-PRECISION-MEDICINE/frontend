@@ -14,7 +14,7 @@ import { environment } from '../../environments/environment';
 import { SYSTEM } from '../constants/system.constants';
 
 const URL_AUTH = environment.url_auth;
-
+declare let google: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -74,14 +74,7 @@ export class TokenService {
 
         }else{
 
-          this.renovarToken()
-            .subscribe(() => {
-              resolve(true);
-            }, () => {
-              // Se envia al login token expirado o  no  es valido.
-              this.router.navigate(['/login']);
-              reject(false);
-            });
+          this.renovarToken();
         }
       }
       resolve(true);
@@ -101,18 +94,12 @@ export class TokenService {
   }
 
   renovarToken() {
-    let loginUsuario = JSON.parse(sessionStorage.getItem('variablesDeUsuarioLogadoDTO')!).UsuarioLogado.Login;
-
-    let url: string = `${URL_AUTH}Token/RenovarToken?login=${ loginUsuario }`;
-    return this.http.get(url)
-      .pipe(
-        map((response: any) => {
-          this.nuevoToken = response.Datos;
-          this.usuarioService.saveSessionStorage('token', this.nuevoToken);
-          console.log('Token renovado');
-          return true;
-        })
-      );
+    sessionStorage.clear();
+    localStorage.removeItem('menu');
+    this.router.navigateByUrl('/login');
+    window.onload = () => {
+      google.accounts.id.disableAutoSelect();
+    };
   }
 
 }
