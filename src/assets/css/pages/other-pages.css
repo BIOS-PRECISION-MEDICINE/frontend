@@ -41,7 +41,7 @@ Seach listing Page
       margin: 0px;
       font-size: 18px; }
       .search-listing li h3 a {
-        color: #398bf7; }
+        color: #80C0C4; }
         .search-listing li h3 a:hover {
           text-decoration: underline; }
     .search-listing li a {
@@ -76,7 +76,7 @@ Grid page
 Date paginator page
 ******************/
 .dp-selected[style] {
-  background-color: #398bf7 !important; }
+  background-color: #80C0C4 !important; }
 
 .datepaginator-sm .pagination li a,
 .datepaginator-lg .pagination li a,
@@ -91,7 +91,7 @@ Date paginator page
 Notification page Jquery toaster
 ******************/
 .jq-icon-info {
-  background-color: #398bf7;
+  background-color: #80C0C4;
   color: #ffffff; }
 
 .jq-icon-success {
@@ -117,8 +117,8 @@ list and media
 
 .list-group-item.active,
 .list-group .list-group-item.active:hover {
-  background: #398bf7;
-  border-color: #398bf7; }
+  background: #80C0C4;
+  border-color: #80C0C4; }
 
 .list-group-item.disabled {
   color: #99abb4;

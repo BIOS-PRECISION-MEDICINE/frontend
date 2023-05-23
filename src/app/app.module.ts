@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Modulos.
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
+import { PagesModule } from './pages/pages.module';
 
 // Components.
 import { AppComponent } from './app.component';
@@ -14,19 +15,18 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
 // Interceptors.
 import { TokenInterceptor } from "./interceptors/token.interceptor";
-import { PagesComponent } from './pages/pages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NopagefoundComponent,
-    PagesComponent
+    NopagefoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    PagesModule,
     AuthModule,
     ToastrModule.forRoot(),
   ],

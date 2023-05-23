@@ -10,6 +10,12 @@ export const environment = {
   // Apis propias para hacer el canal de comunicación con back-end.
   url_base_api:'https://devapps.origen.com/ApiRestOrigen/api/v1/',
   url_auth: 'https://devapps.origen.com/ApiRestAutenticacion/api/',
+  //API permissions
+  url_api_permissions: 'http://127.0.0.1:3333/permissions',
+  //API rols
+  url_api_roles: 'http://127.0.0.1:3333/roles',
+  //API users
+  url_api_users: 'http://127.0.0.1:3333/users',
 
 };
 

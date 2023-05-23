@@ -33,7 +33,7 @@ User card page
     .el-element-overlay .el-card-item .el-card-content a {
       color: #67757c; }
       .el-element-overlay .el-card-item .el-card-content a:hover {
-        color: #398bf7; }
+        color: #80C0C4; }
   .el-element-overlay .el-card-item .el-overlay-1 {
     width: 100%;
     height: 100%;
@@ -81,8 +81,8 @@ User card page
           color: #ffffff;
           padding: 12px 15px 10px; }
           .el-element-overlay .el-card-item .el-overlay-1 .el-info > li a:hover {
-            background: #398bf7;
-            border-color: #398bf7; }
+            background: #80C0C4;
+            border-color: #80C0C4; }
   .el-element-overlay .el-card-item .el-overlay {
     width: 100%;
     height: 100%;
