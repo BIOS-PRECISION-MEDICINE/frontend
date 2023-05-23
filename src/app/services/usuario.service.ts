@@ -15,11 +15,13 @@ import { MESSAGES } from 'src/app/constants/messages.constants';
 import { environment } from '../../environments/environment';
 import { googleCredentials } from 'src/app/interfaces/googleCredentials';
 import { googleSignInResponse } from 'src/app/interfaces/googleSignInResponse';
+import { ResponseApi } from '../interfaces/responseApi';
 
 const URL_AUTH = environment.url_auth;
 const CLIENT_ID = environment.client_id_google;
 const URL_BASE = environment.url_base;
 const URL_LOGIN = environment.url_login;
+const URL_USERS = environment.url_api_users;
 
 declare var $: any;
 declare let google: any;
@@ -239,5 +241,15 @@ export class UsuarioService {
     );
     return JSON.parse(jsonPayload) as googleCredentials;
   }
+
+    //Obtiene listado de usuarios activos en el sistema
+    getListingUsers():Observable<ResponseApi>{
+      return this.http.get<ResponseApi>(URL_USERS).pipe(
+        map((resp) => {
+          return resp;
+        })
+      );
+
+    }
 
 }

@@ -1,35 +1,133 @@
-<div class="table-responsive mt-3 animated fadeInLeftBig">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-xlg-12">
+      <div class="table-responsive mt-3 animated fadeInLeftBig">
 
-  <table class="table table-sm table-bordered table-striped">
-      <thead class="thead-custom">
-          <tr>
-              <th scope="col">Cédula</th>
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-custom">
+            <tr>
+              <th scope="col">Id</th>
               <th scope="col">Nombre Apellidos</th>
+              <th scope="col">NickName</th>
+              <th scope="col">Email</th>
               <th scope="col">Rol</th>
+              <th scope="col">Estado</th>
               <th scope="col">Acciones</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr>
-              <td scope="row">1075101693</td>
-              <td scope="row">David Eduardo Marin Ospina</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of lstUsers">
+              <td scope="row">{{item.id}}</td>
+              <td scope="row">{{item.name}}</td>
+              <td scope="row">{{item.nick_name}}</td>
+              <td scope="row">{{item.email}}</td>
               <td scope="row">Administrador</td>
+              <td scope="row">Activo</td>
               <td scope="row">
-                <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
+                <a (click)="modalUserEdit()" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
+                <a (click)="modalUserConfirmation()" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
                 <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
               </td>
-          </tr>
-          <tr>
-            <td scope="row">105311888</td>
-            <td scope="row">Felipe Buitrago Carmona</td>
-            <td scope="row">Administrador</td>
-            <td scope="row">
-              <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-              <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
-              <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
-            </td>
-        </tr>
-      </tbody>
-  </table>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar usuario-->
+<div class="modal animated fadeInDown" id="UserEdit" tabindex="3" role="dialog" aria-labelledby="userEditLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="userEditLabel" style="font-weight: 600;">Editar rol</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent" >
+        <div class="row">
+        <div class="col">
+          <form>
+            <div class="form-group">
+              <label for="name_user">Nombre</label>
+              <input type="text" class="form-control" id="name_user"  placeholder="Ingrese el nombre del usuario">
+            </div>
+
+            <div class="form-group">
+              <label for="nick_name_user">NickName</label>
+              <input type="text" class="form-control" id="nick_name_user"  placeholder="Ingrese el nickname del usuario">
+            </div>
+
+            <div class="form-group">
+              <label for="email_user">Email</label>
+              <input type="text" class="form-control" id="email_user"  placeholder="Ingrese el email del usuario">
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="select_rol" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Rol
+              </button>
+              <div class="dropdown-menu" aria-labelledby="select_rol">
+                <a class="dropdown-item" href="#">Administrador</a>
+                <a class="dropdown-item" href="#">Visitante</a>
+                <a class="dropdown-item" href="#">Investigador</a>
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="select_estado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Estado
+              </button>
+              <div class="dropdown-menu" aria-labelledby="select_estado">
+                <a class="dropdown-item" href="#">Activo</a>
+                <a class="dropdown-item" href="#">Inactivo</a>
+              </div>
+            </div>
+
+
+          </form>
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirmar eliminar-->
+<div class="modal animated fadeInDown" id="UserDelete" tabindex="3" role="dialog" aria-labelledby="userDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="userDeleteLabel" style="font-weight: 600;">Eliminar Usuario</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent" >
+        <div class="row">
+        <div class="col">
+          <form>
+            <div class="form-group">
+              <span>
+                ¿Confirma que desea eliminar el rol "David Eduardo Marin Ospina" del sistema?
+              </span>
+            </div>
+
+          </form>
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>

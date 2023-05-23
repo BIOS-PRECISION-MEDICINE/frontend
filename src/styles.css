@@ -170,3 +170,16 @@
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.span-title-actions{
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.btn-grid-plus{
+  color: #F1BD46 !important;
+}
+
+.btn-grid-opt{
+  color: #432A7B;
+}
