@@ -15,6 +15,7 @@ import { HistoricoUsuarioPruebasComponent } from './historico-usuario-pruebas/hi
 import { ConfigUsuariosComponent } from './config-usuarios/config-usuarios.component';
 import { ConfigRolesComponent } from './config-roles/config-roles.component';
 import { ConfigPermisosComponent } from './config-permisos/config-permisos.component';
+import { IgvComponent } from './igv/igv.component';
 
 //Guards
 import { PermissionGuard } from '../guards/permission.guard';
@@ -38,7 +39,8 @@ const routes: Routes = [
             {path:'historico-usuario',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioComponent, data: { titulo: 'Histórico usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'historico-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoPruebasComponent, data: { titulo: 'Histórico pruebas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'historico-usuario-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioPruebasComponent, data: { titulo: 'Histórico pruebas a usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            ]
+            {path:'igv',canActivate:[ PermissionGuard,TokenGuard], component: IgvComponent, data: { titulo: 'Integrative Genomics Viewer (IGV)', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+          ]
 }
 ]
 @NgModule({

@@ -9,6 +9,7 @@ import { MenuHistoricoService } from './menu-historico.service';
 // Models and Constants.
 import { Menu } from '../models/menu.model';
 import { SubMenu } from '../models/subMenu.model';
+import { MenuIgvService } from './menu-igv';
 
 
 @Injectable({
@@ -18,6 +19,7 @@ export class SidebarService {
 
   constructor(private _usuarioService: UsuarioService,
     private _menuPipeline: MenuPipelineService,
+    private _menuIgv: MenuIgvService,
     private _menuHistorico: MenuHistoricoService,
     private _menuConfig: MenuConfigService){
   }
@@ -36,6 +38,7 @@ export class SidebarService {
     // Se agregan los menu por cada proyecto(Core).
 
     this.createMenu(menu, this._menuPipeline.createMenuPipeline());
+    this.createMenu(menu, this._menuIgv.createMenuIgv());
     this.createMenu(menu, this._menuHistorico.createMenuHistorico());
     this.createMenu(menu, this._menuConfig.createMenuConfig());
 

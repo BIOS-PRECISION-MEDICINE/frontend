@@ -17,6 +17,7 @@ import { HistoricoUsuarioPruebasComponent } from './historico-usuario-pruebas/hi
 import { ConfigUsuariosComponent } from './config-usuarios/config-usuarios.component';
 import { ConfigRolesComponent } from './config-roles/config-roles.component';
 import { ConfigPermisosComponent } from './config-permisos/config-permisos.component';
+import { IgvComponent } from './igv/igv.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ConfigPermisosComponent } from './config-permisos/config-permisos.compo
     ConfigUsuariosComponent,
     ConfigRolesComponent,
     ConfigPermisosComponent,
+    IgvComponent,
   ],
   exports: [
     DashboardComponent,
