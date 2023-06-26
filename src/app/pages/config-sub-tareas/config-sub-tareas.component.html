@@ -1,0 +1,138 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-xlg-12 text-center ">
+        <div class="table-responsive mt-3 animated fadeInLeftBig">
+  
+          <table class="table table-sm table-bordered table-striped">
+            <thead class="thead-custom">
+              <tr>
+                <th scope="col">Identificador</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Tarea</th>
+                <th scope="col">Comandos</th>
+                <th scope="col">Orden</th>
+                <th scope="col">Modificado</th>
+                <th scope="col">
+                  <span class="span-title-actions">Acciones</span>
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalSubTasksConfirmation()" style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo rol">
+                    <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstSubTasks">
+                <td scope="row">{{item.id}}</td>
+                <td scope="row">{{item.name}}</td>
+                <td scope="row">{{item.description}}</td>
+                <td scope="row">Tarea T-001 (Editada)</td>
+                <td scope="row">{{item.command}}</td>
+                <td scope="row">1</td>
+                <td scope="row">{{item.updated_at}}</td>
+                <td scope="row">
+                  <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
+                  <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
+                  <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
+                </td>
+              </tr>
+  
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal nuevo task-->
+  <div class="modal animated fadeInDown" id="SubTasksNew" tabindex="3" role="dialog" aria-labelledby="subtaskInsertLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="subtaskInsertLabel" style="font-weight: 600;">Editar sub-tarea</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body parent" >
+          <div class="row">
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <label for="name_task">Nombre</label>
+                <input type="text" class="form-control" id="name_task"  placeholder="Ingrese el nombre de la sub tarea">
+              </div>
+  
+              <div class="form-group">
+                <label for="desc_task">Descripción</label>
+                <textarea class="form-control" id="desc_task" rows="3"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="orden_task">Orden</label>
+                <input type="text" class="form-control" id="orden_task"  placeholder="Ingrese el orden del proceso">
+              </div>
+
+              <div class="form-group">
+                <label for="command_task">Comandos</label>
+                <input type="text" class="form-control" id="command_task"  placeholder="Ingrese los comandos">
+              </div>
+
+              <div class="form-group">
+                <label for="select_tarea">Tare</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="select_tarea" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Seleccione tarea
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="select_tarea">
+                      <a class="dropdown-item" href="#">Lectura 0012</a>
+                      <a class="dropdown-item" href="#">Tarea T-001 (Editada)</a>
+                    </div>
+                  </div>
+                
+              </div>
+  
+            </form>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
+          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal confirmar eliminar-->
+  <div class="modal animated fadeInDown" id="SubTasksDelete" tabindex="3" role="dialog" aria-labelledby="taskDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="taskDeleteLabel" style="font-weight: 600;">Eliminar sub-tarea</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body parent" >
+          <div class="row">
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <span>
+                  ¿Confirma que desea eliminar el tarea "ST-T2-01 (Editado)" del sistema?
+                </span>
+              </div>
+  
+            </form>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
+          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,10 +1,11 @@
-import { MenuConfigService } from './menu-config-service';
 import { Injectable } from '@angular/core';
 
 // Services.
 import { UsuarioService } from './usuario.service';
 import { MenuPipelineService } from './menu-pipeline.service';
 import { MenuHistoricoService } from './menu-historico.service';
+import { MenuConfigService } from './menu-config.service';
+import { MenuPruebasService } from './menu-pruebas.service';
 
 // Models and Constants.
 import { Menu } from '../models/menu.model';
@@ -19,7 +20,8 @@ export class SidebarService {
   constructor(private _usuarioService: UsuarioService,
     private _menuPipeline: MenuPipelineService,
     private _menuHistorico: MenuHistoricoService,
-    private _menuConfig: MenuConfigService){
+    private _menuConfig: MenuConfigService,
+    private _menuPruebas: MenuPruebasService){
   }
 
   public menu: Array<Menu> = [];
@@ -38,6 +40,7 @@ export class SidebarService {
     this.createMenu(menu, this._menuPipeline.createMenuPipeline());
     this.createMenu(menu, this._menuHistorico.createMenuHistorico());
     this.createMenu(menu, this._menuConfig.createMenuConfig());
+    this.createMenu(menu, this._menuPruebas.createMenuPruebas());
 
     this.validatePermissionMenu(menu);
   }

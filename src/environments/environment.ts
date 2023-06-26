@@ -16,6 +16,15 @@ export const environment = {
   url_api_roles: 'http://127.0.0.1:3333/roles',
   //API users
   url_api_users: 'http://127.0.0.1:3333/users',
+  //API process
+  url_api_processes: 'http://127.0.0.1:3333/processes',
+  //API tasks
+  url_api_tasks: 'http://127.0.0.1:3333/tasks',
+  //API sub-tasks
+  url_api_subtasks: 'http://127.0.0.1:3333/subtasks',
+  //API parameters
+  url_api_parameters: 'http://127.0.0.1:3333/params',
+
 
 };
 
