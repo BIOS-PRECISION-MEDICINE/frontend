@@ -17,6 +17,10 @@ import { HistoricoUsuarioPruebasComponent } from './historico-usuario-pruebas/hi
 import { ConfigUsuariosComponent } from './config-usuarios/config-usuarios.component';
 import { ConfigRolesComponent } from './config-roles/config-roles.component';
 import { ConfigPermisosComponent } from './config-permisos/config-permisos.component';
+import { ConfigProcesosComponent } from './config-procesos/config-procesos.component';
+import { ConfigTareasComponent } from './config-tareas/config-tareas.component';
+import { ConfigSubTareasComponent } from './config-sub-tareas/config-sub-tareas.component';
+import { ConfigParametersComponent } from './config-parameters/config-parameters.component';
 
 
 @NgModule({
@@ -29,6 +33,10 @@ import { ConfigPermisosComponent } from './config-permisos/config-permisos.compo
     ConfigUsuariosComponent,
     ConfigRolesComponent,
     ConfigPermisosComponent,
+    ConfigProcesosComponent,
+    ConfigTareasComponent,
+    ConfigSubTareasComponent,
+    ConfigParametersComponent,
   ],
   exports: [
     DashboardComponent,
