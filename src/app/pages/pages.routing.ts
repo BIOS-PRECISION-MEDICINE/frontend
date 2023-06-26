@@ -20,6 +20,10 @@ import { ConfigPermisosComponent } from './config-permisos/config-permisos.compo
 import { PermissionGuard } from '../guards/permission.guard';
 //Constants
 import { ORIGEN_PERMISSIONS } from '../constants/origen-permissions.constants';
+import { ConfigProcesosComponent } from './config-procesos/config-procesos.component';
+import { ConfigTareasComponent } from './config-tareas/config-tareas.component';
+import { ConfigSubTareasComponent } from './config-sub-tareas/config-sub-tareas.component';
+import { ConfigParametersComponent } from './config-parameters/config-parameters.component';
 
 
 const routes: Routes = [
@@ -38,6 +42,10 @@ const routes: Routes = [
             {path:'historico-usuario',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioComponent, data: { titulo: 'Histórico usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'historico-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoPruebasComponent, data: { titulo: 'Histórico pruebas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'historico-usuario-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioPruebasComponent, data: { titulo: 'Histórico pruebas a usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-procesos',canActivate:[ PermissionGuard,TokenGuard], component: ConfigProcesosComponent, data: { titulo: 'Procesos', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigTareasComponent, data: { titulo: 'Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-sub-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigSubTareasComponent, data: { titulo: 'Subtareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-parametros',canActivate:[ PermissionGuard,TokenGuard], component: ConfigParametersComponent, data: { titulo: 'Parameters', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             ]
 }
 ]
