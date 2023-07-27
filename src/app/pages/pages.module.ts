@@ -21,6 +21,9 @@ import { ConfigProcesosComponent } from './config-procesos/config-procesos.compo
 import { ConfigTareasComponent } from './config-tareas/config-tareas.component';
 import { ConfigSubTareasComponent } from './config-sub-tareas/config-sub-tareas.component';
 import { ConfigParametersComponent } from './config-parameters/config-parameters.component';
+import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.component';
+import { ConfigDatumComponent } from './config-datum/config-datum.component';
+import { ConfigExamsComponent } from './config-exams/config-exams.component';
 
 
 @NgModule({
@@ -37,6 +40,9 @@ import { ConfigParametersComponent } from './config-parameters/config-parameters
     ConfigTareasComponent,
     ConfigSubTareasComponent,
     ConfigParametersComponent,
+    ConfigPacientesComponent,
+    ConfigDatumComponent,
+    ConfigExamsComponent,
   ],
   exports: [
     DashboardComponent,

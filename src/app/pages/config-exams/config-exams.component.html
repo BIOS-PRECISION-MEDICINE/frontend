@@ -1,0 +1,197 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-xlg-12 text-center">
+        <div class="table-responsive mt-3 animated fadeInLeftBig">
+          <table class="table table-sm table-bordered table-striped">
+            <thead class="thead-custom">
+              <tr>
+                <th scope="col">Identificador</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Modificado</th>
+                <th scope="col">
+                  <span class="span-title-actions">Acciones</span>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                    (click)="modalExamsConfirmation()"
+                    style="border-radius: 10px"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Nuevo rol"
+                  >
+                    <i
+                      class="fa fa-plus fa-4 btn-grid-plus"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstExams">
+                <td scope="row">{{ item.id }}</td>
+                <td scope="row">{{ item.name }}</td>
+                <td scope="row">David Eduardo,Marin Ospina</td>
+                <td scope="row">{{ item.updated_at  | date: 'dd/MM/yyyy' }}</td>
+                <td scope="row">
+                  <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
+                  <a href="#" class="mr-2" title="Eliminar"
+                    ><i class="fa fa-times"></i
+                  ></a>
+                  <a href="#" class="mr-2" title="Detalle"
+                    ><i class="fa fa-table"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal nuevo exam-->
+  <div
+    class="modal animated fadeInDown"
+    id="ExamsNew"
+    tabindex="3"
+    role="dialog"
+    aria-labelledby="examInsertLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="examInsertLabel" style="font-weight: 600">
+            Editar examen
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body parent">
+          <div class="row">
+            <div class="col">
+              <form>
+                <div class="form-group">
+                    <label for="valor_exam">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="valor_exam"
+                      placeholder="Ingrese el nombre del examen"
+                    />
+                </div>
+                
+                <div class="form-group">
+                  <label for="select_proceso">Paciente</label>
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      id="select_proceso"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Seleccione paciente
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="select_proceso">
+                      <a class="dropdown-item" href="#">David Eduardo,Marin Ospina</a>
+                      <a class="dropdown-item" href="#">Luis,Londoño Urrego</a>
+                    </div>
+                  </div>
+                </div>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button
+            type="button"
+            class="btn btn-outline-success"
+            style="border-radius: 10px"
+            data-dismiss="modal"
+          >
+            Guardar
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            style="border-radius: 10px"
+            data-dismiss="modal"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal confirmar eliminar-->
+  <div
+    class="modal animated fadeInDown"
+    id="ExamsDelete"
+    tabindex="3"
+    role="dialog"
+    aria-labelledby="examDeleteLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="examDeleteLabel" style="font-weight: 600">
+            Eliminar Examen
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body parent">
+          <div class="row">
+            <div class="col">
+              <form>
+                <div class="form-group">
+                  <span>
+                    ¿Confirma que desea eliminar el examen con id "2"
+                    del sistema?
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button
+            type="button"
+            class="btn btn-outline-success"
+            style="border-radius: 10px"
+            data-dismiss="modal"
+          >
+            Aceptar
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            style="border-radius: 10px"
+            data-dismiss="modal"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

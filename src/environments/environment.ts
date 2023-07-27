@@ -24,7 +24,12 @@ export const environment = {
   url_api_subtasks: 'http://127.0.0.1:3333/subtasks',
   //API parameters
   url_api_parameters: 'http://127.0.0.1:3333/params',
-
+  //API patients
+  url_api_patient: 'http://127.0.0.1:3333/patients',
+  //API data
+  url_api_data: 'http://127.0.0.1:3333/data',
+  //API exam
+  url_api_exam: 'http://127.0.0.1:3333/exams',
 
 };
 

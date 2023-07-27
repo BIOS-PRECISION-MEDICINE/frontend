@@ -30,10 +30,15 @@ export class MenuPruebasService {
           ),
           new SubMenu(
             'Parámetros', 'config-parametros' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
-          )
-          ,
+          ),
           new SubMenu(
             'Pacientes', 'config-pacientes' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Data', 'config-datum' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Examenes', 'config-exams' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           )
         ]
       }

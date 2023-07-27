@@ -1,0 +1,216 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-xlg-12 text-center">
+      <div class="table-responsive mt-3 animated fadeInLeftBig">
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-custom">
+            <tr>
+              <th scope="col">Identificador</th>
+              <th scope="col">Documento</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellidos</th>
+              <th scope="col">Fecha Nacimiento</th>
+              <th scope="col">Modificado</th>
+              <th scope="col">
+                <span class="span-title-actions">Acciones</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalPatientsConfirmation()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nuevo paciente"
+                >
+                  <i
+                    class="fa fa-plus fa-4 btn-grid-plus"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of lstPatients">
+              <td scope="row">{{ item.id }}</td>
+              <td scope="row">{{ item.document }}</td>
+              <td scope="row">{{ item.name }}</td>
+              <td scope="row">{{ item.lastname }}</td>
+              <td scope="row">{{ item.birth_year | date: 'dd/MM/yyyy' }}</td>
+              <td scope="row">{{ item.updated_at | date: 'dd/MM/yyyy'}}</td>
+              <td scope="row">
+                <a href="#" class="mr-2" title="Editar"
+                  ><i class="fa fa-pencil-square-o"></i
+                ></a>
+                <a href="#" class="mr-2" title="Eliminar"
+                  ><i class="fa fa-times"></i
+                ></a>
+                <a href="#" class="mr-2" title="Detalle"
+                  ><i class="fa fa-table"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal nuevo paciente-->
+<div
+  class="modal animated fadeInDown"
+  id="PatientNew"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="PatientNewInsertLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4
+          class="modal-title"
+          id="PatientNewInsertLabel"
+          style="font-weight: 600"
+        >
+          Editar Paciente
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <label for="name_task">Documento</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="doc_patient"
+                  placeholder="Ingrese el número de documento"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="name_patient">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name_patient"
+                  placeholder="Ingrese el nombre del paciente"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="lsn_patient">Apellidos</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lsn_patient"
+                  placeholder="Ingrese los apellidos del paciente"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="brd_patient">Fecha Nacimiento</label>
+                <input
+                  type="text"
+                  ngbDatepicker
+                  class="form-control"
+                  id="brd_patient"
+                  placeholder="dd-MM-yyyy"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirmar eliminar-->
+<div
+  class="modal animated fadeInDown"
+  id="PatientDelete"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="patientDeleteLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="patientDeleteLabel" style="font-weight: 600">
+          Eliminar paciente
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <span>
+                  ¿Confirma que desea eliminar el paciente con documento N° "109876453"
+                  del sistema?
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Aceptar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
