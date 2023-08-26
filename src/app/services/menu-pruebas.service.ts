@@ -39,6 +39,9 @@ export class MenuPruebasService {
           ),
           new SubMenu(
             'Examenes', 'config-exams' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Datos Subtareas examen', 'config-datum-sub-task-exam' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           )
         ]
       }

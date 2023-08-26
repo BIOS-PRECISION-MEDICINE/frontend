@@ -22,6 +22,7 @@ const CLIENT_ID = environment.client_id_google;
 const URL_BASE = environment.url_base;
 const URL_LOGIN = environment.url_login;
 const URL_USERS = environment.url_api_users;
+const per_page : number = environment.pagination_size;
 
 declare var $: any;
 declare let google: any;
@@ -242,14 +243,17 @@ export class UsuarioService {
     return JSON.parse(jsonPayload) as googleCredentials;
   }
 
-    //Obtiene listado de usuarios activos en el sistema
-    getListingUsers():Observable<ResponseApi>{
-      return this.http.get<ResponseApi>(URL_USERS).pipe(
-        map((resp) => {
-          return resp;
-        })
-      );
+  //Obtiene listado de usuarios activos en el sistema
+  getListingUsers(current_page: number):Observable<ResponseApi>{
+      
+    let url = URL_USERS+'?page='+current_page+'&per_page='+per_page;
 
-    }
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+
+  }
 
 }

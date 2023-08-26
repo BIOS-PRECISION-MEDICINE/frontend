@@ -13,7 +13,8 @@ import { Injectable } from '@angular/core';
 //Interfaces
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_PROCESSES = environment.url_api_patient;
+const URL_PATIENTS = environment.url_api_patient;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class PatientService {
   ) {}
 
   //Obtiene listado de tareas activos en el sistema
-  getListingPatients():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PROCESSES).pipe(
+  getListingPatients(current_page:number):Observable<ResponseApi>{
+    let url = URL_PATIENTS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

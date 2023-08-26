@@ -11,16 +11,25 @@ declare var $: any;
   styleUrls: ['./config-parameters.component.css']
 })
 export class ConfigParametersComponent {
-
+  p: number = 1;
+  ipp: number = 10;
+  ti: number = 0;
   public lstParameters: any = [];
 
   constructor(private fb: FormBuilder,private _parameters_service: ParametersService, private _alert: AlertPersonalService) {
 
   }
   ngOnInit(): void {
-    this._parameters_service.getListingParameters().subscribe(resp => {
+    this.changePageTable(1);
+  }
+
+  changePageTable(page: number): void{
+    this._parameters_service.getListingParameters(page).subscribe(resp => {
       this.lstParameters = resp.data;
-      })
+      this.p = resp.meta.current_page;
+      this.ipp = resp.meta.per_page;
+      this.ti =resp.meta.total;
+      });
   }
 
   modalParametersEdit(): void {

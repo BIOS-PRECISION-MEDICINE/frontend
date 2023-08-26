@@ -13,7 +13,8 @@ import { Injectable } from '@angular/core';
 //Interfaces
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_PROCESSES = environment.url_api_data;
+const URL_DATOS = environment.url_api_data;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class DatumService {
   ) {}
 
   //Obtiene listado de datos activos en el sistema
-  getListingDatum():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PROCESSES).pipe(
+  getListingDatum(current_page:number):Observable<ResponseApi>{
+    let url = URL_DATOS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

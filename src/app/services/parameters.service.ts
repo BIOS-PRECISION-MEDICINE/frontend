@@ -14,6 +14,7 @@ import { Injectable } from '@angular/core';
 import { ResponseApi } from '../interfaces/responseApi';
 
 const URL_PARAMS = environment.url_api_parameters;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class ParametersService {
   ) {}
 
   //Obtiene listado de tareas activos en el sistema
-  getListingParameters():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PARAMS).pipe(
+  getListingParameters(current_page:number):Observable<ResponseApi>{
+    let url = URL_PARAMS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

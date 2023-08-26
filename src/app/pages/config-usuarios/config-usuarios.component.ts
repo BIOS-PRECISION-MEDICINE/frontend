@@ -11,16 +11,27 @@ declare var $: any;
   styleUrls: []
 })
 export class ConfigUsuariosComponent {
+  p: number = 1;
+  ipp: number = 10;
+  ti: number = 0;
   public lstUsers: any = [];
 
   constructor(private fb: FormBuilder,private _users_service: UsuarioService, private _alert: AlertPersonalService) {
-
+    
   }
 
   ngOnInit(): void {
-    this._users_service.getListingUsers().subscribe(resp => {
+    this.changePageTable(1);
+  }
+
+
+  changePageTable(page: number): void{
+    this._users_service.getListingUsers(page).subscribe(resp => {
       this.lstUsers = resp.data;
-      })
+      this.p = resp.meta.current_page;
+      this.ipp = resp.meta.per_page;
+      this.ti =resp.meta.total;
+      });
   }
 
   modalUserEdit(): void {

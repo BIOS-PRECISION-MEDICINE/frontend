@@ -13,7 +13,8 @@ import { Injectable } from '@angular/core';
 //Interfaces
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_PROCESSES = environment.url_api_tasks;
+const URL_TASKS = environment.url_api_tasks;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class TasksService {
   ) {}
 
   //Obtiene listado de tareas activos en el sistema
-  getListingTasks():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PROCESSES).pipe(
+  getListingTasks(current_page:number):Observable<ResponseApi>{
+    let url = URL_TASKS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

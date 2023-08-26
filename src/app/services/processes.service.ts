@@ -14,6 +14,7 @@ import { Injectable } from '@angular/core';
 import { ResponseApi } from '../interfaces/responseApi';
 
 const URL_PROCESSES = environment.url_api_processes;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class ProcessesService {
   ) {}
 
   //Obtiene listado de procesos activos en el sistema
-  getListingProcesses():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PROCESSES).pipe(
+  getListingProcesses(current_page:number):Observable<ResponseApi>{
+    let url = URL_PROCESSES+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

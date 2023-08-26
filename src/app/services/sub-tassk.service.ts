@@ -14,6 +14,7 @@ import { Injectable } from '@angular/core';
 import { ResponseApi } from '../interfaces/responseApi';
 
 const URL_SUBTASKS = environment.url_api_subtasks;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class SubTasksService {
   ) {}
 
   //Obtiene listado de tareas activos en el sistema
-  getListingSubTasks():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_SUBTASKS).pipe(
+  getListingSubTasks(current_page:number):Observable<ResponseApi>{
+    let url = URL_SUBTASKS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

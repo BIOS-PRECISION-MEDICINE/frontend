@@ -11,15 +11,25 @@ declare var $: any;
   styleUrls: ['./config-tareas.component.css']
 })
 export class ConfigTareasComponent {
+  p: number = 1;
+  ipp: number = 10;
+  ti: number = 0;
   public lstTasks: any = [];
 
   constructor(private fb: FormBuilder,private _process_service: TasksService, private _alert: AlertPersonalService) {
 
   }
   ngOnInit(): void {
-    this._process_service.getListingTasks().subscribe(resp => {
+    this.changePageTable(1);
+  }
+
+  changePageTable(page: number): void{
+    this._process_service.getListingTasks(page).subscribe(resp => {
       this.lstTasks = resp.data;
-      })
+      this.p = resp.meta.current_page;
+      this.ipp = resp.meta.per_page;
+      this.ti =resp.meta.total;
+      });
   }
 
   modalTasksEdit(): void {

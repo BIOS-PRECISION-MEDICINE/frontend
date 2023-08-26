@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, catchError, filter } from 'rxjs/operators';
+import { Observable} from 'rxjs';
+import { map} from 'rxjs/operators';
 
 // Services.
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
@@ -11,10 +11,9 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
 //Interfaces
-import { Permissions } from '../interfaces/permission';
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_ROLES = environment.url_api_roles;
+const URL_DATOS_SUBTASK_EXAM = environment.url_api_data_subtask_exam;
 const per_page : number = environment.pagination_size;  
 
 declare var $: any;
@@ -22,7 +21,7 @@ declare var $: any;
 @Injectable({
   providedIn: 'root',
 })
-export class RolesService {
+export class DatumSubTaskExamService {
 
   constructor(
     private http: HttpClient,
@@ -30,10 +29,9 @@ export class RolesService {
     private _alerService: AlertPersonalService
   ) {}
 
-  //Obtiene listado de roles activos en el sistema
-  getListingRoles(current_page: number):Observable<ResponseApi>{
-    let url = URL_ROLES+'?page='+current_page+'&per_page='+per_page;
-
+  //Obtiene listado de datos activos en el sistema
+  getListingDataSubTaskExam(current_page:number):Observable<ResponseApi>{
+    let url = URL_DATOS_SUBTASK_EXAM+'?page='+current_page+'&per_page='+per_page;
     return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;

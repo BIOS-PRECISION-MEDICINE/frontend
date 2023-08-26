@@ -16,7 +16,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of lstUsers">
+            <tr *ngFor="let item of lstUsers  | paginate: { totalItems: ti,itemsPerPage: ipp, currentPage: p}">
               <td scope="row">{{item.id}}</td>
               <td scope="row">{{item.name}}</td>
               <td scope="row">{{item.nick_name}}</td>
@@ -29,10 +29,14 @@
                 <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
               </td>
             </tr>
-
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="text-center col-lg-12 col-xlg-12">
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
     </div>
   </div>
 </div>

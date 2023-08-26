@@ -11,15 +11,25 @@ declare var $: any;
   styleUrls: ['./config-pacientes.component.css']
 })
 export class ConfigPacientesComponent {
+  p: number = 1;
+  ipp: number = 10;
+  ti: number = 0;
   public lstPatients: any = [];
 
   constructor(private fb: FormBuilder,private _patient_service: PatientService, private _alert: AlertPersonalService) {
 
   }
   ngOnInit(): void {
-    this._patient_service.getListingPatients().subscribe(resp => {
+    this.changePageTable(1);
+  }
+
+  changePageTable(page: number): void{
+    this._patient_service.getListingPatients(page).subscribe(resp => {
       this.lstPatients = resp.data;
-      })
+      this.p = resp.meta.current_page;
+      this.ipp = resp.meta.per_page;
+      this.ti =resp.meta.total;
+      });
   }
 
   modalPatientsEdit(): void {

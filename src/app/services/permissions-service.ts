@@ -15,6 +15,7 @@ import { Permissions } from '../interfaces/permission';
 import { ResponseApi } from '../interfaces/responseApi';
 
 const URL_PERMISSIONS = environment.url_api_permissions;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -30,8 +31,9 @@ export class PermissionsService {
   ) {}
 
   //Obtiene listado de permisos activos en el sistema
-  getListingPermissions():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PERMISSIONS).pipe(
+  getListingPermissions(current_page:number):Observable<ResponseApi>{
+    let url = URL_PERMISSIONS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

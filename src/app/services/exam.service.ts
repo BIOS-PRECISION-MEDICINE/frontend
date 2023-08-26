@@ -13,7 +13,8 @@ import { Injectable } from '@angular/core';
 //Interfaces
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_PROCESSES = environment.url_api_exam;
+const URL_EXAMS = environment.url_api_exam;
+const per_page : number = environment.pagination_size;
 
 declare var $: any;
 
@@ -29,8 +30,9 @@ export class ExamsService {
   ) {}
 
   //Obtiene listado de examenes activos en el sistema
-  getListingExams():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_PROCESSES).pipe(
+  getListingExams(current_page:number):Observable<ResponseApi>{
+    let url = URL_EXAMS+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

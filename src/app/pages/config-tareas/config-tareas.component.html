@@ -21,7 +21,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of lstTasks">
+              <tr *ngFor="let item of lstTasks | paginate: { totalItems: ti,itemsPerPage: ipp, currentPage: p}">
                 <td scope="row">{{item.id}}</td>
                 <td scope="row">{{item.name}}</td>
                 <td scope="row">{{item.description}}</td>
@@ -38,6 +38,11 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="text-center col-lg-12 col-xlg-12">
+        <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
       </div>
     </div>
   </div>
