@@ -29,7 +29,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of lstDatum | paginate: { totalItems: ti,itemsPerPage: ipp, currentPage: p}">
+            <tr *ngFor="let item of lstDatum | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
               <td scope="row">{{ item.id }}</td>
               <td scope="row">Glucosa</td>
               <td scope="row">{{ item.value }}</td>

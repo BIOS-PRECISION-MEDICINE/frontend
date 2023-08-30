@@ -16,7 +16,7 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-primary"
-                  (click)="modalPatientsConfirmation()"
+                  (click)="modalAddPatients()"
                   style="border-radius: 10px"
                   data-toggle="tooltip"
                   data-placement="top"
@@ -31,21 +31,37 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of lstPatients | paginate: { totalItems: ti,itemsPerPage: ipp, currentPage: p}">
+            <tr
+              *ngFor="
+                let item of lstPatients
+                  | paginate
+                    : {
+                        totalItems: total_items,
+                        itemsPerPage: per_page,
+                        currentPage: current_page
+                      }
+              "
+            >
               <td scope="row">{{ item.id }}</td>
               <td scope="row">{{ item.document }}</td>
               <td scope="row">{{ item.name }}</td>
               <td scope="row">{{ item.lastname }}</td>
-              <td scope="row">{{ item.birth_year | date: 'dd/MM/yyyy' }}</td>
-              <td scope="row">{{ item.updated_at | date: 'dd/MM/yyyy'}}</td>
+              <td scope="row">{{ item.birth_year | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
               <td scope="row">
-                <a href="#" class="mr-2" title="Editar"
+                <a
+                  (click)="modalEditPatient(item.id)"
+                  class="mr-2"
+                  title="Editar"
                   ><i class="fa fa-pencil-square-o"></i
                 ></a>
-                <a href="#" class="mr-2" title="Eliminar"
+                <a
+                  (click)="removePatient(item.id, item.document)"
+                  class="mr-2"
+                  title="Eliminar"
                   ><i class="fa fa-times"></i
                 ></a>
-                <a href="#" class="mr-2" title="Detalle"
+                <a (click)="modalPatientsDetails(item.id)" class="mr-2" title="Detalle"
                   ><i class="fa fa-table"></i
                 ></a>
               </td>
@@ -57,7 +73,11 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
     </div>
   </div>
 </div>
@@ -79,13 +99,14 @@
           id="PatientNewInsertLabel"
           style="font-weight: 600"
         >
-          Editar Paciente
+          Paciente
         </h4>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          (click)="modalClose()"
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -93,44 +114,55 @@
       <div class="modal-body parent">
         <div class="row">
           <div class="col">
-            <form>
+            <form [formGroup]="forms">
               <div class="form-group">
-                <label for="name_task">Documento</label>
+                <label for="document">Documento</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="doc_patient"
+                  id="document"
+                  [(ngModel)]="patient.document"
+                  [class.is-invalid]="documentNoValido"
+                  formControlName="document"
                   placeholder="Ingrese el número de documento"
                 />
               </div>
 
               <div class="form-group">
-                <label for="name_patient">Nombre</label>
+                <label for="name">Nombre</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="name_patient"
+                  id="name"
+                  [(ngModel)]="patient.name"
+                  [class.is-invalid]="nameNoValido"
+                  formControlName="name"
                   placeholder="Ingrese el nombre del paciente"
                 />
               </div>
 
               <div class="form-group">
-                <label for="lsn_patient">Apellidos</label>
+                <label for="lastname">Apellidos</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="lsn_patient"
+                  id="lastname"
+                  [(ngModel)]="patient.lastname"
+                  [class.is-invalid]="lastnameNoValido"
+                  formControlName="lastname"
                   placeholder="Ingrese los apellidos del paciente"
                 />
               </div>
 
               <div class="form-group">
-                <label for="brd_patient">Fecha Nacimiento</label>
+                <label for="birth_year">Fecha Nacimiento</label>
                 <input
-                  type="text"
-                  ngbDatepicker
+                  type="date"
                   class="form-control"
-                  id="brd_patient"
+                  id="birth_year"
+                  [(ngModel)]="txt_birth_year"
+                  [class.is-invalid]="birth_yearNoValido"
+                  formControlName="birth_year"
                   placeholder="dd-MM-yyyy"
                 />
               </div>
@@ -140,18 +172,29 @@
       </div>
       <div class="modal-footer justify-content-center">
         <button
+          *ngIf="!edit_state"
           type="button"
           class="btn btn-outline-success"
           style="border-radius: 10px"
-          data-dismiss="modal"
+          (click)="newPatient()"
         >
           Guardar
+        </button>
+        <button
+          *ngIf="edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="editPatient()"
+        >
+          Editar
         </button>
         <button
           type="button"
           class="btn btn-outline-danger"
           style="border-radius: 10px"
           data-dismiss="modal"
+          (click)="modalClose()"
         >
           Cancelar
         </button>
@@ -160,25 +203,30 @@
   </div>
 </div>
 
-<!-- Modal confirmar eliminar-->
+<!-- Modal detalle-->
 <div
   class="modal animated fadeInDown"
-  id="PatientDelete"
+  id="PatientDetails"
   tabindex="3"
   role="dialog"
-  aria-labelledby="patientDeleteLabel"
+  aria-labelledby="patientDetailsLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="patientDeleteLabel" style="font-weight: 600">
-          Eliminar paciente
+        <h4
+          class="modal-title"
+          id="patientDetailsLabel"
+          style="font-weight: 600"
+        >
+          Detalle paciente
         </h4>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
+          (click)="modalClose()"
           aria-label="Close"
         >
           <span aria-hidden="true">&times;</span>
@@ -186,34 +234,68 @@
       </div>
       <div class="modal-body parent">
         <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <span>
-                  ¿Confirma que desea eliminar el paciente con documento N° "109876453"
-                  del sistema?
-                </span>
+          <div class="col-lg-12 col-xlg-12 col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <!--Cuenta producto-->
+                <div class="row">
+                  <div class="col">
+                    <h3><strong>Información personal</strong></h3>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Documento </span>
+                      {{ patient.document }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Nombre </span>
+                      {{ patient.name }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Apellidos </span>
+                      {{ patient.lastname }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Fecha nacimiento </span>
+                      {{ patient.birth_year }}
+                    </p>
+                  </div>
+                </div>
+
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
         <button
           type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-        >
-          Aceptar
-        </button>
-        <button
-          type="button"
           class="btn btn-outline-danger"
           style="border-radius: 10px"
           data-dismiss="modal"
+          (click)="modalClose()"
         >
-          Cancelar
+          Cerrar
         </button>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { AlertPersonalService } from 'src/app/services/alert-custome.service';
 
 // Models, Constants adn envs.
 import { Usuario } from '../models/usuario.model';
+import { Usuario as Ulocal } from '../models/usuario_local.model';
 import { UserLogin } from 'src/app/models/userLogin.model';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { MESSAGES } from 'src/app/constants/messages.constants';
@@ -251,6 +252,58 @@ export class UsuarioService {
     return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
+      })
+    );
+
+  }
+
+  //Crea e inserta un nuevo usuario local en el sistema
+  createNewLocalUser(usuario: Ulocal):Observable<any>{
+    
+    return this.http.post(URL_USERS+"/", { usuario } )
+    .pipe(
+      map( (resp: any) => {
+        return resp;
+      }),
+      catchError( error => {
+        $('.preloader').hide();
+        this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
+        return of(
+          {
+            "Data": null,
+            "Meta": {
+                "StatusCode": 500,
+                "ResultadoExitoso": false,
+                "TipoRespuesta": "Error de base de datos"
+            }
+        }
+        );
+      })
+    );
+
+  }
+
+  //edita un usuario local existente en el sistema
+  updateLocalUser(usuario: Ulocal):Observable<any>{
+  
+    return this.http.put(URL_USERS+"/", { usuario } )
+    .pipe(
+      map( (resp: any) => {
+        return resp;
+      }),
+      catchError( error => {
+        $('.preloader').hide();
+        this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
+        return of(
+          {
+            "Data": null,
+            "Meta": {
+                "StatusCode": 500,
+                "ResultadoExitoso": false,
+                "TipoRespuesta": "Error de base de datos"
+            }
+        }
+        );
       })
     );
 

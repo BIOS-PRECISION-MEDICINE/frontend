@@ -12,9 +12,9 @@ declare var $: any;
   styleUrls: ['./config-sub-tareas.component.css']
 })
 export class ConfigSubTareasComponent {
-  p: number = 1;
-  ipp: number = 10;
-  ti: number = 0;
+  public current_page: number = 1;
+  public per_page: number = 10;
+  public total_items: number = 0;
   public lstSubTasks: any = [];
 
   constructor(private fb: FormBuilder,private _subtasks_service: SubTasksService, private _alert: AlertPersonalService) {
@@ -27,9 +27,9 @@ export class ConfigSubTareasComponent {
   changePageTable(page: number): void{
     this._subtasks_service.getListingSubTasks(page).subscribe(resp => {
       this.lstSubTasks = resp.data;
-      this.p = resp.meta.current_page;
-      this.ipp = resp.meta.per_page;
-      this.ti =resp.meta.total;
+      this.current_page =resp.meta.current_page;
+      this.per_page = resp.meta.per_page;
+      this.total_items = resp.meta.total;
       });
   }
 

@@ -30,9 +30,21 @@ export class RolesService {
     private _alerService: AlertPersonalService
   ) {}
 
-  //Obtiene listado de roles activos en el sistema
+  //Obtiene listado de roles activos en el sistema, paginado
   getListingRoles(current_page: number):Observable<ResponseApi>{
     let url = URL_ROLES+'?page='+current_page+'&per_page='+per_page;
+
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+
+  }
+
+  //Obtiene listado de roles activos en el sistema
+  getAllListingRoles():Observable<ResponseApi>{
+    let url = URL_ROLES+'?page=1&per_page=100';
 
     return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
