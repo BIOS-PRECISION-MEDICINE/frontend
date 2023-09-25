@@ -40,6 +40,16 @@ export class PatientService {
     );
   }
 
+    //Obtiene listado de pacientes activos en el sistema
+    getAllListingPatients(): Observable<ResponseApi> {
+      let url = URL_PATIENTS + '?page=1&per_page=1000';
+      return this.http.get<ResponseApi>(url).pipe(
+        map((resp) => {
+          return resp;
+        })
+      );
+    }
+
     //Obtiene paciente especificado por id activo en el sistema
     getPatientById(id_patient: string): Observable<any> {
       let url = URL_PATIENTS + '/'+id_patient;

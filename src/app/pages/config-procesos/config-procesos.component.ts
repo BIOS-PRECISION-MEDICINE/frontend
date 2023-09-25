@@ -47,11 +47,13 @@ export class ConfigProcesosComponent {
   }
 
   changePageTable(page: number): void {
+    $('.preloader').show();
     this._process_service.getListingProcesses(page).subscribe((resp) => {
       this.lstProcesses = resp.data;
       this.current_page = resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      $('.preloader').hide();
     });
   }
 
@@ -63,6 +65,7 @@ export class ConfigProcesosComponent {
 
   modalAddProcess(): void {
     this.edit_state = false;
+    this.forms.reset();
     $('#ProcessNew').modal({ backdrop: 'static', keyboard: false });
   }
 

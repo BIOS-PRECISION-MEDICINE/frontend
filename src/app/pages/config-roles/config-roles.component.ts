@@ -25,11 +25,13 @@ export class ConfigRolesComponent {
   }
 
   changePageTable(page: number): void{
+    $('.preloader').show();
     this._roles_service.getListingRoles(page).subscribe(resp => {
       this.lstRoles = resp.data;
       this.current_page =resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      $('.preloader').hide();
       });
   }
 

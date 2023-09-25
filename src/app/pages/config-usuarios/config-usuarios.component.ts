@@ -56,18 +56,20 @@ export class ConfigUsuariosComponent {
   }
 
   changePageTable(page: number): void{
+    $('.preloader').show();
     this._users_service.getListingUsers(page).subscribe(resp => {
       this.lstUsers = resp.data;
       this.current_page =resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      $('.preloader').hide();
       });
   }
 
   modalUserAdd():void{
     this.edit_state = false;
+    this.forms.reset();
     $('#UserEdit').modal({ backdrop: 'static', keyboard: false });
-    this.forms.controls['rol_id'].setValue('-1', {onlySelf: true});
   }
 
   modalUserEdit(): void {

@@ -25,11 +25,13 @@ export class ConfigPermisosComponent {
   }
 
   changePageTable(page: number): void{
+    $('.preloader').show();
     this._permission_service.getListingPermissions(page).subscribe(resp => {
       this.lstPermissions = resp.data;
       this.current_page =resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      $('.preloader').hide();
       });
   }
 

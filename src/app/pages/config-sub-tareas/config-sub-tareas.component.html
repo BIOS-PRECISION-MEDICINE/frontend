@@ -1,143 +1,322 @@
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-xlg-12 text-center ">
-        <div class="table-responsive mt-3 animated fadeInLeftBig">
-  
-          <table class="table table-sm table-bordered table-striped">
-            <thead class="thead-custom">
-              <tr>
-                <th scope="col">Identificador</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Tarea</th>
-                <th scope="col">Comandos</th>
-                <th scope="col">Orden</th>
-                <th scope="col">Modificado</th>
-                <th scope="col">
-                  <span class="span-title-actions">Acciones</span>
-                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalSubTasksConfirmation()" style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo rol">
-                    <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
-                  </button>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of lstSubTasks | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
-                <td scope="row">{{item.id}}</td>
-                <td scope="row">{{item.name}}</td>
-                <td scope="row">{{item.description}}</td>
-                <td scope="row">Tarea T-001 (Editada)</td>
-                <td scope="row">{{item.command}}</td>
-                <td scope="row">1</td>
-                <td scope="row">{{item.updated_at}}</td>
-                <td scope="row">
-                  <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                  <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
-                  <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
-                </td>
-              </tr>
-  
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="text-center col-lg-12 col-xlg-12">
-        <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
+  <div class="row">
+    <div class="col-lg-12 col-xlg-12 text-center">
+      <div class="table-responsive mt-3 animated fadeInLeftBig">
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-custom">
+            <tr>
+              <th scope="col">Identificador</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Tarea</th>
+              <th scope="col">Comandos</th>
+              <th scope="col">Orden</th>
+              <th scope="col">Modificado</th>
+              <th scope="col">
+                <span class="span-title-actions">Acciones</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalAddSubTask()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nueva sub-tarea"
+                >
+                  <i
+                    class="fa fa-plus fa-4 btn-grid-plus"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of lstSubTasks
+                  | paginate
+                    : {
+                        totalItems: total_items,
+                        itemsPerPage: per_page,
+                        currentPage: current_page
+                      }
+              "
+            >
+              <td scope="row">{{ item.id }}</td>
+              <td scope="row">{{ item.name }}</td>
+              <td scope="row">{{ item.description }}</td>
+              <td scope="row">{{ item.task_id }}</td>
+              <td scope="row">{{ item.command }}</td>
+              <td scope="row">{{ item.order }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">
+                <a
+                  (click)="modalEditSubTask(item.id)"
+                  class="mr-2"
+                  title="Editar"
+                  ><i class="fa fa-pencil-square-o"></i
+                ></a>
+                <a
+                  (click)="removeSubTask(item.id)"
+                  class="mr-2"
+                  title="Eliminar"
+                  ><i class="fa fa-times"></i
+                ></a>
+                <a
+                  (click)="modalDetailsSubTask(item.id)"
+                  class="mr-2"
+                  title="Detalle"
+                  ><i class="fa fa-table"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
-  <!-- Modal nuevo task-->
-  <div class="modal animated fadeInDown" id="SubTasksNew" tabindex="3" role="dialog" aria-labelledby="subtaskInsertLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="subtaskInsertLabel" style="font-weight: 600;">Editar sub-tarea</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body parent" >
-          <div class="row">
+  <div class="row">
+    <div class="text-center col-lg-12 col-xlg-12">
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<!-- Modal nuevo task-->
+<div
+  class="modal animated fadeInDown"
+  id="SubTasksNew"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="subtaskInsertLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4
+          class="modal-title"
+          id="subtaskInsertLabel"
+          style="font-weight: 600"
+        >
+          Sub-tarea
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
           <div class="col">
-            <form>
+            <form [formGroup]="forms">
               <div class="form-group">
-                <label for="name_task">Nombre</label>
-                <input type="text" class="form-control" id="name_task"  placeholder="Ingrese el nombre de la sub tarea">
+                <label for="name">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  [(ngModel)]="subTarea.name"
+                  [class.is-invalid]="nameNoValido"
+                  formControlName="name"
+                  placeholder="Ingrese el nombre de la sub tarea"
+                />
               </div>
-  
               <div class="form-group">
-                <label for="desc_task">Descripción</label>
-                <textarea class="form-control" id="desc_task" rows="3"></textarea>
+                <label for="rol_id">Tarea</label>
+                <select
+                  id="task_id"
+                  class="form-control custom-select"
+                  [(ngModel)]="subTarea.task_id"
+                  [class.is-invalid]="taskNoValido"
+                  formControlName="task_id"
+                >
+                  <option value="-1">Seleccione Tarea</option>
+                  <option value="{{ item.id }}" *ngFor="let item of lstTasks">
+                    {{ item.name }}
+                  </option>
+                </select>
               </div>
+              <div class="form-group">
+                <label for="order">Orden</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="order"
+                  [(ngModel)]="subTarea.order"
+                  [class.is-invalid]="orderNoValido"
+                  formControlName="order"
+                  placeholder="Ingrese el orden del proceso"
+                />
+              </div>
+              <div class="form-group">
+                <label for="command">Comandos</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="command"
+                  [(ngModel)]="subTarea.command"
+                  [class.is-invalid]="commandNoValido"
+                  formControlName="command"
+                  placeholder="Ingrese los comandos"
+                />
+              </div>
+              <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  [(ngModel)]="subTarea.description"
+                  formControlName="description"
+                  rows="3"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          *ngIf="!edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="newSubTask()"
+        >
+          Guardar
+        </button>
+        <button
+          *ngIf="edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="editSubTask()"
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-              <div class="form-group">
-                <label for="orden_task">Orden</label>
-                <input type="text" class="form-control" id="orden_task"  placeholder="Ingrese el orden del proceso">
-              </div>
-
-              <div class="form-group">
-                <label for="command_task">Comandos</label>
-                <input type="text" class="form-control" id="command_task"  placeholder="Ingrese los comandos">
-              </div>
-
-              <div class="form-group">
-                <label for="select_tarea">Tare</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="select_tarea" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Seleccione tarea
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="select_tarea">
-                      <a class="dropdown-item" href="#">Lectura 0012</a>
-                      <a class="dropdown-item" href="#">Tarea T-001 (Editada)</a>
-                    </div>
-                  </div>
+<!-- Modal detalle-->
+<div
+  class="modal animated fadeInDown"
+  id="subTaskDetails"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="subtaskDetailsLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4
+          class="modal-title"
+          id="subtaskDetailsLabel"
+          style="font-weight: 600"
+        >
+          Detalle sub-tarea
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="modalClose()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col-lg-12 col-xlg-12 col-md-12">
+            <div class="card">
+              <div class="card-body">
                 
+                <div class="row">
+                  <div class="col">
+                    <h3><strong>Información sub-tarea</strong></h3>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Nombre </span>
+                      {{ subTarea.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Tarea </span>
+                      {{ subTarea.task_id }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Orden </span>
+                      {{ subTarea.order }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Comandos </span>
+                      {{ subTarea.command }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Descripción </span>
+                      {{ subTarea.description }}
+                    </p>
+                  </div>
+                </div>
               </div>
-  
-            </form>
-          </div>
+            </div>
           </div>
         </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
-          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cerrar
+        </button>
       </div>
     </div>
   </div>
-  
-  <!-- Modal confirmar eliminar-->
-  <div class="modal animated fadeInDown" id="SubTasksDelete" tabindex="3" role="dialog" aria-labelledby="taskDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="taskDeleteLabel" style="font-weight: 600;">Eliminar sub-tarea</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body parent" >
-          <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <span>
-                  ¿Confirma que desea eliminar el tarea "ST-T2-01 (Editado)" del sistema?
-                </span>
-              </div>
-  
-            </form>
-          </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
-          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+</div>

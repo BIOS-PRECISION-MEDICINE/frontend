@@ -48,7 +48,7 @@
                 <a (click)="modalEditProcess(item.id)" class="mr-2" title="Editar"
                   ><i class="fa fa-pencil-square-o"></i
                 ></a>
-                <a (click)="removeProcess(item.id, item.document)" class="mr-2" title="Eliminar"
+                <a (click)="removeProcess(item.id)" class="mr-2" title="Eliminar"
                   ><i class="fa fa-times"></i
                 ></a>
                 <a (click)="modalDetailsProcess(item.id)" class="mr-2" title="Detalle"
@@ -165,8 +165,6 @@
   </div>
 </div>
 
-<!-- Modal confirmar eliminar-->
-
 <!-- Modal detalle-->
 <div
   class="modal animated fadeInDown"
@@ -201,7 +199,7 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-                <!--Cuenta producto-->
+                
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información proceso</strong></h3>

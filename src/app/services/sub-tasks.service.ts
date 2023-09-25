@@ -12,10 +12,10 @@ import { Injectable } from '@angular/core';
 
 //Interfaces
 import { ResponseApi } from '../interfaces/responseApi';
-import { Tarea } from '../models/tarea.model';
+import { SubTarea } from '../models/subtarea.model';
 import { ALERT_TYPE } from '../constants/alerts.constans';
 
-const URL_TASKS = environment.url_api_tasks;
+const URL_SUBTASKS = environment.url_api_subtasks;
 const per_page: number = environment.pagination_size;
 
 declare var $: any;
@@ -23,16 +23,36 @@ declare var $: any;
 @Injectable({
   providedIn: 'root',
 })
-export class TasksService {
+export class SubTasksService {
   constructor(
     private http: HttpClient,
     private router: Router,
     private _alerService: AlertPersonalService
   ) {}
 
-  //Obtiene tarea especificado por id activo en el sistema
-  getTaskById(id_tarea: string): Observable<any> {
-    let url = URL_TASKS + '/' + id_tarea;
+  //Obtiene listado de tareas activos en el sistema
+  getListingSubTasks(current_page: number): Observable<ResponseApi> {
+    let url = URL_SUBTASKS + '?page=' + current_page + '&per_page=' + per_page;
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+  }
+
+  //Obtiene listado de todos las subTareas activos en el sistema
+  getAllListingSubTasks(): Observable<ResponseApi> {
+    let url = URL_SUBTASKS + '?page=1&per_page=1000';
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+  }
+
+  //Obtiene subTarea especificada por id activo en el sistema
+  getSubtaskById(id_sub_task: string): Observable<any> {
+    let url = URL_SUBTASKS + '/' + id_sub_task;
     return this.http.get<any>(url).pipe(
       map((resp) => {
         return resp;
@@ -40,29 +60,9 @@ export class TasksService {
     );
   }
 
-  //Obtiene listado de tareas activos en el sistema
-  getAllListingTasks(): Observable<ResponseApi> {
-    let url = URL_TASKS + '?page=1&per_page=1000';
-    return this.http.get<ResponseApi>(url).pipe(
-      map((resp) => {
-        return resp;
-      })
-    );
-  }
-
-  //Obtiene listado de tareas activos en el sistema
-  getListingTasks(current_page: number): Observable<ResponseApi> {
-    let url = URL_TASKS + '?page=' + current_page + '&per_page=' + per_page;
-    return this.http.get<ResponseApi>(url).pipe(
-      map((resp) => {
-        return resp;
-      })
-    );
-  }
-
-  //Crea e inserta una nueva tarea en el sistema
-  createNewTask(tarea: Tarea): Observable<any> {
-    return this.http.post(URL_TASKS + '/', tarea, {}).pipe(
+  //Crea e inserta una nueva subtarea en el sistema
+  createNewSubTask(subtarea: SubTarea): Observable<any> {
+    return this.http.post(URL_SUBTASKS + '/', subtarea, {}).pipe(
       map((resp: any) => {
         return {
           Data: resp,
@@ -78,7 +78,7 @@ export class TasksService {
         let msg = this.getErrorResponse(error);
         this._alerService.mostrarAlertaSimplesPorTipo(
           ALERT_TYPE.ERROR,
-          'Ocurrio un error al realizar la creación de la tarea',
+          'Ocurrio un error al realizar la creación de una subtarea',
           'Error inesperado'
         );
         return of({
@@ -94,8 +94,8 @@ export class TasksService {
   }
 
   //Actualiza una tarea en el sistema
-  updateTask(tarea: Tarea): Observable<any> {
-    return this.http.put(URL_TASKS + '/' + tarea.id, tarea, {}).pipe(
+  updateSubTask(subTarea: SubTarea): Observable<any> {
+    return this.http.put(URL_SUBTASKS + '/' + subTarea.id, subTarea, {}).pipe(
       map((resp: any) => {
         return {
           Data: resp,
@@ -111,7 +111,7 @@ export class TasksService {
         let msg = this.getErrorResponse(error);
         this._alerService.mostrarAlertaSimplesPorTipo(
           ALERT_TYPE.ERROR,
-          'Ocurrio un error al realizar la edición de la tarea',
+          'Ocurrio un error al realizar la edición una subTarea',
           'Error inesperado'
         );
         return of({
@@ -126,9 +126,9 @@ export class TasksService {
     );
   }
 
-  //Elimina una tarea del sistema
-  deleteTask(id_tarea: string): Observable<any> {
-    return this.http.delete(URL_TASKS + '/' + id_tarea, {}).pipe(
+  //Elimina una subTarea del sistema
+  deleteSubTask(id_subtarea: string): Observable<any> {
+    return this.http.delete(URL_SUBTASKS + '/' + id_subtarea, {}).pipe(
       map((resp: any) => {
         return {
           Data: resp,
@@ -144,7 +144,7 @@ export class TasksService {
         let msg = this.getErrorResponse(error);
         this._alerService.mostrarAlertaSimplesPorTipo(
           ALERT_TYPE.ERROR,
-          'Ocurrio un error al realizar la eliminación de la tarea',
+          'Ocurrio un error al realizar la eliminación de una subtarea',
           'Error inesperado'
         );
         return of({

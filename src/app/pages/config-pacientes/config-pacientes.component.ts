@@ -72,11 +72,13 @@ export class ConfigPacientesComponent {
   }
 
   changePageTable(page: number): void {
+    $('.preloader').show();
     this._patient_service.getListingPatients(page).subscribe((resp) => {
       this.lstPatients = resp.data;
       this.current_page = resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      $('.preloader').hide();
     });
   }
 
@@ -88,6 +90,7 @@ export class ConfigPacientesComponent {
 
   modalAddPatients(): void {
     this.edit_state = false;
+    this.forms.reset();
     $('#PatientNew').modal({ backdrop: 'static', keyboard: false });
   }
 
@@ -121,6 +124,7 @@ export class ConfigPacientesComponent {
     else {
       $('.preloader').show();
       this.patient.birth_year= this.txt_birth_year;
+      Reflect.deleteProperty(this.patient, 'id');
       this._patient_service.createNewPatient(this.patient).subscribe((resp) => {
         if(resp.Meta.StatusCode == 200){
           this.modalClose();

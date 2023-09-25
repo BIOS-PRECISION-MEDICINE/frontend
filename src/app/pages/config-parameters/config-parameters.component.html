@@ -1,157 +1,327 @@
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-xlg-12 text-center ">
-        <div class="table-responsive mt-3 animated fadeInLeftBig">
-  
-          <table class="table table-sm table-bordered table-striped">
-            <thead class="thead-custom">
-              <tr>
-                <th scope="col">Identificador</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Sub-Tarea</th>
-                <th scope="col">Opcional</th>
-                <th scope="col">Por defecto</th>
-                <th scope="col">Modificado</th>
-                <th scope="col">
-                  <span class="span-title-actions">Acciones</span>
-                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalParametersConfirmation()" style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo rol">
-                    <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
-                  </button>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of lstParameters | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
-                <td scope="row">{{item.id}}</td>
-                <td scope="row">{{item.name}}</td>
-                <td scope="row">{{item.type}}</td>
-                <td scope="row">ST-T-001</td>
-                <td scope="row">No</td>
-                <td scope="row">{{item.default_value}}</td>
-                <td scope="row">{{item.updated_at}}</td>
-                <td scope="row">
-                  <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                  <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
-                  <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
-                </td>
-              </tr>
-  
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="text-center col-lg-12 col-xlg-12">
-        <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
+  <div class="row">
+    <div class="col-lg-12 col-xlg-12 text-center">
+      <div class="table-responsive mt-3 animated fadeInLeftBig">
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-custom">
+            <tr>
+              <th scope="col">Identificador</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Sub-Tarea</th>
+              <th scope="col">Opcional</th>
+              <th scope="col">Por defecto</th>
+              <th scope="col">Modificado</th>
+              <th scope="col">
+                <span class="span-title-actions">Acciones</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalAddParameter()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nuevo Parámetro"
+                >
+                  <i
+                    class="fa fa-plus fa-4 btn-grid-plus"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of lstParameters
+                  | paginate
+                    : {
+                        totalItems: total_items,
+                        itemsPerPage: per_page,
+                        currentPage: current_page
+                      }
+              "
+            >
+              <td scope="row">{{ item.id }}</td>
+              <td scope="row">{{ item.name }}</td>
+              <td scope="row">{{ item.type }}</td>
+              <td scope="row">{{item.sub_task_id}}</td>
+              <td scope="row">{{item.optional}}</td>
+              <td scope="row">{{ item.default_value }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy"  }}</td>
+              <td scope="row">
+                <a (click)="modalEditParameter(item.id)" class="mr-2" title="Editar"
+                  ><i class="fa fa-pencil-square-o"></i
+                ></a>
+                <a
+                  (click)="removeParameter(item.id)"
+                  class="mr-2"
+                  title="Eliminar"
+                  ><i class="fa fa-times"></i
+                ></a>
+                <a
+                  (click)="modalDetailsParameter(item.id)"
+                  class="mr-2"
+                  title="Detalle"
+                  ><i class="fa fa-table"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
-  <!-- Modal nuevo task-->
-  <div class="modal animated fadeInDown" id="ParametersNew" tabindex="3" role="dialog" aria-labelledby="subtaskInsertLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="subtaskInsertLabel" style="font-weight: 600;">Editar Parámetro</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body parent" >
-          <div class="row">
+  <div class="row">
+    <div class="text-center col-lg-12 col-xlg-12">
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<!-- Modal nuevo parameter-->
+<div
+  class="modal animated fadeInDown"
+  id="NewParameter"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="paramInsertLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="paramInsertLabel" style="font-weight: 600">
+          Parámetro
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
           <div class="col">
-            <form>
+            <form [formGroup]="forms">
               <div class="form-group">
-                <label for="name_task">Nombre</label>
-                <input type="text" class="form-control" id="name_task"  placeholder="Ingrese el nombre de la sub tarea">
+                <label for="name">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  [(ngModel)]="param.name"
+                  [class.is-invalid]="nameNoValido"
+                  formControlName="name"
+                  placeholder="Ingrese el nombre del parámetro"
+                />
               </div>
-  
-            <div class="form-group">
-                <label for="select_type">Tipo</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="select_type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Seleccione tipo
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="select_type">
-                        <a class="dropdown-item active">Integer</a>
-                        <a class="dropdown-item" >Double</a>
-                    </div>
-                    </div>                
+              <div class="form-group">
+                <label for="type">Tipo</label>
+                <select
+                  class="form-control custom-select"
+                  id="type"
+                  [(ngModel)]="param.type"
+                  [class.is-invalid]="typeNoValido"
+                  formControlName="type"
+                >
+                  <option value="-1">Seleccione tipo</option>
+                  <option
+                    value="{{ item}}"
+                    *ngFor="let item of lstTypes"
+                  >
+                    {{ item }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="subtask_id">Sub Tarea</label>
+                <select
+                  class="form-control custom-select"
+                  id="subtask_id"
+                  [(ngModel)]="param.sub_task_id"
+                  [class.is-invalid]="subtaskNoValido"
+                  formControlName="subtask_id"
+                >
+                  <option value="-1">Seleccione sub-tarea</option>
+                  <option
+                    value="{{ item.id }}"
+                    *ngFor="let item of lstSubTasks"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="optional">Opcional</label>
+                <select
+                  class="form-control custom-select"
+                  id="optional"
+                  [(ngModel)]="param.optional"
+                  [class.is-invalid]="optionalNoValido"
+                  formControlName="optional"
+                >
+                  <option value="-1">Seleccione Opcional</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="default_value">Por defecto</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="default_value"
+                  [(ngModel)]="param.default_value"
+                  formControlName="default_value"
+                  placeholder="Ingrese el valor por defecto"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          *ngIf="!edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="newParameter()"
+        >
+          Guardar
+        </button>
+        <button
+          *ngIf="edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="editParameter()"
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal detalle-->
+<div
+  class="modal animated fadeInDown"
+  id="ParameterDetails"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="ParameterDetailsLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4
+          class="modal-title"
+          id="ParameterDetailsLabel"
+          style="font-weight: 600"
+        >
+          Detalle Parámetro
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="modalClose()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col-lg-12 col-xlg-12 col-md-12">
+            <div class="card">
+              <div class="card-body">
+                
+                <div class="row">
+                  <div class="col">
+                    <h3><strong>Información de parámetro</strong></h3>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Nombre </span>
+                      {{ param.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Tipo </span>
+                      {{ param.type }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Subtarea </span>
+                      {{ param.sub_task_id }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Opcional </span>
+                      {{ (param.optional == '0' ? 'NO' : 'SI') }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Por defecto </span>
+                      {{ param.default_value }}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-              <div class="form-group">
-                <label for="select_task">Sub-Tarea</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="select_task" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Seleccione tarea
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="select_task">
-                      <a class="dropdown-item" href="#">ST-T-001</a>
-                      <a class="dropdown-item" href="#">ST-T2-01 (Editado)</a>
-                    </div>
-                  </div>                
-              </div>
-
-              <div class="form-group">
-                <label for="select_optional">Opcional</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="select_optional" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Seleccione opcional
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="select_optional">
-                      <a class="dropdown-item" href="#">Si</a>
-                      <a class="dropdown-item" href="#">No</a>
-                    </div>
-                  </div>                
-              </div>
-
-              <div class="form-group">
-                <label for="by_default">Por defecto</label>
-                <input type="text" class="form-control" id="by_default"  placeholder="Ingrese el valor por defecto">
-              </div>
-
-            </form>
-          </div>
           </div>
         </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
-          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cerrar
+        </button>
       </div>
     </div>
   </div>
-  
-  <!-- Modal confirmar eliminar-->
-  <div class="modal animated fadeInDown" id="ParametersDelete" tabindex="3" role="dialog" aria-labelledby="taskDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="taskDeleteLabel" style="font-weight: 600;">Eliminar sub-tarea</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body parent" >
-          <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <span>
-                  ¿Confirma que desea eliminar el parametro "PARAM_1" del sistema?
-                </span>
-              </div>
-  
-            </form>
-          </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
-          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+</div>

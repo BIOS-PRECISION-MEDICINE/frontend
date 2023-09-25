@@ -20,7 +20,7 @@
                   style="border-radius: 10px"
                   data-toggle="tooltip"
                   data-placement="top"
-                  title="Nuevo rol"
+                  title="Nueva tarea"
                 >
                   <i
                     class="fa fa-plus fa-4 btn-grid-plus"
@@ -45,17 +45,23 @@
               <td scope="row">{{ item.id }}</td>
               <td scope="row">{{ item.name }}</td>
               <td scope="row">{{ item.description }}</td>
-              <td scope="row">P00-1</td>
-              <td scope="row">1</td>
-              <td scope="row">{{ item.updated_at }}</td>
+              <td scope="row">{{ item.process_id }}</td>
+              <td scope="row">{{ item.order }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
               <td scope="row">
-                <a href="#" class="mr-2" title="Editar"
+                <a (click)="modalEditTask(item.id)" class="mr-2" title="Editar"
                   ><i class="fa fa-pencil-square-o"></i
                 ></a>
-                <a href="#" class="mr-2" title="Eliminar"
+                <a
+                  (click)="removeTask(item.id, item.name)"
+                  class="mr-2"
+                  title="Eliminar"
                   ><i class="fa fa-times"></i
                 ></a>
-                <a href="#" class="mr-2" title="Detalle"
+                <a
+                  (click)="modalDetailsTask(item.id)"
+                  class="mr-2"
+                  title="Detalle"
                   ><i class="fa fa-table"></i
                 ></a>
               </td>
@@ -76,26 +82,31 @@
   </div>
 </div>
 
-<!-- Modal nuevo task-->
+<!-- Modal nuevo tarea-->
 <div
   class="modal animated fadeInDown"
   id="TaskNew"
   tabindex="3"
   role="dialog"
-  aria-labelledby="taskInsertLabel"
+  aria-labelledby="TaskNewInsertLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="taskInsertLabel" style="font-weight: 600">
-          Editar tarea
+        <h4
+          class="modal-title"
+          id="TaskNewInsertLabel"
+          style="font-weight: 600"
+        >
+          Tarea
         </h4>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          (click)="modalClose()"
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -105,7 +116,7 @@
           <div class="col">
             <form [formGroup]="forms">
               <div class="form-group">
-                <label for="name_task">Nombre</label>
+                <label for="name">Nombre</label>
                 <input
                   type="text"
                   class="form-control"
@@ -113,30 +124,31 @@
                   [(ngModel)]="task.name"
                   [class.is-invalid]="nameNoValido"
                   formControlName="name"
-                  placeholder="Ingrese el nombre del tarea"
+                  placeholder="Ingrese el Nombre"
                 />
               </div>
-
               <div class="form-group">
-                <label for="select_proceso">Proceso</label>
+                <label for="process_id">Proceso</label>
                 <select
-                  class="form-control"
+                  class="form-control custom-select"
                   id="process_id"
                   [(ngModel)]="task.process_id"
+                  [class.is-invalid]="processNoValido"
                   formControlName="process_id"
-                  required=""
-                  placeholder="Proceso"
                 >
-                  <option *ngFor="let item of lstProcesses" [value]="item.id">
-                    {{item.name}
+                  <option value="-1">Seleccione proceso</option>
+                  <option
+                    value="{{ item.id }}"
+                    *ngFor="let item of lstProcesses"
+                  >
+                    {{ item.name }}
                   </option>
                 </select>
               </div>
-
               <div class="form-group">
                 <label for="order">Orden</label>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
                   id="order"
                   [(ngModel)]="task.order"
@@ -144,36 +156,47 @@
                   formControlName="order"
                   placeholder="Ingrese el orden del proceso"
                 />
-              </div>
-
-              <div class="form-group">
-                <label for="descripcion">Descripción</label>
-                id="descripcion" [(ngModel)]="task.descripcion"
-                formControlName="descripcion"
+                </div>
+              
+                <div class="form-group">
+                <label for="description">Descripción</label>
                 <textarea
                   class="form-control"
-                  id="desc_task"
+                  id="description"
+                  [(ngModel)]="task.description"
+                  formControlName="description"
                   rows="3"
                 ></textarea>
-              </div>
+                </div>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
         <button
+          *ngIf="!edit_state"
           type="button"
           class="btn btn-outline-success"
           style="border-radius: 10px"
-          data-dismiss="modal"
+          (click)="newTask()"
         >
           Guardar
+        </button>
+        <button
+          *ngIf="edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="editTask()"
+        >
+          Editar
         </button>
         <button
           type="button"
           class="btn btn-outline-danger"
           style="border-radius: 10px"
           data-dismiss="modal"
+          (click)="modalClose()"
         >
           Cancelar
         </button>
@@ -182,25 +205,31 @@
   </div>
 </div>
 
-<!-- Modal confirmar eliminar-->
+
+<!-- Modal detalle-->
 <div
   class="modal animated fadeInDown"
-  id="TasksDelete"
+  id="TaskDetails"
   tabindex="3"
   role="dialog"
-  aria-labelledby="taskDeleteLabel"
+  aria-labelledby="taskDetailsLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="taskDeleteLabel" style="font-weight: 600">
-          Eliminar tarea
+        <h4
+          class="modal-title"
+          id="taskDetailsLabel"
+          style="font-weight: 600"
+        >
+          Detalle tarea
         </h4>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
+          (click)="modalClose()"
           aria-label="Close"
         >
           <span aria-hidden="true">&times;</span>
@@ -208,36 +237,67 @@
       </div>
       <div class="modal-body parent">
         <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <span>
-                  ¿Confirma que desea eliminar el tarea "Tarea T-001 (Editada)"
-                  del sistema?
-                </span>
+          <div class="col-lg-12 col-xlg-12 col-md-12">
+            <div class="card">
+              <div class="card-body">
+                
+                <div class="row">
+                  <div class="col">
+                    <h3><strong>Información tarea</strong></h3>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Nombre </span>
+                      {{ task.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Proceso </span>
+                      {{ task.process_id }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Orden </span>
+                      {{ task.order }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Descripción </span>
+                      {{ task.description }}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
         <button
           type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-        >
-          Aceptar
-        </button>
-        <button
-          type="button"
           class="btn btn-outline-danger"
           style="border-radius: 10px"
           data-dismiss="modal"
+          (click)="modalClose()"
         >
-          Cancelar
+          Cerrar
         </button>
       </div>
     </div>
   </div>
 </div>
+
