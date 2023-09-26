@@ -15,6 +15,7 @@ declare var $: any;
   styleUrls: ['./config-sub-tareas.component.css'],
 })
 export class ConfigSubTareasComponent {
+  public isOK: boolean = false;
   public edit_state: boolean = false;
   public forms!: FormGroup;
   public subTarea!: SubTarea;

@@ -14,6 +14,7 @@ declare var $: any;
   styleUrls: ['./config-procesos.component.css'],
 })
 export class ConfigProcesosComponent {
+  public isOK: boolean= true;
   public edit_state: boolean = false;
   public forms!: FormGroup;
   public process!: Proceso;

@@ -16,6 +16,7 @@ declare var $: any;
   styleUrls: ['./config-tareas.component.css'],
 })
 export class ConfigTareasComponent {
+  public isOK: boolean = true;
   public edit_state: boolean = false;
   public forms!: FormGroup;
   public task!: Tarea;
