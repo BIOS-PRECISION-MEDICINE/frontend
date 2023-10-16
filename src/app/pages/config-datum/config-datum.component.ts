@@ -15,6 +15,7 @@ declare var $: any;
   styleUrls: ['./config-datum.component.css']
 })
 export class ConfigDatumComponent {
+  public isOK: boolean = true;
   public edit_state: boolean = false;
   public forms!: FormGroup;
   public datum!: Datum;

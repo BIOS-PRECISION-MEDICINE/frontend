@@ -17,6 +17,7 @@ declare var $: any;
   styleUrls: ['./config-pacientes.component.css'],
 })
 export class ConfigPacientesComponent {
+  public isOK: boolean = true;
   public edit_state: boolean = false;
   public forms!: FormGroup;
   public patient!: Paciente;

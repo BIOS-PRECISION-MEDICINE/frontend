@@ -15,6 +15,7 @@ declare var $: any;
   styleUrls: ['./config-parameters.component.css'],
 })
 export class ConfigParametersComponent {
+  public isOK: boolean = true;
   public edit_state: boolean = false;
   public forms!: FormGroup;
   public param!: Parametro;

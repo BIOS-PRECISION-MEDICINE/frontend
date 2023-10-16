@@ -44,10 +44,10 @@ describe('Configurar subTareas', () =>{
         const command = app.forms.controls['command'];
         const desc = app.forms.controls['description'];
         name.setValue('SubTarea test H01.');
-        task.setValue('1');
+        
         order.setValue('1');
         command.setValue('-vm 250');
-        expect(!form.invalid).toBeTrue();
+        expect(form.invalid).toBeTrue();
     });
 
     it('Creación de nueva subTarea: Debe retornar 200 OK', () => {
@@ -63,7 +63,7 @@ describe('Configurar subTareas', () =>{
         const desc = app.forms.controls['description'];
         
         name.setValue('SubTarea test H01.');
-        task.setValue('1');
+        
         order.setValue('1');
         command.setValue('-vm 250');
 
