@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination'; 
 
 // Modules.
 import { SharedModule } from '../shared/shared.module';
@@ -21,6 +22,10 @@ import { ConfigProcesosComponent } from './config-procesos/config-procesos.compo
 import { ConfigTareasComponent } from './config-tareas/config-tareas.component';
 import { ConfigSubTareasComponent } from './config-sub-tareas/config-sub-tareas.component';
 import { ConfigParametersComponent } from './config-parameters/config-parameters.component';
+import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.component';
+import { ConfigDatumComponent } from './config-datum/config-datum.component';
+import { ConfigExamsComponent } from './config-exams/config-exams.component';
+import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
 
 
 @NgModule({
@@ -37,6 +42,10 @@ import { ConfigParametersComponent } from './config-parameters/config-parameters
     ConfigTareasComponent,
     ConfigSubTareasComponent,
     ConfigParametersComponent,
+    ConfigPacientesComponent,
+    ConfigDatumComponent,
+    ConfigExamsComponent,
+    ConfigDatumSubTaskExamComponent,
   ],
   exports: [
     DashboardComponent,
@@ -49,6 +58,7 @@ import { ConfigParametersComponent } from './config-parameters/config-parameters
     SharedModule,
     RouterModule,
     ComponentsModule,
+    NgxPaginationModule,
   ]
 })
 export class PagesModule { }

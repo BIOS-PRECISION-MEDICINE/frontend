@@ -7497,7 +7497,7 @@ function Intersection(point, points, other, entry) {
   this.o = other; // another intersection
   this.e = entry; // is an entry?
   this.v = false; // visited
-  this.n = this.p = null; // next & previous
+  this.n = this.current_page =null; // next & previous
 }
 
 // A generalized polygon clipping algorithm: given a polygon that has been cut

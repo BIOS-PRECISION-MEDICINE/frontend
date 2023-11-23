@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  pagination_size: 10,  
   client_id_google:'521818877411-nqqjaghippoeicsl68udp19eppo1m4na.apps.googleusercontent.com',
   url_base:"http://localhost:4200/login",
   url_login:"http://localhost:4200/login",
@@ -24,7 +25,14 @@ export const environment = {
   url_api_subtasks: 'http://127.0.0.1:3333/subtasks',
   //API parameters
   url_api_parameters: 'http://127.0.0.1:3333/params',
-
+  //API patients
+  url_api_patient: 'http://127.0.0.1:3333/patients',
+  //API data
+  url_api_data: 'http://127.0.0.1:3333/data',
+  //API exam
+  url_api_exam: 'http://127.0.0.1:3333/exams',
+  //API data
+  url_api_data_subtask_exam: 'http://127.0.0.1:3333/data',
 
 };
 

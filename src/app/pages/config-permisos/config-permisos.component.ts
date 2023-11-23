@@ -11,7 +11,9 @@ declare var $: any;
   styleUrls: []
 })
 export class ConfigPermisosComponent {
-
+  public current_page: number = 1;
+  public per_page: number = 10;
+  public total_items: number = 0;
   public lstPermissions: any = [];
 
   constructor(private fb: FormBuilder,private _permission_service: PermissionsService, private _alert: AlertPersonalService) {
@@ -19,9 +21,18 @@ export class ConfigPermisosComponent {
   }
 
   ngOnInit(): void {
-    this._permission_service.getListingPermissions().subscribe(resp => {
+    this.changePageTable(1);
+  }
+
+  changePageTable(page: number): void{
+    $('.preloader').show();
+    this._permission_service.getListingPermissions(page).subscribe(resp => {
       this.lstPermissions = resp.data;
-      })
+      this.current_page =resp.meta.current_page;
+      this.per_page = resp.meta.per_page;
+      this.total_items = resp.meta.total;
+      $('.preloader').hide();
+      });
   }
 
   modalPermissionInsert(): void {

@@ -2,7 +2,6 @@
   <div class="row">
     <div class="col-lg-12 col-xlg-12">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
-
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
@@ -11,122 +10,227 @@
               <th scope="col">NickName</th>
               <th scope="col">Email</th>
               <th scope="col">Rol</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
+              <th scope="col">
+                <span class="span-title-actions">Acciones</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalUserAdd()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nuevo Usuario"
+                >
+                  <i
+                    class="fa fa-plus fa-4 btn-grid-plus"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of lstUsers">
-              <td scope="row">{{item.id}}</td>
-              <td scope="row">{{item.name}}</td>
-              <td scope="row">{{item.nick_name}}</td>
-              <td scope="row">{{item.email}}</td>
+            <tr
+              *ngFor="
+                let item of lstUsers
+                  | paginate
+                    : {
+                        totalItems: total_items,
+                        itemsPerPage: per_page,
+                        currentPage: current_page
+                      }
+              "
+            >
+              <td scope="row">{{ item.id }}</td>
+              <td scope="row">{{ item.name }}</td>
+              <td scope="row">{{ item.nick_name }}</td>
+              <td scope="row">{{ item.email }}</td>
               <td scope="row">Administrador</td>
-              <td scope="row">Activo</td>
               <td scope="row">
-                <a (click)="modalUserEdit()" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                <a (click)="modalUserConfirmation()" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
-                <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
+                <a (click)="modalUserEdit()" class="mr-2" title="Editar"
+                  ><i class="fa fa-pencil-square-o"></i
+                ></a>
+                <a
+                  (click)="modalUserConfirmation()"
+                  class="mr-2"
+                  title="Eliminar"
+                  ><i class="fa fa-times"></i
+                ></a>
+                <a href="#" class="mr-2" title="Detalle"
+                  ><i class="fa fa-table"></i
+                ></a>
               </td>
             </tr>
-
           </tbody>
         </table>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="text-center col-lg-12 col-xlg-12">
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
+    </div>
+  </div>
 </div>
 
 <!-- Modal editar usuario-->
-<div class="modal animated fadeInDown" id="UserEdit" tabindex="3" role="dialog" aria-labelledby="userEditLabel" aria-hidden="true">
+<div
+  class="modal animated fadeInDown"
+  id="UserEdit"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="userEditLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="userEditLabel" style="font-weight: 600;">Editar rol</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h4 class="modal-title" id="userEditLabel" style="font-weight: 600">
+          Editar rol
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body parent" >
+      <div class="modal-body parent">
         <div class="row">
-        <div class="col">
-          <form>
-            <div class="form-group">
-              <label for="name_user">Nombre</label>
-              <input type="text" class="form-control" id="name_user"  placeholder="Ingrese el nombre del usuario">
-            </div>
-
-            <div class="form-group">
-              <label for="nick_name_user">NickName</label>
-              <input type="text" class="form-control" id="nick_name_user"  placeholder="Ingrese el nickname del usuario">
-            </div>
-
-            <div class="form-group">
-              <label for="email_user">Email</label>
-              <input type="text" class="form-control" id="email_user"  placeholder="Ingrese el email del usuario">
-            </div>
-
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="select_rol" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Rol
-              </button>
-              <div class="dropdown-menu" aria-labelledby="select_rol">
-                <a class="dropdown-item" href="#">Administrador</a>
-                <a class="dropdown-item" href="#">Visitante</a>
-                <a class="dropdown-item" href="#">Investigador</a>
+          <div class="col">
+            <form [formGroup]="forms">
+              <div class="form-group">
+                <label for="name">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="usuario_local.name"
+                  [class.is-invalid]="nameNoValido"
+                  formControlName="name"
+                  placeholder="Ingrese el nombre del usuario"
+                />
               </div>
-            </div>
 
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="select_estado" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Estado
-              </button>
-              <div class="dropdown-menu" aria-labelledby="select_estado">
-                <a class="dropdown-item" href="#">Activo</a>
-                <a class="dropdown-item" href="#">Inactivo</a>
+              <div class="form-group">
+                <label for="nick_name">NickName</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="usuario_local.nick_name" 
+                  [class.is-invalid]="nick_nameNoValido"
+                  formControlName="nick_name"
+                  placeholder="Ingrese el nickname del usuario"
+                />
               </div>
-            </div>
 
-
-          </form>
-        </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  [(ngModel)]="usuario_local.email" 
+                  [class.is-invalid]="emailNoValido"
+                  formControlName="email"
+                  placeholder="Ingrese el email del usuario"
+                />                
+              </div>
+              <div class="form-group">
+                <label for="rol_id">Rol de usuario</label>
+                <select class="form-control custom-select" [(ngModel)]="usuario_local.rol_id" formControlName="rol_id">                                                  
+                  <option value="-1">Seleccione Rol</option>
+                  <option value="{{item.rol_id}}" *ngFor="let item of lstRoles">{{item.name}}</option>                                              
+                </select>
+              </div>              
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="newUser()"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cancelar
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal confirmar eliminar-->
-<div class="modal animated fadeInDown" id="UserDelete" tabindex="3" role="dialog" aria-labelledby="userDeleteLabel" aria-hidden="true">
+<div
+  class="modal animated fadeInDown"
+  id="UserDelete"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="userDeleteLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="userDeleteLabel" style="font-weight: 600;">Eliminar Usuario</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h4 class="modal-title" id="userDeleteLabel" style="font-weight: 600">
+          Eliminar Usuario
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body parent" >
+      <div class="modal-body parent">
         <div class="row">
-        <div class="col">
-          <form>
-            <div class="form-group">
-              <span>
-                ¿Confirma que desea eliminar el rol "David Eduardo Marin Ospina" del sistema?
-              </span>
-            </div>
-
-          </form>
-        </div>
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <span>
+                  ¿Confirma que desea eliminar el rol "David Eduardo Marin
+                  Ospina" del sistema?
+                </span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Aceptar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
       </div>
     </div>
   </div>

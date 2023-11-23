@@ -24,6 +24,10 @@ import { ConfigProcesosComponent } from './config-procesos/config-procesos.compo
 import { ConfigTareasComponent } from './config-tareas/config-tareas.component';
 import { ConfigSubTareasComponent } from './config-sub-tareas/config-sub-tareas.component';
 import { ConfigParametersComponent } from './config-parameters/config-parameters.component';
+import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.component';
+import { ConfigDatumComponent } from './config-datum/config-datum.component';
+import { ConfigExamsComponent } from './config-exams/config-exams.component';
+import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
 
 
 const routes: Routes = [
@@ -46,6 +50,10 @@ const routes: Routes = [
             {path:'config-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigTareasComponent, data: { titulo: 'Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-sub-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigSubTareasComponent, data: { titulo: 'Subtareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-parametros',canActivate:[ PermissionGuard,TokenGuard], component: ConfigParametersComponent, data: { titulo: 'Parameters', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-pacientes',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPacientesComponent, data: { titulo: 'Pacientes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-datum',canActivate:[ PermissionGuard,TokenGuard], component: ConfigDatumComponent, data: { titulo: 'Data', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-exams',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExamsComponent, data: { titulo: 'Examenes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-datum-sub-task-exam',canActivate:[ PermissionGuard,TokenGuard], component: ConfigDatumSubTaskExamComponent, data: { titulo: 'Datos subTarea examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             ]
 }
 ]

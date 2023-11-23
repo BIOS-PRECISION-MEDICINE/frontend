@@ -1,131 +1,303 @@
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-xlg-12 text-center ">
-        <div class="table-responsive mt-3 animated fadeInLeftBig">
-  
-          <table class="table table-sm table-bordered table-striped">
-            <thead class="thead-custom">
-              <tr>
-                <th scope="col">Identificador</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Proceso</th>
-                <th scope="col">Orden</th>
-                <th scope="col">Modificado</th>
-                <th scope="col">
-                  <span class="span-title-actions">Acciones</span>
-                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalTasksConfirmation()" style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo rol">
-                    <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
-                  </button>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of lstTasks">
-                <td scope="row">{{item.id}}</td>
-                <td scope="row">{{item.name}}</td>
-                <td scope="row">{{item.description}}</td>
-                <td scope="row">P00-1</td>
-                <td scope="row">1</td>
-                <td scope="row">{{item.updated_at}}</td>
-                <td scope="row">
-                  <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                  <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
-                  <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
-                </td>
-              </tr>
-  
-            </tbody>
-          </table>
-        </div>
+  <div class="row">
+    <div class="col-lg-12 col-xlg-12 text-center">
+      <div class="table-responsive mt-3 animated fadeInLeftBig">
+        <table class="table table-sm table-bordered table-striped">
+          <thead class="thead-custom">
+            <tr>
+              <th scope="col">Identificador</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Proceso</th>
+              <th scope="col">Orden</th>
+              <th scope="col">Modificado</th>
+              <th scope="col">
+                <span class="span-title-actions">Acciones</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalAddTask()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nueva tarea"
+                >
+                  <i
+                    class="fa fa-plus fa-4 btn-grid-plus"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of lstTasks
+                  | paginate
+                    : {
+                        totalItems: total_items,
+                        itemsPerPage: per_page,
+                        currentPage: current_page
+                      }
+              "
+            >
+              <td scope="row">{{ item.id }}</td>
+              <td scope="row">{{ item.name }}</td>
+              <td scope="row">{{ item.description }}</td>
+              <td scope="row">{{ item.process_id }}</td>
+              <td scope="row">{{ item.order }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">
+                <a (click)="modalEditTask(item.id)" class="mr-2" title="Editar"
+                  ><i class="fa fa-pencil-square-o"></i
+                ></a>
+                <a
+                  (click)="removeTask(item.id, item.name)"
+                  class="mr-2"
+                  title="Eliminar"
+                  ><i class="fa fa-times"></i
+                ></a>
+                <a
+                  (click)="modalDetailsTask(item.id)"
+                  class="mr-2"
+                  title="Detalle"
+                  ><i class="fa fa-table"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
-  <!-- Modal nuevo task-->
-  <div class="modal animated fadeInDown" id="ProcessNew" tabindex="3" role="dialog" aria-labelledby="taskInsertLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="taskInsertLabel" style="font-weight: 600;">Editar tarea</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body parent" >
-          <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <label for="name_task">Nombre</label>
-                <input type="text" class="form-control" id="name_task"  placeholder="Ingrese el nombre del tarea">
-              </div>
-  
-              <div class="form-group">
-                <label for="desc_task">Descripción</label>
-                <textarea class="form-control" id="desc_task" rows="3"></textarea>
-              </div>
+  <div class="row">
+    <div class="text-center col-lg-12 col-xlg-12">
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>
 
+<!-- Modal nuevo tarea-->
+<div
+  class="modal animated fadeInDown"
+  id="TaskNew"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="TaskNewInsertLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4
+          class="modal-title"
+          id="TaskNewInsertLabel"
+          style="font-weight: 600"
+        >
+          Tarea
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col">
+            <form [formGroup]="forms">
               <div class="form-group">
-                <label for="select_proceso">Proceso</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="select_proceso" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Seleccione proceso
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="select_proceso">
-                      <a class="dropdown-item" href="#">P00-1</a>
-                      <a class="dropdown-item" href="#">Proceos P02 (Editado)</a>
-                    </div>
-                  </div>
+                <label for="name">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  [(ngModel)]="task.name"
+                  [class.is-invalid]="nameNoValido"
+                  formControlName="name"
+                  placeholder="Ingrese el Nombre"
+                />
+              </div>
+              <div class="form-group">
+                <label for="process_id">Proceso</label>
+                <select
+                  class="form-control custom-select"
+                  id="process_id"
+                  [(ngModel)]="task.process_id"
+                  [class.is-invalid]="processNoValido"
+                  formControlName="process_id"
+                >
+                  <option value="-1">Seleccione proceso</option>
+                  <option
+                    value="{{ item.id }}"
+                    *ngFor="let item of lstProcesses"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="order">Orden</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="order"
+                  [(ngModel)]="task.order"
+                  [class.is-invalid]="orderNoValido"
+                  formControlName="order"
+                  placeholder="Ingrese el orden del proceso"
+                />
+                </div>
+              
+                <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  [(ngModel)]="task.description"
+                  formControlName="description"
+                  rows="3"
+                ></textarea>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          *ngIf="!edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="newTask()"
+        >
+          Guardar
+        </button>
+        <button
+          *ngIf="edit_state"
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="editTask()"
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal detalle-->
+<div
+  class="modal animated fadeInDown"
+  id="TaskDetails"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="taskDetailsLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4
+          class="modal-title"
+          id="taskDetailsLabel"
+          style="font-weight: 600"
+        >
+          Detalle tarea
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="modalClose()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col-lg-12 col-xlg-12 col-md-12">
+            <div class="card">
+              <div class="card-body">
                 
-              </div>
+                <div class="row">
+                  <div class="col">
+                    <h3><strong>Información tarea</strong></h3>
+                  </div>
+                </div>
 
-              <div class="form-group">
-                <label for="name_task">Orden</label>
-                <input type="text" class="form-control" id="orden_task"  placeholder="Ingrese el orden del proceso">
+                <hr />
+
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Nombre </span>
+                      {{ task.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Proceso </span>
+                      {{ task.process_id }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Orden </span>
+                      {{ task.order }}
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="font-weight-bold"> Descripción </span>
+                      {{ task.description }}
+                    </p>
+                  </div>
+                </div>
               </div>
-  
-            </form>
-          </div>
+            </div>
           </div>
         </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
-          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
+          Cerrar
+        </button>
       </div>
     </div>
   </div>
-  
-  <!-- Modal confirmar eliminar-->
-  <div class="modal animated fadeInDown" id="TasksDelete" tabindex="3" role="dialog" aria-labelledby="taskDeleteLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="taskDeleteLabel" style="font-weight: 600;">Eliminar tarea</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body parent" >
-          <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <span>
-                  ¿Confirma que desea eliminar el tarea "Tarea T-001 (Editada)" del sistema?
-                </span>
-              </div>
-  
-            </form>
-          </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
-          <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+</div>
+

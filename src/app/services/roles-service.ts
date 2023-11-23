@@ -15,6 +15,7 @@ import { Permissions } from '../interfaces/permission';
 import { ResponseApi } from '../interfaces/responseApi';
 
 const URL_ROLES = environment.url_api_roles;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
@@ -29,9 +30,23 @@ export class RolesService {
     private _alerService: AlertPersonalService
   ) {}
 
+  //Obtiene listado de roles activos en el sistema, paginado
+  getListingRoles(current_page: number):Observable<ResponseApi>{
+    let url = URL_ROLES+'?page='+current_page+'&per_page='+per_page;
+
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+
+  }
+
   //Obtiene listado de roles activos en el sistema
-  getListingRoles():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_ROLES).pipe(
+  getAllListingRoles():Observable<ResponseApi>{
+    let url = URL_ROLES+'?page=1&per_page=100';
+
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

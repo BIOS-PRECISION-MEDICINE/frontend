@@ -13,14 +13,15 @@ import { Injectable } from '@angular/core';
 //Interfaces
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_SUBTASKS = environment.url_api_subtasks;
+const URL_DATOS_SUBTASK_EXAM = environment.url_api_data_subtask_exam;
+const per_page : number = environment.pagination_size;  
 
 declare var $: any;
 
 @Injectable({
   providedIn: 'root',
 })
-export class SubTasksService {
+export class DatumSubTaskExamService {
 
   constructor(
     private http: HttpClient,
@@ -28,9 +29,10 @@ export class SubTasksService {
     private _alerService: AlertPersonalService
   ) {}
 
-  //Obtiene listado de tareas activos en el sistema
-  getListingSubTasks():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(URL_SUBTASKS).pipe(
+  //Obtiene listado de datos activos en el sistema
+  getListingDataSubTaskExam(current_page:number):Observable<ResponseApi>{
+    let url = URL_DATOS_SUBTASK_EXAM+'?page='+current_page+'&per_page='+per_page;
+    return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
       })

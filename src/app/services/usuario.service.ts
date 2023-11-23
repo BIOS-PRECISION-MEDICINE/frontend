@@ -9,6 +9,7 @@ import { AlertPersonalService } from 'src/app/services/alert-custome.service';
 
 // Models, Constants adn envs.
 import { Usuario } from '../models/usuario.model';
+import { Usuario as Ulocal } from '../models/usuario_local.model';
 import { UserLogin } from 'src/app/models/userLogin.model';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { MESSAGES } from 'src/app/constants/messages.constants';
@@ -22,6 +23,7 @@ const CLIENT_ID = environment.client_id_google;
 const URL_BASE = environment.url_base;
 const URL_LOGIN = environment.url_login;
 const URL_USERS = environment.url_api_users;
+const per_page : number = environment.pagination_size;
 
 declare var $: any;
 declare let google: any;
@@ -242,14 +244,69 @@ export class UsuarioService {
     return JSON.parse(jsonPayload) as googleCredentials;
   }
 
-    //Obtiene listado de usuarios activos en el sistema
-    getListingUsers():Observable<ResponseApi>{
-      return this.http.get<ResponseApi>(URL_USERS).pipe(
-        map((resp) => {
-          return resp;
-        })
-      );
+  //Obtiene listado de usuarios activos en el sistema
+  getListingUsers(current_page: number):Observable<ResponseApi>{
+      
+    let url = URL_USERS+'?page='+current_page+'&per_page='+per_page;
 
-    }
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+
+  }
+
+  //Crea e inserta un nuevo usuario local en el sistema
+  createNewLocalUser(usuario: Ulocal):Observable<any>{
+    
+    return this.http.post(URL_USERS+"/", { usuario } )
+    .pipe(
+      map( (resp: any) => {
+        return resp;
+      }),
+      catchError( error => {
+        $('.preloader').hide();
+        this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
+        return of(
+          {
+            "Data": null,
+            "Meta": {
+                "StatusCode": 500,
+                "ResultadoExitoso": false,
+                "TipoRespuesta": "Error de base de datos"
+            }
+        }
+        );
+      })
+    );
+
+  }
+
+  //edita un usuario local existente en el sistema
+  updateLocalUser(usuario: Ulocal):Observable<any>{
+  
+    return this.http.put(URL_USERS+"/", { usuario } )
+    .pipe(
+      map( (resp: any) => {
+        return resp;
+      }),
+      catchError( error => {
+        $('.preloader').hide();
+        this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
+        return of(
+          {
+            "Data": null,
+            "Meta": {
+                "StatusCode": 500,
+                "ResultadoExitoso": false,
+                "TipoRespuesta": "Error de base de datos"
+            }
+        }
+        );
+      })
+    );
+
+  }
 
 }
