@@ -47,7 +47,7 @@
               <td scope="row">{{ item.name }}</td>
               <td scope="row">{{ item.type }}</td>
               <td scope="row">{{item.sub_task_id}}</td>
-              <td scope="row">{{item.optional}}</td>
+              <td scope="row">{{(item.optional == 0) ? 'NO' : 'SI'}}</td>
               <td scope="row">{{ item.default_value }}</td>
               <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy"  }}</td>
               <td scope="row">
