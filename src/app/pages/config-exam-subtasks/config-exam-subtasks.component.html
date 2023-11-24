@@ -1,0 +1,267 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4 col-xlg-4">
+      <h2>Examen {{current_exam_task}}</h2>
+    </div>
+    <div class="col-lg-8 col-xlg-8">
+      <span class="state_red label_state_icon"></span>
+      <span class="label_state">Pendiente</span>
+      <span class="state_yellow label_state_icon"></span>
+      <span class="label_state">En ejecución</span>
+      <span class="state_green label_state_icon"></span>
+      <span class="label_state">Finalizado</span>
+    </div>
+  </div>
+  <!-- Task 1 -->
+  <div class="row">
+    <div class="col">
+      <p>
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#task_1"
+          aria-expanded="false"
+          aria-controls="task_1"
+        >
+          Tarea 1 (Llamado de Bases)
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="collapse" id="task_1">
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 1 (Ejecución llamado de bases)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_yellow"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Task 2 -->
+  <div class="row">
+    <div class="col">
+      <p>
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#task_2"
+          aria-expanded="false"
+          aria-controls="task_2"
+        >
+          Tarea 2 (Mapeo)
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="collapse" id="task_2">
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 1 (Mapeo)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 2 (Organizar)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 3 (Quitar duplicados)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Task 3 -->
+  <div class="row">
+    <div class="col">
+      <p>
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#task_3"
+          aria-expanded="false"
+          aria-controls="task_3"
+        >
+          Tarea 3 (Llamado de Variantes)
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="collapse" id="task_3">
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 1 (Llamador Variantes 1)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 2 (Llamador Variantes 2)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 3 (Llamador Variantes 3)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 4 (Llamador Variantes 4)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 5 (Llamador Variantes 5)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Task 4 -->
+  <div class="row">
+    <div class="col">
+      <p>
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#task_4"
+          aria-expanded="false"
+          aria-controls="task_4"
+        >
+          Tarea 4 (Anotación)
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="collapse" id="task_4">
+        <div class="row">
+          <div class="col-lg-8 col-xlg-8">
+            <h4>Subtarea 1 (Anotar)</h4>
+          </div>
+          <div class="col-lg-4 col-xlg-4">
+            <span class="state_red"></span>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="border-radius: 10px"
+              (click)="configSubTask(-1)"
+            >
+              <i class="fa fa-cog" style="color: green" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
