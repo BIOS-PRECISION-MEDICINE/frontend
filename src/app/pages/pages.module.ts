@@ -26,6 +26,9 @@ import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.co
 import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
 import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
+import { ProcessPipelineComponent } from './process-pipeline/process-pipeline.component';
+import { ConfigExamSubtasksComponent } from './config-exam-subtasks/config-exam-subtasks.component';
+import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process/config-exam-subtask-process.component';
 
 
 @NgModule({
@@ -46,6 +49,9 @@ import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/co
     ConfigDatumComponent,
     ConfigExamsComponent,
     ConfigDatumSubTaskExamComponent,
+    ProcessPipelineComponent,
+    ConfigExamSubtasksComponent,
+    ConfigExamSubtaskProcessComponent
   ],
   exports: [
     DashboardComponent,

@@ -7815,3 +7815,48 @@ File: scss
   background: #80C0C4;
 }
 
+.state_yellow{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  background-color: yellow;
+  float: left;
+  margin: 8px 15px;
+  border-radius: 15px;
+}
+
+.state_red{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  background-color: red;
+  float: left;
+  margin: 8px 15px;
+  border-radius: 15px;
+}
+
+.state_green{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  background-color: green;
+  float: left;
+  margin: 8px 15px;
+  border-radius: 15px;
+}
+.label_state_icon{
+  width: 15px;
+  height: 15px;
+  margin: 10px 10px;
+}
+.label_state{
+  position: relative;
+  float: left;
+  top: 8px;
+  font-weight: bold;
+  font-size: small;
+}
+.loading-process-subtask{
+  background-color: black;
+  opacity: 15%;
+}
