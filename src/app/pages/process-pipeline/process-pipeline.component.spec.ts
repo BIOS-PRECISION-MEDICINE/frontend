@@ -4,13 +4,13 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { By } from '@angular/platform-browser';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfigExamSubtaskProcessComponent } from "./config-exam-subtask-process.component";
+import { ProcessPipelineComponent } from "./process-pipeline.component";
 
 
-describe('Configurar examen sub-tarea', () =>{
+describe('Configurar proceso', () =>{
 
-    let component: ConfigExamSubtaskProcessComponent;
-    let fixture: ComponentFixture<ConfigExamSubtaskProcessComponent>;
+    let component: ProcessPipelineComponent;
+    let fixture: ComponentFixture<ProcessPipelineComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -19,11 +19,11 @@ describe('Configurar examen sub-tarea', () =>{
             NgxPaginationModule,
             ReactiveFormsModule, 
           ],
-        declarations: [ConfigExamSubtaskProcessComponent]
+        declarations: [ProcessPipelineComponent]
       })
       .compileComponents();
   
-      fixture = TestBed.createComponent(ConfigExamSubtaskProcessComponent);
+      fixture = TestBed.createComponent(ProcessPipelineComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -32,8 +32,8 @@ describe('Configurar examen sub-tarea', () =>{
       expect(component).toBeTruthy();
     });
 
-    it('Validación de campos (Agregar, Editar): Debe retornar formulario valido (Id examen: es requerido)', () => {
-        const fixture = TestBed.createComponent(ConfigExamSubtaskProcessComponent);
+    it('Validación de parámetros (Ingresar valores): Debe retornar formulario valido (Campos requeridos)', () => {
+        const fixture = TestBed.createComponent(ProcessPipelineComponent);
         const app = fixture.componentInstance;
         fixture.detectChanges();
 
@@ -44,16 +44,16 @@ describe('Configurar examen sub-tarea', () =>{
         expect(form.invalid).toBeTrue();
     });
 
-    it('Creación de nuevo examen sub-tarea: Debe retornar 200 OK', () => {
-        const fixture = TestBed.createComponent(ConfigExamSubtaskProcessComponent);
+    it('Inicializar un nuevo proceso: Debe retornar 200 OK', () => {
+        const fixture = TestBed.createComponent(ProcessPipelineComponent);
         const app = fixture.componentInstance;
         fixture.detectChanges();
 
         const form = app.forms;
-        const examen = app.forms.controls['id_examen'];
-        const task = app.forms.controls['id_task'];
-        examen.setValue('Texto de prueba.');
-        task.setValue('Texto de prueba.');
+        const process = app.forms.controls['name'];
+        const desc = app.forms.controls['description'];
+        process.setValue('Texto de prueba.');
+        desc.setValue('Texto de prueba.');
 
         const btnGuardar = fixture.debugElement.query(By.css('button.btn'));
         btnGuardar.nativeElement.click();
@@ -61,8 +61,8 @@ describe('Configurar examen sub-tarea', () =>{
         expect(true).toBeTrue();
     });
 
-    it('Edición examen sub-tarea existente: Debe retornar 200 OK', () => {
-        const fixture = TestBed.createComponent(ConfigExamSubtaskProcessComponent);
+    it('Finalización de proceso: Debe retornar 200 OK', () => {
+        const fixture = TestBed.createComponent(ProcessPipelineComponent);
         const app = fixture.componentInstance;
         fixture.detectChanges();
 
@@ -71,8 +71,8 @@ describe('Configurar examen sub-tarea', () =>{
         expect(true).toBeTrue();
     });
 
-    it('Eliminar examen sub-tarea existente: Debe retornar 200 OK', () => {
-        const fixture = TestBed.createComponent(ConfigExamSubtaskProcessComponent);
+    it('Carga y configuración de siguiente proceso existente: Debe retornar 200 OK', () => {
+        const fixture = TestBed.createComponent(ProcessPipelineComponent);
         const app = fixture.componentInstance;
         fixture.detectChanges();
 
@@ -81,8 +81,8 @@ describe('Configurar examen sub-tarea', () =>{
         expect(true).toBeTrue();
     });
 
-    it('Listado examen sub-tareas existente: Debe retornar array[]', () => {
-        const fixture = TestBed.createComponent(ConfigExamSubtaskProcessComponent);
+    it('Listado procesos existente: Debe retornar array[]', () => {
+        const fixture = TestBed.createComponent(ProcessPipelineComponent);
         const app = fixture.componentInstance;
         fixture.detectChanges();
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { Examen } from 'src/app/models/exam.model';
@@ -24,6 +24,7 @@ export class ProcessPipelineComponent {
   public lstPatients: any = [];
 
   constructor(
+    private fb: FormBuilder,
     private _router: Router,
     private _exams_service: ExamsService,
     private _alert: AlertPersonalService
