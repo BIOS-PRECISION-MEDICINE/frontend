@@ -38,7 +38,7 @@ jobs:
       
       # Build app for production
       - name: Build app bundle
-        run: npm run ci:build
+        run: npm run build -- --prod
       
       # Deploy to Github pages
       - name: Deploy to pages

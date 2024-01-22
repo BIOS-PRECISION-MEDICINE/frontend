@@ -10,8 +10,8 @@
     "url": "amazingSurge.com"
   },
   "repository": {
-    "type": "git",
-    "url": "git@github.com:amazingSurge/jquery-wizard.git"
+    "type": "github",
+    "url": "https://github.com/BIOS-PRECISION-MEDICINE/frontend.git"
   },
   "keywords": [
     "jquery",
