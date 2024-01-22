@@ -13,6 +13,8 @@ on:
   # Allow that you run this workflow manually from the action tab
   workflow_dispatch:
 
+permissions:
+  contents: write
 # A workflow is made up of one o more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "buils"
