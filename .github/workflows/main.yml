@@ -33,16 +33,12 @@ jobs:
           node-version: "18"
       
       # Install dependences
-      - name: Install Dependencies
-        run: npm ci
-
-      #Clean Distribution Directory
-      - name: Clean Distribution Directory
-        run: npm run ci:clean
+      - name: Install deps
+        run: npm i --force
       
       # Build app for production
       - name: Build app bundle
-        run: npm run ci:build
+        run: npm run build:prod
       
       # Deploy to Github pages
       - name: Deploy to pages
