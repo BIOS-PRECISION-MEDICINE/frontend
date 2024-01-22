@@ -38,7 +38,7 @@ jobs:
       
       # Build app for production
       - name: Build app bundle
-        run: ng build --configuration production --prod
+        run: ng build
       
       # Deploy to Github pages
       - name: Deploy to pages
