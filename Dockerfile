@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:latest AS ngi
 # Copying compiled code and nginx config to different folder
 
-COPY --from=node /usr/local/app/dist/frontend-main /usr/share/nginx/html
+COPY --from=node /usr/local/app/dist /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 # Exposing a port, here it means that inside the container 
 # the app will be using Port 8080 while running
