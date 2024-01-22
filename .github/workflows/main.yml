@@ -40,6 +40,10 @@ jobs:
       - name: Build app bundle
         run: npm run build
       
+      # Route file renaming
+      - name: Rename index for routing
+        run: mv dist/frontend/index.html dist/frontend/404.html 
+      
       # Deploy to Github pages
       - name: Deploy to pages
         if: success()
