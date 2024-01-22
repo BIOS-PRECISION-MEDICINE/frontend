@@ -6,9 +6,9 @@ name: Build frontEnd production
 on:
   # Triggers for workflow when on push or pull request events, but only for "master" branch
   push:
-    branches: [master]
+    branches: [main]
   pull_request:  
-    branches: [master]
+    branches: [main]
   
   # Allow that you run this workflow manually from the action tab
   workflow_dispatch:
