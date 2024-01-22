@@ -42,7 +42,7 @@ jobs:
             
       # Deploy to Github pages
       - name: Deploy to pages
-        uses: crazy-max/ghaction-github-pages@v4
+        uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           build_dir: dist/frontend
         env:
