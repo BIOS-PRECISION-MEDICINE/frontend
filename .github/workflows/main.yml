@@ -46,6 +46,6 @@ jobs:
         with:
           build_dir: dist/
         env:
-          ssh-private-key: $({ secrets.DEPLOY_KEY })
+          GITHUB_TOKEN: $({secrets.DEPLOY_KEY})
       
 
