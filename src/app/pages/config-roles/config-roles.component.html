@@ -6,28 +6,28 @@
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
-              <th scope="col">Identificador</th>
+              <th scope="col">Id</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Descripción</th>
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalRolesConfirmation()" style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo rol">
-                  <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalRolesInsert()"
+                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo rol">
+                  <i class="fa fa-plus btn-grid-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of lstRoles | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
+            <tr
+              *ngFor="let item of lstRoles | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
               <td scope="row">{{item.id}}</td>
               <td scope="row">{{item.name}}</td>
-              <td scope="row">Por definir</td>
-              <td scope="row">{{item.updated_at}}</td>
+              <td scope="row">{{item.updated_at | date: 'dd-MM-YYYY'}}</td>
               <td scope="row">
-                <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
-                <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table"></i></a>
+                <!--<a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o btn-grid-edit"></i></a>-->
+                <a (click)="removeRole(item.id)" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
+                <!--<a href="#" class="mr-2" title="Detalle"><i class="fa fa-table btn-grid-delete"></i></a>-->
               </td>
             </tr>
 
@@ -38,13 +38,15 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel='Anterior'
+        nextLabel='Siguiente'></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo rol-->
-<div class="modal animated fadeInDown" id="RolNew" tabindex="3" role="dialog" aria-labelledby="rolInsertLabel" aria-hidden="true">
+<div class="modal animated fadeInDown" id="RolNew" tabindex="3" role="dialog" aria-labelledby="rolInsertLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -53,59 +55,25 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body parent" >
+      <div class="modal-body parent">
         <div class="row">
-        <div class="col">
-          <form>
-            <div class="form-group">
-              <label for="name_rol">Nombre</label>
-              <input type="text" class="form-control" id="name_rol"  placeholder="Ingrese el nombre del rol">
-            </div>
-
-            <div class="form-group">
-              <label for="desc_rol">Descripción</label>
-              <textarea class="form-control" id="desc_rol" rows="3"></textarea>
-            </div>
-
-          </form>
-        </div>
+          <div class="col">
+            <form [formGroup]="forms" id="forms">
+              <input type="hidden" id="id" formControlName="id">
+              <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" class="form-control" formControlName="name"
+                  [class.is-invalid]="nameNoValido" placeholder="Ingrese el nombre del rol">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal confirmar eliminar-->
-<div class="modal animated fadeInDown" id="RolesDelete" tabindex="3" role="dialog" aria-labelledby="rolDeleteLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="rolDeleteLabel" style="font-weight: 600;">Eliminar permiso</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body parent" >
-        <div class="row">
-        <div class="col">
-          <form>
-            <div class="form-group">
-              <span>
-                ¿Confirma que desea eliminar el rol "Investigador" del sistema?
-              </span>
-            </div>
-
-          </form>
-        </div>
-        </div>
-      </div>
-      <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        <button type="button" [disabled]="!forms.valid" (click)="createRole()" class="btn btn-outline-success"
+          style="border-radius: 10px" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px"
+          data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>

@@ -12,12 +12,11 @@ declare var $: any;
 @Component({
   selector: 'app-config-sub-tareas',
   templateUrl: './config-sub-tareas.component.html',
-  styleUrls: ['./config-sub-tareas.component.css'],
 })
 export class ConfigSubTareasComponent {
   public edit_state: boolean = false;
   public forms!: FormGroup;
-  public subTarea!: SubTarea;
+  public subTask!: SubTarea;
   public current_page: number = 1;
   public per_page: number = 10;
   public total_items: number = 0;
@@ -30,7 +29,7 @@ export class ConfigSubTareasComponent {
     private _task_service: TasksService,
     private _alert: AlertPersonalService
   ) {
-    this.subTarea = new SubTarea();
+    this.subTask = new SubTarea();
     this.crearFormulario();
   }
 
@@ -52,6 +51,7 @@ export class ConfigSubTareasComponent {
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id: [],
       name: ['', Validators.required],
       order: ['', Validators.required],
       task_id: ['', Validators.required],
@@ -61,9 +61,10 @@ export class ConfigSubTareasComponent {
   }
 
   ngOnInit(): void {
-    this.changePageTable(1);
+    $('.preloader').show();
     this._task_service.getAllListingTasks().subscribe((resp) => {
       this.lstTasks = resp.data;
+      this.changePageTable(1);
     });
   }
 
@@ -74,17 +75,26 @@ export class ConfigSubTareasComponent {
       this.current_page = resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+
+      // Sets name of task for each task in list
+      this.lstSubTasks.forEach((item: any) => {
+        item.task_name = this.lstTasks.find((obj: any) => {
+          return obj.id === item.task_id;
+        }).name;
+      });
+
       $('.preloader').hide();
     });
   }
 
   modalClose(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#SubTasksNew').modal('hide');
   }
 
   modalAddSubTask(): void {
+    this.forms.reset();
     this.edit_state = false;
     this._task_service.getAllListingTasks().subscribe((resp) => {
       this.lstTasks = resp.data;
@@ -94,16 +104,30 @@ export class ConfigSubTareasComponent {
   }
 
   modalEditSubTask(id_subtarea: string): void {
+    this.forms.reset();
     this.edit_state = true;
     this._subtasks_service.getSubtaskById(id_subtarea).subscribe((resp) => {
-      this.subTarea = resp;
+
+      this.forms.setValue({
+        id: resp.id,
+        name: resp.name,
+        order: resp.order,
+        task_id: resp.task_id,
+        command: resp.command,
+        description: resp.description
+      });
+
       $('#SubTasksNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
 
   modalDetailsSubTask(id_subtarea: string): void {
+    this.forms.reset();
     this._subtasks_service.getSubtaskById(id_subtarea).subscribe((resp) => {
-      this.subTarea = resp;
+      this.subTask = resp;
+      this.subTask.task_name = this.lstTasks.find((obj: any) => {
+        return obj.id === this.subTask.task_id;
+      }).name
       $('#subTaskDetails').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -117,8 +141,9 @@ export class ConfigSubTareasComponent {
       );
     } else {
       $('.preloader').show();
+      let subTarea: SubTarea = this.forms.value;
       this._subtasks_service
-        .createNewSubTask(this.subTarea)
+        .createNewSubTask(subTarea)
         .subscribe((resp) => {
           if (resp.Meta.StatusCode == 200) {
             this.modalClose();
@@ -147,7 +172,8 @@ export class ConfigSubTareasComponent {
       );
     } else {
       $('.preloader').show();
-      this._subtasks_service.updateSubTask(this.subTarea).subscribe((resp) => {
+      let subTarea: SubTarea = this.forms.value;
+      this._subtasks_service.updateSubTask(subTarea).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(

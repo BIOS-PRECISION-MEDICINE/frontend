@@ -12,24 +12,10 @@
               <th scope="col">Rol</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="modalUserAdd()"
-                  style="border-radius: 10px"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Nuevo Usuario"
-                >
-                  <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
-                    aria-hidden="true"
-                  ></i>
-                </button>
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="tbody-custom">
             <tr
               *ngFor="
                 let item of lstUsers
@@ -47,17 +33,14 @@
               <td scope="row">{{ item.email }}</td>
               <td scope="row">Administrador</td>
               <td scope="row">
-                <a (click)="modalUserEdit()" class="mr-2" title="Editar"
+                <a (click)="modalUserEdit(item.id)" class="mr-2" title="Editar"
                   ><i class="fa fa-pencil-square-o"></i
                 ></a>
                 <a
-                  (click)="modalUserConfirmation()"
+                  (click)="removeUser(item.id)"
                   class="mr-2"
                   title="Eliminar"
                   ><i class="fa fa-times"></i
-                ></a>
-                <a href="#" class="mr-2" title="Detalle"
-                  ><i class="fa fa-table"></i
                 ></a>
               </td>
             </tr>
@@ -90,7 +73,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="userEditLabel" style="font-weight: 600">
-          Editar rol
+          Editar rol de usuario
         </h4>
         <button
           type="button"
@@ -109,43 +92,37 @@
               <div class="form-group">
                 <label for="name">Nombre</label>
                 <input
+                  id="name"
                   type="text"
                   class="form-control"
-                  [(ngModel)]="usuario_local.name"
-                  [class.is-invalid]="nameNoValido"
                   formControlName="name"
-                  placeholder="Ingrese el nombre del usuario"
                 />
               </div>
 
               <div class="form-group">
                 <label for="nick_name">NickName</label>
                 <input
+                  id="nick_name"
                   type="text"
                   class="form-control"
-                  [(ngModel)]="usuario_local.nick_name" 
-                  [class.is-invalid]="nick_nameNoValido"
                   formControlName="nick_name"
-                  placeholder="Ingrese el nickname del usuario"
                 />
               </div>
 
               <div class="form-group">
                 <label for="email">Email</label>
                 <input
+                  id="email"
                   type="email"
                   class="form-control"
-                  [(ngModel)]="usuario_local.email" 
-                  [class.is-invalid]="emailNoValido"
                   formControlName="email"
-                  placeholder="Ingrese el email del usuario"
                 />                
               </div>
               <div class="form-group">
                 <label for="rol_id">Rol de usuario</label>
-                <select class="form-control custom-select" [(ngModel)]="usuario_local.rol_id" formControlName="rol_id">                                                  
-                  <option value="-1">Seleccione Rol</option>
-                  <option value="{{item.rol_id}}" *ngFor="let item of lstRoles">{{item.name}}</option>                                              
+                <select id="rol_id" class="form-control custom-select" formControlName="rol_id">                                                  
+                  <option [value]= "-1" >Seleccione Rol</option>
+                  <option *ngFor="let item of lstRoles" [value]="item.id">{{item.name}}</option>                                              
                 </select>
               </div>              
             </form>
@@ -155,9 +132,10 @@
       <div class="modal-footer justify-content-center">
         <button
           type="button"
+          [disabled]="!forms.valid"
           class="btn btn-outline-success"
           style="border-radius: 10px"
-          (click)="newUser()"
+          (click)="editUser()"
         >
           Guardar
         </button>
@@ -175,63 +153,3 @@
   </div>
 </div>
 
-<!-- Modal confirmar eliminar-->
-<div
-  class="modal animated fadeInDown"
-  id="UserDelete"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="userDeleteLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="userDeleteLabel" style="font-weight: 600">
-          Eliminar Usuario
-        </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="modalClose()"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body parent">
-        <div class="row">
-          <div class="col">
-            <form>
-              <div class="form-group">
-                <span>
-                  ¿Confirma que desea eliminar el rol "David Eduardo Marin
-                  Ospina" del sistema?
-                </span>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-        >
-          Aceptar
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-        >
-          Cancelar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

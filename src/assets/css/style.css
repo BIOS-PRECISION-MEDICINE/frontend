@@ -5666,7 +5666,7 @@ table.dataTable thead .sorting:after {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  *cursor: hand;
+  cursor: hand;
   color: #67757c;
   border: 1px solid #ddd;
 }
@@ -7811,8 +7811,31 @@ File: scss
   display: block;
 }
 
-.thead-custom{
+.thead-custom tr th{
   background: #80C0C4;
+  text-align: center;
+  font-weight: bold;
+  color: #000000;
+}
+
+.tbody-custom tr td{
+  color: #000000;
+}
+
+.tbody-custom tr td a>i.btn-grid-edit{
+  color: #F1BD46 !important;
+}
+
+.tbody-custom tr td a>i.btn-grid-delete{
+  color: #ff0000 !important;
+}
+
+.tbody-custom tr td a>i.btn-grid-detail{
+  color: #007bb6 !important;
+}
+
+.tbody-custom tr td a:hover{
+  cursor: pointer;
 }
 
 .state_yellow{

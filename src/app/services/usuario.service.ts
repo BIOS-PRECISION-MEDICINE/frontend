@@ -23,7 +23,7 @@ const CLIENT_ID = environment.client_id_google;
 const URL_BASE = environment.url_base;
 const URL_LOGIN = environment.url_login;
 const URL_USERS = environment.url_api_users;
-const per_page : number = environment.pagination_size;
+const per_page: number = environment.pagination_size;
 
 declare var $: any;
 declare let google: any;
@@ -40,7 +40,7 @@ export class UsuarioService {
     private http: HttpClient,
     private router: Router,
     private _alerService: AlertPersonalService
-  ) {}
+  ) { }
 
   get token(): string {
     return sessionStorage.getItem('token') || '';
@@ -117,12 +117,12 @@ export class UsuarioService {
         } else if (valor.TipoRespuesta === 'No autorizado!!') {
           let tipoAlert: string =
             valor.VariablesDeUsuarioLogadoDTO.ErrorUsuario ===
-            'El usuario se encuentra bloqueado para acceder.'
+              'El usuario se encuentra bloqueado para acceder.'
               ? 'error'
               : 'info';
           let titulo =
             valor.VariablesDeUsuarioLogadoDTO.ErrorUsuario ===
-            'El usuario se encuentra bloqueado para acceder.'
+              'El usuario se encuentra bloqueado para acceder.'
               ? 'Bloqueado'
               : 'Credenciales';
           this._alerService.mostrarAlertaSimplesPorTipo(
@@ -245,9 +245,22 @@ export class UsuarioService {
   }
 
   //Obtiene listado de usuarios activos en el sistema
-  getListingUsers(current_page: number):Observable<ResponseApi>{
-      
-    let url = URL_USERS+'?page='+current_page+'&per_page='+per_page;
+  getListingUsers(current_page: number): Observable<ResponseApi> {
+
+    let url = URL_USERS + '?page=' + current_page + '&per_page=' + per_page;
+
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+
+  }
+
+  //Obtiene usuario por id activo en el sistema
+  getUserById(id_user: string): Observable<ResponseApi> {
+
+    let url = URL_USERS + '/' + id_user;
 
     return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
@@ -258,55 +271,108 @@ export class UsuarioService {
   }
 
   //Crea e inserta un nuevo usuario local en el sistema
-  createNewLocalUser(usuario: Ulocal):Observable<any>{
-    
-    return this.http.post(URL_USERS+"/", { usuario } )
-    .pipe(
-      map( (resp: any) => {
-        return resp;
-      }),
-      catchError( error => {
-        $('.preloader').hide();
-        this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
-        return of(
-          {
-            "Data": null,
-            "Meta": {
+  createNewLocalUser(usuario: Ulocal): Observable<any> {
+
+    return this.http.post(URL_USERS + "/", { usuario })
+      .pipe(
+        map((resp: any) => {
+          return resp;
+        }),
+        catchError(error => {
+          $('.preloader').hide();
+          this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
+          return of(
+            {
+              "Data": null,
+              "Meta": {
                 "StatusCode": 500,
                 "ResultadoExitoso": false,
                 "TipoRespuesta": "Error de base de datos"
+              }
             }
-        }
-        );
-      })
-    );
+          );
+        })
+      );
 
   }
 
   //edita un usuario local existente en el sistema
-  updateLocalUser(usuario: Ulocal):Observable<any>{
-  
-    return this.http.put(URL_USERS+"/", { usuario } )
-    .pipe(
-      map( (resp: any) => {
-        return resp;
-      }),
-      catchError( error => {
-        $('.preloader').hide();
-        this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
-        return of(
-          {
-            "Data": null,
-            "Meta": {
+  updateLocalUser(usuario: Ulocal): Observable<any> {
+
+    return this.http.put(URL_USERS + '/' + usuario.id, usuario, {})
+      .pipe(
+        map((resp: any) => {
+          return {
+            Data: resp,
+            Meta: {
+              StatusCode: 200,
+              ResultadoExitoso: true,
+              TipoRespuesta: '',
+            },
+          };
+        }),
+        catchError(error => {
+          $('.preloader').hide();
+          this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar la actualización', "Error inesperado");
+          return of(
+            {
+              "Data": null,
+              "Meta": {
                 "StatusCode": 500,
                 "ResultadoExitoso": false,
                 "TipoRespuesta": "Error de base de datos"
+              }
             }
-        }
+          );
+        })
+      );
+
+  }
+
+  //Elimina un parametro del sistema
+  deleteUserById(id_user: string): Observable<any> {
+    return this.http.delete(URL_USERS + '/' + id_user, {}).pipe(
+      map((resp: any) => {
+        return {
+          Data: resp,
+          Meta: {
+            StatusCode: 200,
+            ResultadoExitoso: true,
+            TipoRespuesta: '',
+          },
+        };
+      }),
+      catchError((error) => {
+        $('.preloader').hide();
+        let msg = this.getErrorResponse(error);
+        this._alerService.mostrarAlertaSimplesPorTipo(
+          ALERT_TYPE.ERROR,
+          'Ocurrio un error al realizar la eliminación del usuario',
+          'Error inesperado'
         );
+        return of({
+          Data: null,
+          Meta: {
+            StatusCode: 500,
+            ResultadoExitoso: false,
+            TipoRespuesta: msg,
+          },
+        });
       })
     );
+  }
 
+  getErrorResponse(error: any): string {
+    let msg = '';
+    let errors = error.errors;
+    if (errors) {
+      for (var i = 0; i < errors.length; i++) {
+        msg += errors[i].field + ' : ' + errors[i].message + '\n';
+      }
+    } else if (error.message) {
+      msg = error.message;
+    }
+    return msg;
   }
 
 }

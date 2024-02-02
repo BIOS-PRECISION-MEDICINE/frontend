@@ -14,26 +14,15 @@
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="modalAddSubTask()"
-                  style="border-radius: 10px"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Nueva sub-tarea"
-                >
-                  <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
-                    aria-hidden="true"
-                  ></i>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddSubTask()"
+                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nueva sub-tarea">
+                  <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              *ngFor="
+          <tbody class="tbody-custom">
+            <tr *ngFor="
                 let item of lstSubTasks
                   | paginate
                     : {
@@ -41,34 +30,21 @@
                         itemsPerPage: per_page,
                         currentPage: current_page
                       }
-              "
-            >
+              ">
               <td scope="row">{{ item.id }}</td>
               <td scope="row">{{ item.name }}</td>
-              <td scope="row">{{ item.description }}</td>
-              <td scope="row">{{ item.task_id }}</td>
+              <td scope="row">{{ (item.description !==null ) ? item.description.substring(0,50) + '...' : '' }}</td>
+              <td scope="row">{{ item.task_name }}</td>
               <td scope="row">{{ item.command }}</td>
               <td scope="row">{{ item.order }}</td>
-              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
-                <a
-                  (click)="modalEditSubTask(item.id)"
-                  class="mr-2"
-                  title="Editar"
-                  ><i class="fa fa-pencil-square-o"></i
-                ></a>
-                <a
-                  (click)="removeSubTask(item.id)"
-                  class="mr-2"
-                  title="Eliminar"
-                  ><i class="fa fa-times"></i
-                ></a>
-                <a
-                  (click)="modalDetailsSubTask(item.id)"
-                  class="mr-2"
-                  title="Detalle"
-                  ><i class="fa fa-table"></i
-                ></a>
+                <a (click)="modalEditSubTask(item.id)" class="mr-3" title="Editar"><i
+                    class="fa fa-pencil-square-o btn-grid-edit"></i></a>
+                <a (click)="removeSubTask(item.id)" class="mr-3" title="Eliminar"><i
+                    class="fa fa-times btn-grid-delete"></i></a>
+                <a (click)="modalDetailsSubTask(item.id)" class="mr-3" title="Detalle"><i
+                    class="fa fa-table btn-grid-detail"></i></a>
               </td>
             </tr>
           </tbody>
@@ -78,41 +54,22 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls
-        (pageChange)="changePageTable($event)"
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-      ></pagination-controls>
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo task-->
-<div
-  class="modal animated fadeInDown"
-  id="SubTasksNew"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="subtaskInsertLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="SubTasksNew" tabindex="3" role="dialog" aria-labelledby="subtaskInsertLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="subtaskInsertLabel"
-          style="font-weight: 600"
-        >
+        <h4 class="modal-title" id="subtaskInsertLabel" style="font-weight: 600">
           Sub-tarea
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="modalClose()"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalClose()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -120,28 +77,17 @@
         <div class="row">
           <div class="col">
             <form [formGroup]="forms">
+              <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  [(ngModel)]="subTarea.name"
-                  [class.is-invalid]="nameNoValido"
-                  formControlName="name"
-                  placeholder="Ingrese el nombre de la sub tarea"
-                />
+                <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
+                  formControlName="name" placeholder="Ingrese el nombre de la sub tarea" />
               </div>
               <div class="form-group">
                 <label for="rol_id">Tarea</label>
-                <select
-                  id="task_id"
-                  class="form-control custom-select"
-                  [(ngModel)]="subTarea.task_id"
-                  [class.is-invalid]="taskNoValido"
-                  formControlName="task_id"
-                >
-                  <option value="-1">Seleccione Tarea</option>
+                <select id="task_id" class="form-control custom-select" [class.is-invalid]="taskNoValido"
+                  formControlName="task_id">
+                  <option value="">Seleccione Tarea</option>
                   <option value="{{ item.id }}" *ngFor="let item of lstTasks">
                     {{ item.name }}
                   </option>
@@ -149,68 +95,33 @@
               </div>
               <div class="form-group">
                 <label for="order">Orden</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="order"
-                  [(ngModel)]="subTarea.order"
-                  [class.is-invalid]="orderNoValido"
-                  formControlName="order"
-                  placeholder="Ingrese el orden del proceso"
-                />
+                <input type="number" class="form-control" id="order" [class.is-invalid]="orderNoValido"
+                  formControlName="order" placeholder="Ingrese el orden del proceso" />
               </div>
               <div class="form-group">
                 <label for="command">Comandos</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="command"
-                  [(ngModel)]="subTarea.command"
-                  [class.is-invalid]="commandNoValido"
-                  formControlName="command"
-                  placeholder="Ingrese los comandos"
-                />
+                <input type="text" class="form-control" id="command" [class.is-invalid]="commandNoValido"
+                  formControlName="command" placeholder="Ingrese los comandos" />
               </div>
               <div class="form-group">
                 <label for="description">Descripción</label>
-                <textarea
-                  class="form-control"
-                  id="description"
-                  [(ngModel)]="subTarea.description"
-                  formControlName="description"
-                  rows="3"
-                ></textarea>
+                <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
               </div>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          *ngIf="!edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="newSubTask()"
-        >
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="newSubTask()">
           Guardar
         </button>
-        <button
-          *ngIf="edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="editSubTask()"
-        >
+        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="editSubTask()">
           Editar
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cancelar
         </button>
       </div>
@@ -219,31 +130,15 @@
 </div>
 
 <!-- Modal detalle-->
-<div
-  class="modal animated fadeInDown"
-  id="subTaskDetails"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="subtaskDetailsLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="subTaskDetails" tabindex="3" role="dialog"
+  aria-labelledby="subtaskDetailsLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="subtaskDetailsLabel"
-          style="font-weight: 600"
-        >
+        <h4 class="modal-title" id="subtaskDetailsLabel" style="font-weight: 600">
           Detalle sub-tarea
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          (click)="modalClose()"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" (click)="modalClose()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -252,7 +147,7 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-                
+
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información sub-tarea</strong></h3>
@@ -265,7 +160,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Nombre </span>
-                      {{ subTarea.name }}
+                      {{ subTask.name }}
                     </p>
                   </div>
                 </div>
@@ -273,7 +168,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Tarea </span>
-                      {{ subTarea.task_id }}
+                      {{ subTask.task_name }}
                     </p>
                   </div>
                 </div>
@@ -281,7 +176,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Orden </span>
-                      {{ subTarea.order }}
+                      {{ subTask.order }}
                     </p>
                   </div>
                 </div>
@@ -289,7 +184,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Comandos </span>
-                      {{ subTarea.command }}
+                      {{ subTask.command }}
                     </p>
                   </div>
                 </div>
@@ -297,7 +192,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Descripción </span>
-                      {{ subTarea.description }}
+                      {{ subTask.description }}
                     </p>
                   </div>
                 </div>
@@ -307,13 +202,8 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cerrar
         </button>
       </div>

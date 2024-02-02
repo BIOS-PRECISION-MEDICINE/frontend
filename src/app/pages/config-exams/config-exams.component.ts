@@ -12,7 +12,6 @@ declare var $: any;
 @Component({
   selector: 'app-config-exams',
   templateUrl: './config-exams.component.html',
-  styleUrls: ['./config-exams.component.css'],
 })
 export class ConfigExamsComponent {
   public edit_state: boolean = false;
@@ -47,15 +46,17 @@ export class ConfigExamsComponent {
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id: [],
       name: ['', Validators.required],
       patient_id: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.changePageTable(1);
+    $('.preloader').show();
     this._patients_service.getAllListingPatients().subscribe((resp) => {
       this.lstPatients = resp.data;
+      this.changePageTable(1);
     });
   }
 
@@ -66,21 +67,29 @@ export class ConfigExamsComponent {
       this.current_page = resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+
+      // Sets name of patient for each exam in list
+      this.lstExams.forEach((item: any) => {
+        let patient: any = this.lstPatients.find((obj: any) => {
+          return obj.id === item.patient_id;
+        });
+        item.patient_name = patient.name + ' '+ patient.lastname;
+      });
       $('.preloader').hide();
     });
   }
 
   modalClose(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#ExamNew').modal('hide');
   }
 
   modalAddExam(): void {
     this.edit_state = false;
     this._patients_service.getAllListingPatients().subscribe((resp) => {
-      this.lstPatients = resp.data;
       this.forms.reset();
+      this.lstPatients = resp.data;
       $('#ExamNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -88,7 +97,11 @@ export class ConfigExamsComponent {
   modalEditExam(id_examen: string): void {
     this.edit_state = true;
     this._exams_service.getExamById(id_examen).subscribe((resp) => {
-      this.exam = resp;
+      this.forms.setValue({
+        id: resp.id,
+        name: resp.name,
+        patient_id: resp.patient_id
+      });
       $('#ExamNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -96,6 +109,10 @@ export class ConfigExamsComponent {
   modalDetailsExam(id_task: string): void {
     this._exams_service.getExamById(id_task).subscribe((resp) => {
       this.exam = resp;
+      let patient: any = this.lstPatients.find((obj: any) => {
+        return obj.id === resp.patient_id;
+      });
+      this.exam.patient_name = patient.name + ' '+ patient.lastname;
       $('#ExamDetails').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -109,8 +126,8 @@ export class ConfigExamsComponent {
       );
     } else {
       $('.preloader').show();
-
-      this._exams_service.createNewExam(this.exam).subscribe((resp) => {
+      let exam:Examen = this.forms.value;
+      this._exams_service.createNewExam(exam).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
@@ -138,7 +155,8 @@ export class ConfigExamsComponent {
       );
     } else {
       $('.preloader').show();
-      this._exams_service.updateExam(this.exam).subscribe((resp) => {
+      let exam: Examen = this.forms.value;
+      this._exams_service.updateExam(exam).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
