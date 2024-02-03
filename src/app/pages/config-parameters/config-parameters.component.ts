@@ -43,11 +43,16 @@ export class ConfigParametersComponent {
   }
 
   get subtaskNoValido() {
-    return this.forms.get('subtask_id')?.invalid && this.forms.get('subtask_id')?.touched;
+    return (
+      this.forms.get('subtask_id')?.invalid &&
+      this.forms.get('subtask_id')?.touched
+    );
   }
 
   get optionalNoValido() {
-    return this.forms.get('optional')?.invalid && this.forms.get('optional')?.touched;
+    return (
+      this.forms.get('optional')?.invalid && this.forms.get('optional')?.touched
+    );
   }
 
   crearFormulario() {
@@ -56,7 +61,6 @@ export class ConfigParametersComponent {
       name: ['', Validators.required],
       type: ['', Validators.required],
       optional: ['', Validators.required],
-      default_value: ['']
     });
   }
 
@@ -97,9 +101,9 @@ export class ConfigParametersComponent {
     this._parameters_service.getParameterById(id_param).subscribe((resp) => {
       this.forms.setValue({
         id: resp.id,
+        name: resp.name,
         type: resp.type,
         optional: resp.optional,
-        default_value: resp.default_value
       });
       $('#NewParameter').modal({ backdrop: 'static', keyboard: false });
     });
@@ -121,7 +125,7 @@ export class ConfigParametersComponent {
       );
     } else {
       $('.preloader').show();
-      let param:Parametro = this.forms.value;
+      let param: Parametro = this.forms.value;
       this._parameters_service.createNewParameter(param).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
@@ -150,7 +154,7 @@ export class ConfigParametersComponent {
       );
     } else {
       $('.preloader').show();
-      let param:Parametro = this.forms.value;
+      let param: Parametro = this.forms.value;
       this._parameters_service.updateParameter(param).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();

@@ -9,7 +9,6 @@
               <th scope="col">Nombre</th>
               <th scope="col">Tipo</th>
               <th scope="col">Opcional</th>
-              <th scope="col">Por defecto</th>
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
@@ -34,13 +33,14 @@
               <td scope="row">{{ item.name }}</td>
               <td scope="row">{{ item.type }}</td>
               <td scope="row">{{(item.optional == 0) ? 'NO' : 'SI'}}</td>
-              <td scope="row">{{ item.default_value }}</td>
               <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
                 <a (click)="modalEditParameter(item.id)" class="mr-3" title="Editar"><i
                     class="fa fa-pencil-square-o btn-grid-edit"></i></a>
-                <a (click)="removeParameter(item.id)" class="mr-3" title="Eliminar"><i class="fa fa-times btn-grid-delete"></i></a>
-                <a (click)="modalDetailsParameter(item.id)" class="mr-3" title="Detalle"><i class="fa fa-table btn-grid-detail"></i></a>
+                <a (click)="removeParameter(item.id)" class="mr-3" title="Eliminar"><i
+                    class="fa fa-times btn-grid-delete"></i></a>
+                <a (click)="modalDetailsParameter(item.id)" class="mr-3" title="Detalle"><i
+                    class="fa fa-table btn-grid-detail"></i></a>
               </td>
             </tr>
           </tbody>
@@ -75,45 +75,39 @@
             <form [formGroup]="forms">
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input type="text" class="form-control" id="name" 
-                  [class.is-invalid]="nameNoValido" formControlName="name"
-                  placeholder="Ingrese el nombre del parámetro" />
+                <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
+                  formControlName="name" placeholder="Ingrese el nombre del parámetro" />
               </div>
               <div class="form-group">
                 <label for="type">Tipo</label>
-                <select class="form-control custom-select" id="type" 
-                  [class.is-invalid]="typeNoValido" formControlName="type">
+                <select class="form-control custom-select" id="type" [class.is-invalid]="typeNoValido"
+                  formControlName="type">
                   <option value="">Seleccione tipo</option>
-                  <option value="{{ item}}" *ngFor="let item of lstTypes">
+                  <option value="{{ item }}" *ngFor="let item of lstTypes">
                     {{ item }}
                   </option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="optional">Opcional</label>
-                <select class="form-control custom-select" id="optional"
-                  [class.is-invalid]="optionalNoValido" formControlName="optional">
+                <select class="form-control custom-select" id="optional" [class.is-invalid]="optionalNoValido"
+                  formControlName="optional">
                   <option value="">Seleccione Opcional</option>
                   <option value="1">Si</option>
                   <option value="0">No</option>
                 </select>
-              </div>
-              <div class="form-group">
-                <label for="default_value">Por defecto</label>
-                <input type="text" class="form-control" id="default_value"
-                  formControlName="default_value" placeholder="Ingrese el valor por defecto" />
               </div>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
-          (click)="newParameter()">
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="newParameter()">
           Guardar
         </button>
-        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
-          (click)="editParameter()">
+        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="editParameter()">
           Editar
         </button>
         <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
@@ -173,14 +167,6 @@
                     <p>
                       <span class="font-weight-bold"> Opcional </span>
                       {{ (param.optional == '0' ? 'NO' : 'SI') }}
-                    </p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <p>
-                      <span class="font-weight-bold"> Por defecto </span>
-                      {{ param.default_value }}
                     </p>
                   </div>
                 </div>
