@@ -33,6 +33,8 @@ export const environment = {
   url_api_exam: 'http://127.0.0.1:3333/exams',
   //API data
   url_api_data_subtask_exam: 'http://127.0.0.1:3333/data',
+  //API process pipeline
+  url_api_process_pipeline: 'http://127.0.0.1:3333/data',
 
 };
 

@@ -20,9 +20,6 @@ export class MenuPipelineService {
         icono: 'fa fa-sellsy',
         subMenu: [
           new SubMenu(
-            'Configuración', 'config-pipeline', ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
-          ),
-          new SubMenu(
             'Procesado', 'process-pipeline' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           ),
           new SubMenu(
