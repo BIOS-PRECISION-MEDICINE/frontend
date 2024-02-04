@@ -5,13 +5,13 @@
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
-              <th scope="col">Identificador</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Descripción</th>
-              <th scope="col">Proceso</th>
-              <th scope="col">Orden</th>
-              <th scope="col">Modificado</th>
-              <th scope="col">
+              <th class="text-center">Id</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Descripción</th>
+              <th class="text-center">Proceso</th>
+              <th class="text-center">Orden</th>
+              <th class="text-center">Modificado</th>
+              <th class="text-center">
                 <span class="span-title-actions">Acciones</span>
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddTask()"
                   style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nueva tarea">
@@ -30,13 +30,13 @@
                         currentPage: current_page
                       }
               ">
-              <td scope="row">{{ item.id }}</td>
-              <td scope="row">{{ item.name }}</td>
-              <td scope="row">{{ (item.description !==null ) ? item.description.substring(0,50) + '...' : '' }}</td>
-              <td scope="row">{{ item.process_name }}</td>
-              <td scope="row">{{ item.order }}</td>
-              <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
-              <td scope="row">
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ (item.description !==null ) ? item.description.substring(0,50) + '...' : '' }}</td>
+              <td>{{ item.process_name }}</td>
+              <td>{{ item.order }}</td>
+              <td>{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
+              <td>
                 <a (click)="modalEditTask(item.id)" class="mr-3" title="Editar"><i
                     class="fa fa-pencil-square-o btn-grid-edit"></i></a>
                 <a (click)="removeTask(item.id, item.name)" class="mr-3" title="Eliminar"><i

@@ -82,6 +82,9 @@ export class ConfigDatumComponent {
     this._datum_service.getAllListingDatums().subscribe((resp) => {
       this.lstDatum = resp.data;
       this.forms.reset();
+      this.forms.get('param_id')?.setValue('', {
+        onlySelf: true,
+      });
       $('#DatumNew').modal({ backdrop: 'static', keyboard: false });
     });    
   }

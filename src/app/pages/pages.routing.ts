@@ -7,7 +7,7 @@ import { TokenGuard } from '../guards/token.guard';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ConfigPipelineComponent } from './config-pipeline/config-pipeline.component';
-import { ProcessPipelineComponent } from './process-pipeline/process-pipeline.component';
+import { ProcessesPipelineComponent } from './process-pipeline/process-pipeline.component';
 import { ResultPipelineComponent } from './result-pipeline/result-pipeline.component';
 import { HistoricoUsuarioComponent } from './historico-usuario/historico-usuario.component';
 import { HistoricoPruebasComponent } from './historico-pruebas/historico-pruebas.component';
@@ -43,7 +43,7 @@ const routes: Routes = [
             {path:'config-roles',canActivate:[ PermissionGuard,TokenGuard], component: ConfigRolesComponent, data: { titulo: 'Configuración roles', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-permisos',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPermisosComponent, data: { titulo: 'Configuración permisos', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-pipeline',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPipelineComponent, data: { titulo: 'Configuración pipeline', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'process-pipeline',canActivate:[ PermissionGuard,TokenGuard], component: ProcessPipelineComponent, data: { titulo: 'Configuración pipeline', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'process-pipeline',canActivate:[ PermissionGuard,TokenGuard], component: ProcessesPipelineComponent, data: { titulo: 'Configuración pipeline', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'result-pipeline',canActivate:[ PermissionGuard,TokenGuard], component: ResultPipelineComponent, data: { titulo: 'Configuración pipeline', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'historico-usuario',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioComponent, data: { titulo: 'Histórico usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'historico-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoPruebasComponent, data: { titulo: 'Histórico pruebas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},

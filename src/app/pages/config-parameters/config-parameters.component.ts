@@ -92,6 +92,9 @@ export class ConfigParametersComponent {
   modalAddParameter(): void {
     this.forms.reset();
     this.edit_state = false;
+    this.forms.get('type')?.setValue('', {
+      onlySelf: true,
+    });
     $('#NewParameter').modal({ backdrop: 'static', keyboard: false });
   }
 

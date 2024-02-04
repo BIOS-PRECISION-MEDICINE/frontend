@@ -31,16 +31,16 @@
               <td scope="row">{{ item.name }}</td>
               <td scope="row">{{ item.nick_name }}</td>
               <td scope="row">{{ item.email }}</td>
-              <td scope="row">Administrador</td>
+              <td scope="row">{{item.role_name}}</td>
               <td scope="row">
                 <a (click)="modalUserEdit(item.id)" class="mr-2" title="Editar"
-                  ><i class="fa fa-pencil-square-o"></i
+                  ><i class="fa fa-pencil-square-o btn-grid-edit"></i
                 ></a>
                 <a
                   (click)="removeUser(item.id)"
                   class="mr-2"
                   title="Eliminar"
-                  ><i class="fa fa-times"></i
+                  ><i class="fa fa-times btn-grid-delete"></i
                 ></a>
               </td>
             </tr>

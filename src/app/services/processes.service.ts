@@ -42,7 +42,7 @@ export class ProcessesService {
 
     //Obtiene listado de todos los procesos activos en el sistema
     getAllListingProcesses(): Observable<ResponseApi> {
-      let url = URL_PROCESSES + '?page=1&per_page=1000';
+      let url = URL_PROCESSES;
       return this.http.get<ResponseApi>(url).pipe(
         map((resp) => {
           return resp;

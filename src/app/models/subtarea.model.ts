@@ -2,6 +2,7 @@ export class SubTarea {
 
     constructor() {        
     }
+    id!: string;
     name!: string;
     description!: string;
     order!: string;
@@ -10,6 +11,4 @@ export class SubTarea {
     task_name!: string;
     created_at!: string;
     updated_at!: string;
-    id!: string;
-
 }

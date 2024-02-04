@@ -52,8 +52,7 @@ export class ConfigUsuariosComponent {
   }
 
   ngOnInit(): void {
-    this.changePageTable(1);
-    this.getAllRoles();
+    this.changePageTable(1);    
   }
 
   changePageTable(page: number): void {
@@ -63,6 +62,7 @@ export class ConfigUsuariosComponent {
       this.current_page = resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      this.getAllRoles();
       $('.preloader').hide();
     });
   }
@@ -151,6 +151,12 @@ export class ConfigUsuariosComponent {
 
     this._roles_service.getAllListingRoles().subscribe(resp => {
       this.lstRoles = resp.data;
+      // Sets name of task for each task in list
+      this.lstUsers.forEach((item: any) => {
+        item.role_name = this.lstRoles.find((obj: any) => {
+          return obj.id === item.role_id;
+        }).name;
+      });
     });
   }
 

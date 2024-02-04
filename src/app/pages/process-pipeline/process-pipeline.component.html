@@ -10,12 +10,17 @@
               <th class="text-center">Paciente</th>
               <th class="text-center">Tarea actual</th>
               <th class="text-center">Modificado</th>
-              <th class="text-center">Acciones</th>
+              <th scope="col">
+                <span class="span-title-actions">Acciones</span>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddProcessPipeline()"
+                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nueva proceso pipeline">
+                  <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let item of lstExams
                   | paginate
                     : {
@@ -23,23 +28,16 @@
                         itemsPerPage: per_page,
                         currentPage: current_page
                       }
-              "
-            >
+              ">
               <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
-              <td>{{ item.patient_name }}</td>
+              <td>{{ item.patient.name }} {{ item.patient.lastname }}</td>
               <td>{{ item.current_task }}</td>
               <td>{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td>
-                <a
-                  (click)="sendToDetailExamSubTasks(item.id)"
-                  class="mr-2"
-                  title="Detalle"
-                  ><i class="fa fa-table"></i>
+                <a (click)="sendToDetailExamSubTasks(item.id)" class="mr-2" title="Detalle"><i class="fa fa-table"></i>
                 </a>
-                <a (click)="removeExam(item.id)" class="mr-2" title="Eliminar"
-                  ><i class="fa fa-times"></i
-                ></a>
+                <a (click)="removeExam(item.id)" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
               </td>
             </tr>
           </tbody>
@@ -49,11 +47,92 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls
-        (pageChange)="changePageTable($event)"
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-      ></pagination-controls>
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<!-- Modal nuevo process-pipeline-->
+<div class="modal animated fadeInDown" id="ProcessPipelineNew" tabindex="3" role="dialog"
+  aria-labelledby="processPipelineInsert" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 650px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="processPipelineInsert" style="font-weight: 600">
+          Proceso pipeline
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalClose()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body parent">
+        <div class="row">
+          <div class="col">
+
+            <form [formGroup]="forms">
+
+              <div class="input-group mb-2">
+                <div class="form-control">
+                  <select id="id_process" class="form-control custom-select" [class.is-invalid]="processNoValido"
+                    formControlName="id_process" (change)="changeSelectProcess($event)">
+                    <option value="">Seleccione Proceso</option>
+                    <option value="{{ item.id }}" *ngFor="let item of lstProcesses">
+                      {{ item.name }}
+                    </option>
+                  </select>
+
+                  <select id="id_exam" class="form-control custom-select" [class.is-invalid]="examNoValido"
+                    formControlName="id_exam">
+                    <option value="" selected>Seleccione Examen</option>
+                    <option value="{{ item.id }}" *ngFor="let item of lstExamByProcess">
+                      {{ item.name }}-{{item.patient.name}} {{item.patient.lastname}}
+                    </option>
+                  </select>
+                </div>
+                <div class="input-group-addon">
+                  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddProcessPipeline()"
+                    style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo Examen">
+                    <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="custom-panel">
+                  <div class="row">
+                    <div class="col">
+                      <h4><strong>Tarea 1: </strong>{{first_task?.name}}</h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <ul>
+                        <li>
+                          <h4><strong>SubTarea 1: </strong>{{first_subtask?.name}}</h4>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!-- Dynamically created fields from javascript with specific configuration -->
+                    <div class="col" #formContainer></div>
+                  </div>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
+          (click)="newProcessPipeline()">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
+          Cancelar
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -18,7 +18,7 @@
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="tbody-custom">
             <tr
               *ngFor="let item of lstRoles | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
               <td scope="row">{{item.id}}</td>
@@ -26,7 +26,7 @@
               <td scope="row">{{item.updated_at | date: 'dd-MM-YYYY'}}</td>
               <td scope="row">
                 <!--<a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o btn-grid-edit"></i></a>-->
-                <a (click)="removeRole(item.id)" class="mr-2" title="Eliminar"><i class="fa fa-times"></i></a>
+                <a (click)="removeRole(item.id)" class="mr-2" title="Eliminar"><i class="fa fa-times btn-grid-delete"></i></a>
                 <!--<a href="#" class="mr-2" title="Detalle"><i class="fa fa-table btn-grid-delete"></i></a>-->
               </td>
             </tr>
