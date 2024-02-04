@@ -7834,6 +7834,9 @@ File: scss
   color: #007bb6 !important;
 }
 
+a>i.link-grid-plus{
+  color: #3dc314!important;
+}
 .tbody-custom tr td a:hover{
   cursor: pointer;
 }

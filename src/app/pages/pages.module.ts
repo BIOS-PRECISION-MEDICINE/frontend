@@ -29,6 +29,7 @@ import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/co
 import { ProcessesPipelineComponent } from './process-pipeline/process-pipeline.component';
 import { ConfigExamSubtasksComponent } from './config-exam-subtasks/config-exam-subtasks.component';
 import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process/config-exam-subtask-process.component';
+import { ConfigPipelineComponent } from './config-pipeline/config-pipeline.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process
     ConfigDatumSubTaskExamComponent,
     ProcessesPipelineComponent,
     ConfigExamSubtasksComponent,
-    ConfigExamSubtaskProcessComponent
+    ConfigExamSubtaskProcessComponent,
+    ConfigPipelineComponent,
   ],
   exports: [
     DashboardComponent,
