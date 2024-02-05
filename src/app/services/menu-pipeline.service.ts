@@ -16,11 +16,11 @@ export class MenuPipelineService {
   createMenuPipeline(): Array<Menu>{
     let menu: Array<Menu> = [
       {
-        titulo: 'Pipeline',
-        icono: 'fa fa-sellsy',
+        titulo: 'Examenes',
+        icono: 'fa fa-medkit',
         subMenu: [
           new SubMenu(
-            'Procesado', 'process-pipeline' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+            'Pacientes', 'config-pacientes' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           ),
           new SubMenu(
             'Resultados', 'result-pipeline' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN

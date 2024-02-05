@@ -27,7 +27,19 @@ export class MenuConfigService {
           ),
           new SubMenu(
             'Permisos', 'config-permisos' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
-          )
+          ),
+          new SubMenu(
+            'Procesos', 'config-procesos', ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Tareas', 'config-tareas' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Sub-tareas', 'config-sub-tareas' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
+          new SubMenu(
+            'Parámetros', 'config-parametros' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
         ]
       }
     ];

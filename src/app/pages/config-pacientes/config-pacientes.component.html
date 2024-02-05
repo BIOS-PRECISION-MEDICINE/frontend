@@ -39,6 +39,9 @@
               <td scope="row">
                 <a (click)="modalEditPatient(item.id)" class="mr-3" title="Editar"><i
                     class="fa fa-pencil-square-o btn-grid-edit"></i></a>
+                <a (click)="sendToDetailExamsByIdPatient(item.id)" class="mr-3" title="Examenes">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                </a>
                 <a (click)="removePatient(item.id, item.document)" class="mr-3" title="Eliminar"><i
                     class="fa fa-times btn-grid-delete"></i></a>
                 <a (click)="modalPatientsDetails(item.id)" class="mr-3" title="Detalle"><i
