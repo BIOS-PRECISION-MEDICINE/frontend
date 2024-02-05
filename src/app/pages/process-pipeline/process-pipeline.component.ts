@@ -44,4 +44,8 @@ export class ProcessesPipelineComponent {
     this._router.navigate(['/config-pipeline/']);
   }
 
+  sendToDetailExamSubTasks(id:number): void{
+    this._router.navigate(['/config-exam-sub-task/'+id]);
+  }
+  
 }
