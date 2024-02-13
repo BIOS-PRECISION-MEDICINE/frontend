@@ -9,6 +9,7 @@ import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { Paciente } from 'src/app/models/paciente.model';
 import Swal from 'sweetalert2';
 import { ValidatorDateGreaterTo } from 'src/app/validators/forms-custom-validators';
+import { Router } from '@angular/router';
 
 
 declare var $: any;
@@ -28,6 +29,7 @@ export class ConfigPacientesComponent {
   public lstPatients: any = [];
 
   constructor(
+    private _router: Router,
     private fb: FormBuilder,
     private _patient_service: PatientService,
     private _alert: AlertPersonalService
@@ -84,6 +86,9 @@ export class ConfigPacientesComponent {
     });
   }
 
+  sendToDetailExamsByIdPatient(id:number): void{
+    this._router.navigate(['/exams-by-patient/'+id]);
+  }
   modalClose(): void {
     this.forms.reset();
     this.edit_state = false;

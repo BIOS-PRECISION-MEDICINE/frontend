@@ -1,3 +1,6 @@
+import { Parametro } from "./parametro.model";
+import { Tarea } from "./tarea.model";
+
 export class SubTarea {
 
     constructor() {        
@@ -8,7 +11,9 @@ export class SubTarea {
     order!: string;
     command!: string;
     task_id!: string;
-    task_name!: string;
     created_at!: string;
     updated_at!: string;
+    task!: Tarea;
+    input_params!: Parametro[];
+    output_params!: Parametro[];
 }

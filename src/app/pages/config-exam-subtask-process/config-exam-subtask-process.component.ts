@@ -1,61 +1,43 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
-import { ParametersService } from 'src/app/services/parameters.service';
+import { DatumSubTaskExamService } from 'src/app/services/datum-subtask-exam.service';
 
 declare var $: any;
 
 @Component({
   selector: 'app-config-exam-subtask-process',
   templateUrl: './config-exam-subtask-process.component.html',
-  styleUrls: ['./config-exam-subtask-process.component.css']
 })
 export class ConfigExamSubtaskProcessComponent {
-  public current_exam_subtask: number = -1;
-  public lstParameters: any = [];
+  public current_id_subtask_exam: number = -1;
+  public current_name_task: string = '';
+  public current_name_subtask: string = '';
+  public lstDatumSubTaskExam: any = [];
 
   constructor(
     private _activatedroute:ActivatedRoute,
-    private _parameters_service: ParametersService,
+    private _datum_subTask_exam_service: DatumSubTaskExamService,
     private _alert: AlertPersonalService
   ) {
   }
 
   ngOnInit(): void {
-    this.getParametersByTask(1);
-    this._activatedroute.params.subscribe(params => { 
-      this.current_exam_subtask = params['id_exam_subtask']; 
+    this._activatedroute.params.subscribe(params => {
+      this.current_id_subtask_exam = params['id_subtask_exam'];
+      this.current_name_task = params['name_task'];
+      this.current_name_subtask = params['name_subtask'];
+      this.getDatumSubTaskExamByIdSubtaskExam();
   });
   }
 
-  getParametersByTask(page: number): void {
+  getDatumSubTaskExamByIdSubtaskExam(): void {
     $('.preloader').show();
-    this._parameters_service.getListingParameters(page).subscribe((resp) => {
-      this.lstParameters = resp.data;
-      console.log(this.lstParameters);
+    this._datum_subTask_exam_service.getDatunSubTaskExamByIdSubtaskExam(this.current_id_subtask_exam).subscribe((resp) => {
+      this.lstDatumSubTaskExam = resp;
+      console.log(this.lstDatumSubTaskExam);
       $('.preloader').hide();
     });
-  }
-
-  generateParametersPanel():void{
-
-  }
-
-  changeTabPanelTask(page: number): void {
-    alert();
-  }
-
-  startProcess(task: number):void{
-    $('.card').addClass("loading-process-subtask");
-    
-  }
-
-  restartProcess(task: number):void{
-    
-  }
-
-  nextProcess(c_task: number):void{
-    
   }
 
 }

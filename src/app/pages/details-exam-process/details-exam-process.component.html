@@ -1,0 +1,50 @@
+<div class="container-fluid cf-custom">
+  <div class="row">
+    <div class="col-lg-4 col-xlg-4">
+      <h2>Examen {{name_exam}}</h2>
+    </div>
+    <div class="col-lg-8 col-xlg-8">
+      <span class="state_red label_state_icon"></span>
+      <span class="label_state">Pendiente</span>
+      <span class="state_yellow label_state_icon"></span>
+      <span class="label_state">En ejecución</span>
+      <span class="state_green label_state_icon"></span>
+      <span class="label_state">Finalizado</span>
+    </div>
+  </div>
+
+  <div *ngFor="let task of lstTasks; index as i">
+    <!-- Task -->
+    <div class="row">
+      <div class="col">
+        <p>
+          <button class="btn btn-secondary" type="button" data-toggle="collapse" [attr.data-target]="'#task_'+i"
+            aria-expanded="false" [attr.aria-controls]="'task_'+i">
+            Tarea {{i+1}}: {{task.name}}
+          </button>
+        </p>
+      </div>
+    </div>
+    <!-- End Task -->
+    <!-- SubTask -->
+    <div class="row">
+      <div class="col">
+        <div class="collapse" id="{{'task_'+i}}">
+          <div *ngFor="let subtask of task.subtasks; index as j">
+            <div class="row">
+              <div class="col-lg-8 col-xlg-8">
+                <span [ngClass]="subtask.state_subtask"></span>
+                <strong>Subtarea {{j+1}}: {{subtask.name}}</strong>
+                <button type="button" [disabled]="!subtask.enable" class="btn-custom-1 btn btn-outline-dark"
+                  (click)="configSubTask(subtask.id_subtask_exam,task.name,subtask.name)">
+                  <i class="fa fa-cog" style="color: #000000" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End SubTask -->
+  </div>
+</div>

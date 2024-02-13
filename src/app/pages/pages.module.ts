@@ -26,10 +26,10 @@ import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.co
 import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
 import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
-import { ProcessesPipelineComponent } from './process-pipeline/process-pipeline.component';
-import { ConfigExamSubtasksComponent } from './config-exam-subtasks/config-exam-subtasks.component';
+import { DetailsExamProcessComponent } from './details-exam-process/details-exam-process.component';
 import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process/config-exam-subtask-process.component';
-import { ConfigPipelineComponent } from './config-pipeline/config-pipeline.component';
+import { ConfigInstancePipelineComponent } from './config-instance-pipeline/config-instance-pipeline.component';
+import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.component';
 
 
 @NgModule({
@@ -50,10 +50,10 @@ import { ConfigPipelineComponent } from './config-pipeline/config-pipeline.compo
     ConfigDatumComponent,
     ConfigExamsComponent,
     ConfigDatumSubTaskExamComponent,
-    ProcessesPipelineComponent,
-    ConfigExamSubtasksComponent,
+    ExamsByPatientComponent,
+    DetailsExamProcessComponent,
     ConfigExamSubtaskProcessComponent,
-    ConfigPipelineComponent,
+    ConfigInstancePipelineComponent,
   ],
   exports: [
     DashboardComponent,

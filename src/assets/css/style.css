@@ -7841,34 +7841,44 @@ a>i.link-grid-plus{
   cursor: pointer;
 }
 
+.btn-custom-1 {
+  margin: 10px 10px;
+  padding: 3px 6px !important;
+  border-radius: 10px
+}
+
+.btn-custom-1:disabled{
+  color: #343a40a1;
+  background-color: #343a40a1;
+}
 .state_yellow{
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   position: relative;
-  background-color: yellow;
+  background-color: #ffff00ad;
   float: left;
-  margin: 8px 15px;
-  border-radius: 15px;
+  margin: 17px 5px;
+  border-radius: 10px;
 }
 
 .state_red{
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   position: relative;
-  background-color: red;
+  background-color: #ff0000c7;
   float: left;
-  margin: 8px 15px;
-  border-radius: 15px;
+  margin: 17px 5px;
+  border-radius: 10px;
 }
 
 .state_green{
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   position: relative;
-  background-color: green;
+  background-color: #00ff22a6;
   float: left;
-  margin: 8px 15px;
-  border-radius: 15px;
+  margin: 17px 5px;
+  border-radius: 10px;
 }
 .label_state_icon{
   width: 15px;

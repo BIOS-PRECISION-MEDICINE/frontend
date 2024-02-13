@@ -239,3 +239,69 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .alt-title-custom-te h1:before {
   left:50%; margin-left:-30px;
 }
+
+.cf-custom{
+  padding: 0px 15px !important;
+}
+
+.icon-info-custome{
+  width: 13px;
+}
+
+/* Css inputs*/
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #888787;
+  outline: 0;
+  color: #fff;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #888787;
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #000000;;
+    font-weight:700;    
+  }
+  padding-bottom: 6px;  
+  border-width: 3px;
+  border-image: linear-gradient(to right, #4494d4,#432A7B);
+  border-image-slice: 1;
+}
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
+}

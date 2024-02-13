@@ -21,7 +21,7 @@ export class ConfigParametersComponent {
   public per_page: number = 10;
   public total_items: number = 0;
   public lstSubTasks: any = [];
-  public lstTypes: any = ['Integer', 'Double', 'String', 'Array'];
+  public lstTypes: any = ['integer','time', 'string', 'file'];
   public lstParameters: any = [];
 
   constructor(

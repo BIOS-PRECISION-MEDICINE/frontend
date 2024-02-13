@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid cf-custom">
   <div class="row">
     <div class="col-lg-12 col-xlg-12 text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
@@ -77,34 +77,44 @@
       <div class="modal-body parent">
         <div class="row">
           <div class="col">
+            
+            <div class="form-group">
+              <div class="form__group field">
+                <input type="input" class="form-control form__field" placeholder="Ingrese el docuemnto" name="name" id='name' required />
+                <label for="name" class="form__label">Name</label>
+              </div>
+            </div>
+
+
+
+
+
+
+
             <form [formGroup]="forms">
               <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="document">Documento</label>
-                <input type="text" class="form-control" id="document"
-                  [class.is-invalid]="documentNoValido" formControlName="document"
-                  placeholder="Ingrese el número de documento" />
+                <input type="text" class="form-control" id="document" [class.is-invalid]="documentNoValido"
+                  formControlName="document" placeholder="Ingrese el número de documento" />
               </div>
 
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input type="text" class="form-control" id="name" 
-                  [class.is-invalid]="nameNoValido" formControlName="name"
-                  placeholder="Ingrese el nombre del paciente" />
+                <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
+                  formControlName="name" placeholder="Ingrese el nombre del paciente" />
               </div>
 
               <div class="form-group">
                 <label for="lastname">Apellidos</label>
-                <input type="text" class="form-control" id="lastname"
-                  [class.is-invalid]="lastnameNoValido" formControlName="lastname"
-                  placeholder="Ingrese los apellidos del paciente" />
+                <input type="text" class="form-control" id="lastname" [class.is-invalid]="lastnameNoValido"
+                  formControlName="lastname" placeholder="Ingrese los apellidos del paciente" />
               </div>
 
               <div class="form-group">
                 <label for="birth_year">Fecha Nacimiento</label>
-                <input type="date" class="form-control" id="birth_year"
-                  [class.is-invalid]="birth_yearNoValido" formControlName="birth_year" 
-                  placeholder="dd-MM-yyyy"/>
+                <input type="date" class="form-control" id="birth_year" [class.is-invalid]="birth_yearNoValido"
+                  formControlName="birth_year" placeholder="dd-MM-yyyy" />
 
                 <div class="alert  alert-danger" *ngIf="forms.get('birth_year')?.errors?.invalidDate">
                   Fecha de nacimiento invalida.
@@ -116,12 +126,12 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
-          (click)="newPatient()">
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="newPatient()">
           Guardar
         </button>
-        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
-          (click)="editPatient()">
+        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="editPatient()">
           Editar
         </button>
         <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"

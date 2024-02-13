@@ -6,6 +6,7 @@ import { AlertPersonalService } from 'src/app/services/alert-custome.service';
 import { TasksService } from 'src/app/services/tasks.service';
 import { SubTasksService } from 'src/app/services/sub-tasks.service';
 import Swal from 'sweetalert2';
+import { Tarea } from 'src/app/models/tarea.model';
 
 declare var $: any;
 
@@ -30,6 +31,7 @@ export class ConfigSubTareasComponent {
     private _alert: AlertPersonalService
   ) {
     this.subTask = new SubTarea();
+    this.subTask.task = new Tarea();
     this.crearFormulario();
   }
 
@@ -125,9 +127,6 @@ export class ConfigSubTareasComponent {
     this.forms.reset();
     this._subtasks_service.getSubtaskById(id_subtarea).subscribe((resp) => {
       this.subTask = resp;
-      this.subTask.task_name = this.lstTasks.find((obj: any) => {
-        return obj.id === this.subTask.task_id;
-      }).name
       $('#subTaskDetails').modal({ backdrop: 'static', keyboard: false });
     });
   }

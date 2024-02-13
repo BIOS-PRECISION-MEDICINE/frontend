@@ -4,6 +4,7 @@ export class Parametro {
     }
     name!: string;
     type!: string;
+    type_tag!: string;
     optional!: string;
     default_value!: string;
     created_at!: string;
