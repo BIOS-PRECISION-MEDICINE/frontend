@@ -89,6 +89,7 @@ export class ConfigPacientesComponent {
   sendToDetailExamsByIdPatient(id:number): void{
     this._router.navigate(['/exams-by-patient/'+id]);
   }
+
   modalClose(): void {
     this.forms.reset();
     this.edit_state = false;

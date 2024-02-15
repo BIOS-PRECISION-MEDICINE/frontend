@@ -16,10 +16,10 @@ import { SubTasksService } from 'src/app/services/sub-tasks.service';
 
 declare var $: any;
 @Component({
-  selector: 'app-config-instance-pipeline',
-  templateUrl: './config-instance-pipeline.component.html',
+  selector: 'app-config-new-instance-pipeline',
+  templateUrl: './config-new-instance-pipeline.component.html',
 })
-export class ConfigInstancePipelineComponent {
+export class ConfigNewInstancePipelineComponent {
   public forms!: FormGroup;
   public task!: Tarea;
   public subTask!: SubTarea;
@@ -55,6 +55,10 @@ export class ConfigInstancePipelineComponent {
     return this.forms.get('name')?.invalid && this.forms.get('name')?.touched;
   }
 
+  get descNoValido() {
+    return this.forms.get('description')?.invalid && this.forms.get('description')?.touched;
+  }
+
   ngOnInit(): void {
     this.crearFormulario();
     this._activatedroute.params.subscribe((params) => {
@@ -69,6 +73,7 @@ export class ConfigInstancePipelineComponent {
     this.forms = this.fb.group({
       id_process: ['', Validators.required],
       name: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
@@ -126,6 +131,7 @@ export class ConfigInstancePipelineComponent {
   newSubTaskExam(): void {
     $('.preloader').show();
     let id_subtask = $('#id_subtask_global').val();
+    let description = $('#description').val();
     if (this.id_patient && id_subtask && this.validateValueParameters()) {
       //Create a new exam for the test
       let params_form = this.createObjSubTareaExamen();
@@ -144,6 +150,7 @@ export class ConfigInstancePipelineComponent {
           if (this.id_exam > 0) {
             let test: any = {
               exam_id: this.id_exam,
+              description: description,
               subtask_id: this.subTask.id,
               dataSubTaskExam: params_form,
             };
@@ -175,6 +182,7 @@ export class ConfigInstancePipelineComponent {
         });
       }
     } else {
+      $('.preloader').hide();
       this._alert.mostrarAlertaSimplesPorTipo(
         ALERT_TYPE.ERROR,
         'Por favor llene los campos obligatorios.',

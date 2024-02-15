@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {NgxPaginationModule} from 'ngx-pagination'; 
+import {NgxPaginationModule} from 'ngx-pagination';
 
 // Modules.
 import { SharedModule } from '../shared/shared.module';
@@ -27,8 +27,8 @@ import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
 import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
 import { DetailsExamProcessComponent } from './details-exam-process/details-exam-process.component';
-import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process/config-exam-subtask-process.component';
-import { ConfigInstancePipelineComponent } from './config-instance-pipeline/config-instance-pipeline.component';
+import { ConfigExecSubTaskExamComponent } from './config-exec-subtask-exam/config-exec-subtask-exam.component';
+import { ConfigNewInstancePipelineComponent } from './config-new-instance-pipeline/config-new-instance-pipeline.component';
 import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.component';
 
 
@@ -52,8 +52,8 @@ import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.com
     ConfigDatumSubTaskExamComponent,
     ExamsByPatientComponent,
     DetailsExamProcessComponent,
-    ConfigExamSubtaskProcessComponent,
-    ConfigInstancePipelineComponent,
+    ConfigExecSubTaskExamComponent,
+    ConfigNewInstancePipelineComponent,
   ],
   exports: [
     DashboardComponent,

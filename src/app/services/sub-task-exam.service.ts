@@ -31,16 +31,27 @@ export class SubTaskExamService {
     private _alerService: AlertPersonalService
   ) {}
 
-    //Obtiene subTareaExam especificada por id_exam activo en el sistema
-    getSubtaskByIdExam(id_exam: string): Observable<any> {
-      let url = URL_SUBTASKS_EXAM + '?id_exam=' + id_exam+ '&page=1&per_page=100';
-      return this.http.get<any>(url).pipe(
-        map((resp) => {
-          return resp.data;
-        })
-      );
-    }
+  //Obtiene subTareaExam especificada por id_exam activo en el sistema
+  getSubTaskExamByLstId(lst_subtask_exam_id: string): Observable<any> {
+    let url =
+      URL_SUBTASKS_EXAM + '/?lst_subtask_exam_id=' + lst_subtask_exam_id;
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+  }
 
+  //Obtiene subTareaExam especificada por id_exam activo en el sistema
+  getSubtaskByIdExam(id_exam: string): Observable<any> {
+    let url =
+      URL_SUBTASKS_EXAM + '?id_exam=' + id_exam + '&page=1&per_page=100';
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
 
   //Crea e inserta una nueva subtarea-exam en el sistema
   createNewSubTaskExam(subtareaExam: SubTareaExamen): Observable<any> {
@@ -77,35 +88,37 @@ export class SubTaskExamService {
 
   //Actualiza una subtarea-exam en el sistema
   updateSubTask(subtareaExam: SubTareaExamen): Observable<any> {
-    return this.http.put(URL_SUBTASKS_EXAM + '/' + subtareaExam.id, subtareaExam, {}).pipe(
-      map((resp: any) => {
-        return {
-          Data: resp,
-          Meta: {
-            StatusCode: 200,
-            ResultadoExitoso: true,
-            TipoRespuesta: '',
-          },
-        };
-      }),
-      catchError((error) => {
-        $('.preloader').hide();
-        let msg = this.getErrorResponse(error);
-        this._alerService.mostrarAlertaSimplesPorTipo(
-          ALERT_TYPE.ERROR,
-          'Ocurrio un error al realizar la edición una subTarea-Exam',
-          'Error inesperado'
-        );
-        return of({
-          Data: null,
-          Meta: {
-            StatusCode: 500,
-            ResultadoExitoso: false,
-            TipoRespuesta: msg,
-          },
-        });
-      })
-    );
+    return this.http
+      .put(URL_SUBTASKS_EXAM + '/' + subtareaExam.id, subtareaExam, {})
+      .pipe(
+        map((resp: any) => {
+          return {
+            Data: resp,
+            Meta: {
+              StatusCode: 200,
+              ResultadoExitoso: true,
+              TipoRespuesta: '',
+            },
+          };
+        }),
+        catchError((error) => {
+          $('.preloader').hide();
+          let msg = this.getErrorResponse(error);
+          this._alerService.mostrarAlertaSimplesPorTipo(
+            ALERT_TYPE.ERROR,
+            'Ocurrio un error al realizar la edición una subTarea-Exam',
+            'Error inesperado'
+          );
+          return of({
+            Data: null,
+            Meta: {
+              StatusCode: 500,
+              ResultadoExitoso: false,
+              TipoRespuesta: msg,
+            },
+          });
+        })
+      );
   }
 
   //Elimina una subTarea del sistema

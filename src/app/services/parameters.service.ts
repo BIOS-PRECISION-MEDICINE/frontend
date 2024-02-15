@@ -16,7 +16,7 @@ import { ALERT_TYPE } from '../constants/alerts.constans';
 import { Parametro } from '../models/parametro.model';
 
 const URL_PARAMS = environment.url_api_parameters;
-const per_page : number = environment.pagination_size;  
+const per_page : number = environment.pagination_size;
 
 declare var $: any;
 
@@ -37,6 +37,26 @@ export class ParametersService {
     return this.http.get<any>(url).pipe(
       map((resp) => {
         return resp;
+      })
+    );
+  }
+
+     //Obtiene listado de parámetros especificado por array de ids
+     getParameterByIdSubTask(id_subtask: string): Observable<any> {
+      let url = URL_PARAMS + '?sub_task_id='+id_subtask;
+      return this.http.get<any>(url).pipe(
+        map((resp) => {
+          return resp;
+        })
+      );
+    }
+
+   //Obtiene listado de parámetros especificado por array de ids
+   getParameterByArrayParamsId(params_id: string): Observable<any> {
+    let url = URL_PARAMS + '?lst_params_id='+params_id+'&page=1&per_page=1000';
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp.data;
       })
     );
   }

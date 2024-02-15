@@ -1,0 +1,153 @@
+<!--Panel subtarea -->
+<div class="row">
+  <div class="col-lg">
+    <div class="card">
+      <div class="card-header card-header-color">{{ name_task }}</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <div class="title-custom-te">
+                  <h1>Subtarea: {{ name_subtask }}</h1>
+                </div>
+              </div>
+            </div>
+            <!-- List of executes subtaskexam -->
+            <div *ngFor="let exec of lstExecSubTaskExam; index as i" style="margin-left:15px;">
+              <div class="row">
+                <div class="col">
+                  <span [ngClass]="exec.finished_at ? 'state_green' : 'state_yellow'"></span>
+                  <span>
+                    <p>Ejecución N° {{ i + 1 }}</p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="{{ 'description_' + i }}">Descripción</label>
+                <textarea
+                  id="{{ 'description_' + i }}"
+                  [disabled]="exec.finished_at"
+                  class="form-control"
+                  rows="2"
+                  >{{ exec.description }}</textarea
+                >
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="title-custom-te">
+                    <h1>Pámetros:</h1>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="table-responsive animated fadeInLeftBig">
+                    <table class="table table-sm table-bordered table-striped">
+                      <thead class="thead-custom">
+                        <tr>
+                          <th class="text-center">Nombre</th>
+                          <th class="text-center">Tipo</th>
+                          <th class="text-center">Opcional</th>
+                          <th class="text-center">Valor</th>
+                          <th class="text-center"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="tbody-custom">
+                        <tr *ngFor="let item of exec?.data_sub_task_exam">
+                          <td class="text-center">
+                            {{ item.datum.param?.name }}
+                          </td>
+                          <td class="text-center">
+                            {{ item.datum.param?.type }}
+                          </td>
+                          <td class="text-center">
+                            {{ item.datum.param?.optional === 1 ? "Si" : "No" }}
+                          </td>
+                          <td class="text-center">
+                            <div class="form-outline">
+                              <input
+                                [disabled]="exec.id"
+                                id="{{
+                                  'param_' +
+                                    exec.id +
+                                    '_' +
+                                    item.datum.param?.id
+                                }}"
+                                type="{{ item.datum.param?.type_tag }}"
+                                value="{{ item.datum?.value }}"
+                              />
+                              <span
+                                class="icon-info-custome fa fas fa-info error-icon-custom d-none"
+                              ></span>
+                            </div>
+                          </td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="separator-panel-exec_subtask"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg d-flex justify-content-center">
+                  <button
+                    type="button"
+                    class="btn btn-success ml-2"
+                    style="border-radius: 10px"
+                    *ngIf="!exec.id && !exec.finished_at"
+                    (click)="restartProcess(exec.exam_id, exec.subtask_id)"
+                  >
+                    <span class="fa fa-reply"></span>
+                    Reiniciar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger ml-2"
+                    style="border-radius: 10px"
+                    *ngIf="!exec.finished_at"
+                    (click)="previousPage()"
+                  >
+                    <span class="fa fa-times"></span>
+                    Volver
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Panel resultado de tarea-->
+<div class="row">
+  <div class="col-lg">
+    <h5 class="card-title">Resultados</h5>
+
+    <div class="row">
+      <div class="col-lg-12 result-img">
+        <img src="../../../assets/images/gallery/result1.jpg" alt="resultado" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 form-group">
+        <label for="desc_1">Descripción</label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="desc_1"
+          rows="3"
+          readonly
+        >
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+          nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+          Ut wisi enim ad minim veniam, quis nostrud exerci tation
+        </textarea>
+      </div>
+    </div>
+  </div>
+</div>

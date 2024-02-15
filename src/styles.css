@@ -218,10 +218,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   position: absolute !important;
   left: 0;
   bottom: 0;
-  width: 60px;
+  width: 40%;
   height: 2px;
   content: "";
-  background-color: #c50000;
+  background-color: #0041ff9c;
 }
 
 .title-custom-te h1 span {
@@ -246,6 +246,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .icon-info-custome{
   width: 13px;
+}
+
+.separator-panel-exec_subtask {
+  position: absolute !important;
+  left: 0;
+  bottom: 0;
+  width: 70%;
+  height: 2px;
+  margin-left: 15%;
+  content: "";
+  background-color: #0041ff9c;
 }
 
 /* Css inputs*/
@@ -294,9 +305,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     transition: 0.2s;
     font-size: 1rem;
     color: #000000;;
-    font-weight:700;    
+    font-weight:700;
   }
-  padding-bottom: 6px;  
+  padding-bottom: 6px;
   border-width: 3px;
   border-image: linear-gradient(to right, #4494d4,#432A7B);
   border-image-slice: 1;
@@ -305,3 +316,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .form__field{
   &:required,&:invalid { box-shadow:none; }
 }
+

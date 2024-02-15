@@ -19,7 +19,7 @@ export class ExamsByPatientComponent {
   public total_items: number = 0;
   public patient!: Paciente;
   public lstExams: any = [];
-  
+
   constructor(
     private _router: Router,
     private _activatedroute:ActivatedRoute,
@@ -31,8 +31,8 @@ export class ExamsByPatientComponent {
   }
 
   ngOnInit(): void {
-    this._activatedroute.params.subscribe(params => { 
-      this.id_patient = params['id_patient']; 
+    this._activatedroute.params.subscribe(params => {
+      this.id_patient = params['id_patient'];
       if(this.id_patient !== -1){
         this.getListingExamsByPatient(this.id_patient.toString());
       }
@@ -54,13 +54,13 @@ export class ExamsByPatientComponent {
   }
 
   sendToConfigExamenProcess(): void{
-    this._router.navigate(['/config-instance-pipeline/'+this.patient.id]);
+    this._router.navigate(['/config-new-instance-pipeline/'+this.patient.id]);
   }
 
-  sendToDetailExamSubTasks(id:number,id_process:number,name_exam:string): void{
-    this._router.navigate(['/details-exam-process/'+id+'/'+id_process+'/'+name_exam]);
+  sendToDetailExamSubTasks(id:number,id_process:number): void{
+    this._router.navigate(['/details-exam-process/'+id+'/'+id_process]);
   }
-  
+
   removeExam(id_examen: string): void {
     Swal.fire({
       title: 'Estás seguro?',
@@ -76,7 +76,7 @@ export class ExamsByPatientComponent {
       if (result.isConfirmed) {
         this._exam_service.deleteExam(id_examen).subscribe((resp) => {
           if (resp.Meta.StatusCode == 200) {
-            
+
             this._alert.mostrarAlertTipoToast(
               ALERT_TYPE.OK,
               'Examen eliminado exitosamente.'
