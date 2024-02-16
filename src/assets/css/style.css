@@ -950,7 +950,7 @@ Main sidebar
   top: 0px;
   z-index: 20;
   padding-top: 70px;
-  background: #F1BD46;
+  background: #f1bd46d9;
   -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
   box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
 }
@@ -1007,7 +1007,7 @@ sidebar navigation
 }
 
 .sidebar-nav ul li a {
-  color: #593383;
+  color: #432a7bde;
   padding: 8px 35px 8px 15px;
   display: block;
   font-size: 14px;
@@ -1061,7 +1061,7 @@ sidebar navigation
   font-size: 24px;
   display: inline-block;
   vertical-align: middle;
-  color: #555f6d;
+  color: #432a7bde;
 }
 
 .sidebar-nav>ul>li>a .label {
@@ -1332,7 +1332,7 @@ File: scss
 }
 
 .topbar .navbar-collapse {
-  background: #432A7B;
+  background: #432a7bde;
   padding: 0 10px;
 }
 

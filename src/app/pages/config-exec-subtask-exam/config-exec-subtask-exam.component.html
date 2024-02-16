@@ -14,24 +14,53 @@
               </div>
             </div>
             <!-- List of executes subtaskexam -->
-            <div *ngFor="let exec of lstExecSubTaskExam; index as i" style="margin-left:15px;">
+            <div
+              *ngFor="let exec of lstExecSubTaskExam; index as i"
+              style="margin-left: 15px"
+            >
               <div class="row">
                 <div class="col">
-                  <span [ngClass]="exec.finished_at ? 'state_green' : 'state_yellow'"></span>
+                  <span
+                    [ngClass]="
+                      exec.finished_at ? 'state_green' : 'state_yellow'
+                    "
+                  ></span>
                   <span>
                     <p>Ejecución N° {{ i + 1 }}</p>
                   </span>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="{{ 'description_' + i }}">Descripción</label>
-                <textarea
-                  id="{{ 'description_' + i }}"
-                  [disabled]="exec.finished_at"
-                  class="form-control"
-                  rows="2"
-                  >{{ exec.description }}</textarea
-                >
+              <div class="row">
+                <div class="col">
+                  <label for="{{ 'description_' + i }}">Descripción</label>
+                  <textarea
+                    id="{{ 'description_' + i }}"
+                    [disabled]="exec.id"
+                    class="form-control"
+                    rows="2"
+                    >{{ exec.description }}</textarea
+                  >
+                </div>
+              </div>
+              <div class="row" *ngIf="lst_prev_ids_ste">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="id_subtask_prev">SubTarea previa</label>
+                    <select
+                      id="{{'id_subtask_prev_'+i}}"
+                      [disabled]="exec.id"
+                      class="form-control custom-select"
+                    >
+                      <option value="">Seleccione subTarea</option>
+                      <option
+                        value="{{ item.id }}"
+                        *ngFor="let item of lst_subtask_exam_prev"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col">
@@ -67,15 +96,16 @@
                           <td class="text-center">
                             <div class="form-outline">
                               <input
-                                [disabled]="exec.id"
                                 id="{{
                                   'param_' +
                                     exec.id +
                                     '_' +
                                     item.datum.param?.id
                                 }}"
-                                type="{{ item.datum.param?.type_tag }}"
+                                type="{{ item.datum?.type_tag }}"
+                                class="form-control"
                                 value="{{ item.datum?.value }}"
+                                [disabled]="exec.id"
                               />
                               <span
                                 class="icon-info-custome fa fas fa-info error-icon-custom d-none"
@@ -97,7 +127,17 @@
                     type="button"
                     class="btn btn-success ml-2"
                     style="border-radius: 10px"
-                    *ngIf="!exec.id && !exec.finished_at"
+                    *ngIf="!exec.id && lstExecSubTaskExam.length == 1"
+                    (click)="startProcess(exec.exam_id, exec.subtask_id)"
+                  >
+                    <span class="fa fa-reply"></span>
+                    Iniciar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success ml-2"
+                    style="border-radius: 10px"
+                    *ngIf="!exec.id && !exec.finished_at && lstExecSubTaskExam.length > 1"
                     (click)="restartProcess(exec.exam_id, exec.subtask_id)"
                   >
                     <span class="fa fa-reply"></span>

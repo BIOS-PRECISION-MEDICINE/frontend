@@ -44,7 +44,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private procesarError(error: HttpErrorResponse) {
     $('.preloader').hide();
-    console.log("Sucedio un error");
+
     console.warn(error);
     return throwError(error.error);
   }

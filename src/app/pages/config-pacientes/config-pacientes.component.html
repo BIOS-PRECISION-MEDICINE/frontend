@@ -13,15 +13,26 @@
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddPatients()"
-                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo paciente">
-                  <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalAddPatients()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nuevo paciente"
+                >
+                  <i
+                    class="fa fa-plus fa-4 btn-grid-plus"
+                    aria-hidden="true"
+                  ></i>
                 </button>
               </th>
             </tr>
           </thead>
           <tbody class="tbody-custom">
-            <tr *ngFor="
+            <tr
+              *ngFor="
                 let item of lstPatients
                   | paginate
                     : {
@@ -29,7 +40,8 @@
                         itemsPerPage: per_page,
                         currentPage: current_page
                       }
-              ">
+              "
+            >
               <td scope="row">{{ item.id }}</td>
               <td scope="row">{{ item.document }}</td>
               <td scope="row">{{ item.name }}</td>
@@ -37,15 +49,31 @@
               <td scope="row">{{ item.birth_year | date : "dd-MM-yyyy" }}</td>
               <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
-                <a (click)="modalEditPatient(item.id)" class="mr-3" title="Editar"><i
-                    class="fa fa-pencil-square-o btn-grid-edit"></i></a>
-                <a (click)="sendToDetailExamsByIdPatient(item.id)" class="mr-3" title="Examenes">
+                <a
+                  (click)="modalEditPatient(item.id)"
+                  class="mr-3"
+                  title="Editar"
+                  ><i class="fa fa-pencil-square-o btn-grid-edit"></i
+                ></a>
+                <a
+                  (click)="sendToDetailExamsByIdPatient(item.id)"
+                  class="mr-3"
+                  title="Examenes"
+                >
                   <i class="fa fa-file-text-o" aria-hidden="true"></i>
                 </a>
-                <a (click)="removePatient(item.id, item.document)" class="mr-3" title="Eliminar"><i
-                    class="fa fa-times btn-grid-delete"></i></a>
-                <a (click)="modalPatientsDetails(item.id)" class="mr-3" title="Detalle"><i
-                    class="fa fa-table btn-grid-detail"></i></a>
+                <a
+                  (click)="modalPatientsDetails(item.id)"
+                  class="mr-3"
+                  title="Detalle"
+                  ><i class="fa fa-table btn-grid-detail"></i
+                ></a>
+                <a
+                  (click)="removePatient(item.id, item.document)"
+                  class="mr-3"
+                  title="Eliminar"
+                  ><i class="fa fa-times btn-grid-delete"></i
+                ></a>
               </td>
             </tr>
           </tbody>
@@ -55,87 +83,149 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls (pageChange)="changePageTable($event)" previousLabel="Anterior"
-        nextLabel="Siguiente"></pagination-controls>
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo paciente-->
-<div class="modal animated fadeInDown" id="PatientNew" tabindex="3" role="dialog"
-  aria-labelledby="PatientNewInsertLabel" aria-hidden="true">
+<div
+  class="modal animated fadeInDown"
+  id="PatientNew"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="PatientNewInsertLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="PatientNewInsertLabel" style="font-weight: 600">
+        <h4
+          class="modal-title"
+          id="PatientNewInsertLabel"
+          style="font-weight: 600"
+        >
           Paciente
         </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalClose()">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body parent">
         <div class="row">
           <div class="col">
-            
             <div class="form-group">
               <div class="form__group field">
-                <input type="input" class="form-control form__field" placeholder="Ingrese el docuemnto" name="name" id='name' required />
+                <input
+                  type="input"
+                  class="form-control form__field"
+                  placeholder="Ingrese el docuemnto"
+                  name="name"
+                  id="name"
+                  required
+                />
                 <label for="name" class="form__label">Name</label>
               </div>
             </div>
-
-
-
-
-
-
 
             <form [formGroup]="forms">
               <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="document">Documento</label>
-                <input type="text" class="form-control" id="document" [class.is-invalid]="documentNoValido"
-                  formControlName="document" placeholder="Ingrese el número de documento" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="document"
+                  [class.is-invalid]="documentNoValido"
+                  formControlName="document"
+                  placeholder="Ingrese el número de documento"
+                />
               </div>
 
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
-                  formControlName="name" placeholder="Ingrese el nombre del paciente" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  [class.is-invalid]="nameNoValido"
+                  formControlName="name"
+                  placeholder="Ingrese el nombre del paciente"
+                />
               </div>
 
               <div class="form-group">
                 <label for="lastname">Apellidos</label>
-                <input type="text" class="form-control" id="lastname" [class.is-invalid]="lastnameNoValido"
-                  formControlName="lastname" placeholder="Ingrese los apellidos del paciente" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastname"
+                  [class.is-invalid]="lastnameNoValido"
+                  formControlName="lastname"
+                  placeholder="Ingrese los apellidos del paciente"
+                />
               </div>
 
               <div class="form-group">
                 <label for="birth_year">Fecha Nacimiento</label>
-                <input type="date" class="form-control" id="birth_year" [class.is-invalid]="birth_yearNoValido"
-                  formControlName="birth_year" placeholder="dd-MM-yyyy" />
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birth_year"
+                  [class.is-invalid]="birth_yearNoValido"
+                  formControlName="birth_year"
+                  placeholder="dd-MM-yyyy"
+                />
 
-                <div class="alert  alert-danger" *ngIf="forms.get('birth_year')?.errors?.invalidDate">
+                <div
+                  class="alert alert-danger"
+                  *ngIf="forms.get('birth_year')?.errors?.invalidDate"
+                >
                   Fecha de nacimiento invalida.
                 </div>
               </div>
-
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
-          style="border-radius: 10px" (click)="newPatient()">
+        <button
+          type="button"
+          *ngIf="!edit_state"
+          [disabled]="!forms.valid"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="newPatient()"
+        >
           Guardar
         </button>
-        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
-          style="border-radius: 10px" (click)="editPatient()">
+        <button
+          type="button"
+          *ngIf="edit_state"
+          [disabled]="!forms.valid"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          (click)="editPatient()"
+        >
           Editar
         </button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
-          (click)="modalClose()">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
           Cancelar
         </button>
       </div>
@@ -144,15 +234,31 @@
 </div>
 
 <!-- Modal detalle-->
-<div class="modal animated fadeInDown" id="PatientDetails" tabindex="3" role="dialog"
-  aria-labelledby="patientDetailsLabel" aria-hidden="true">
+<div
+  class="modal animated fadeInDown"
+  id="PatientDetails"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="patientDetailsLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="patientDetailsLabel" style="font-weight: 600">
+        <h4
+          class="modal-title"
+          id="patientDetailsLabel"
+          style="font-weight: 600"
+        >
           Detalle paciente
         </h4>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalClose()" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="modalClose()"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -161,7 +267,6 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información personal</strong></h3>
@@ -205,15 +310,19 @@
                     </p>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
-          (click)="modalClose()">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="modalClose()"
+        >
           Cerrar
         </button>
       </div>
