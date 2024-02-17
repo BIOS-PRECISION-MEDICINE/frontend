@@ -27,7 +27,6 @@ import { ConfigParametersComponent } from './config-parameters/config-parameters
 import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.component';
 import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
-import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
 import { DetailsExamProcessComponent } from './details-exam-process/details-exam-process.component';
 import { ConfigExecSubTaskExamComponent } from './config-exec-subtask-exam/config-exec-subtask-exam.component';
 
@@ -55,7 +54,6 @@ const routes: Routes = [
             {path:'config-pacientes',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPacientesComponent, data: { titulo: 'Pacientes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-datum',canActivate:[ PermissionGuard,TokenGuard], component: ConfigDatumComponent, data: { titulo: 'Data', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-exams',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExamsComponent, data: { titulo: 'Examenes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'config-datum-sub-task-exam',canActivate:[ PermissionGuard,TokenGuard], component: ConfigDatumSubTaskExamComponent, data: { titulo: 'Datos subTarea examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'details-exam-process/:id_exam/:id_process',canActivate:[ PermissionGuard,TokenGuard], component: DetailsExamProcessComponent, data: { titulo: 'Examen Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-exec-subtask-exam',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExecSubTaskExamComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             ]

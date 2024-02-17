@@ -1,9 +1,7 @@
-<div class="container-fluid 
- cf-custom">
+<div class="container-fluid cf-custom">
   <div class="row">
-    <div class="col-lg-12 col-xlg-12 text-center ">
+    <div class="col-lg-12 col-xlg-12 text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
-
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
@@ -16,28 +14,62 @@
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalPermissionInsert()"style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo permiso">
-                  <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="modalPermissionInsert()"
+                  style="border-radius: 10px"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Nuevo permiso"
+                >
+                  <i
+                    class="fa-solid fa-plus"
+                    aria-hidden="true"
+                  ></i>
                 </button>
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let item of lstPermissions | paginate: { totalItems: total_items,itemsPerPage: per_page, currentPage: current_page}">
-              <td scope="row">{{item.id}}</td>
-              <td scope="row">{{item.name}}</td>
-              <td scope="row">{{ (item.description !==null ) ? item.description.substring(0,50) + '...' : '' }}</td>
-              <td scope="row">{{item.url}}</td>
-              <td scope="row">{{item.method}}</td>
-              <td scope="row">{{item.menu_path}}</td>
-              <td scope="row">{{item.updated_at | date: 'dd/MM/YYYY' }}</td>
+          <tbody class="tbody-custom">
+            <tr
+              *ngFor="
+                let item of lstPermissions
+                  | paginate
+                    : {
+                        totalItems: total_items,
+                        itemsPerPage: per_page,
+                        currentPage: current_page
+                      }
+              "
+            >
+              <td scope="row">{{ item.id }}</td>
+              <td scope="row">{{ item.name }}</td>
               <td scope="row">
-                <a href="#" class="mr-2" title="Editar"><i class="fa fa-pencil-square-o btn-grid-opt"></i></a>
-                <a href="#" class="mr-2" title="Eliminar"><i class="fa fa-times btn-grid-opt"></i></a>
-                <a href="#" class="mr-2" title="Detalle"><i class="fa fa-table btn-grid-opt"></i></a>
+                {{
+                  item.description !== null
+                    ? item.description.substring(0, 50) + "..."
+                    : ""
+                }}
+              </td>
+              <td scope="row">{{ item.url }}</td>
+              <td scope="row">{{ item.method }}</td>
+              <td scope="row">{{ item.menu_path }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd/MM/YYYY" }}</td>
+              <td scope="row">
+                <a href="#" class="mr-2" title="Editar"
+                  ><i class="fa-solid fa-pencil"></i
+                ></a>
+                <a href="#" class="mr-2" title="Detalle"
+                  ><i
+                    class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"
+                  ></i
+                ></a>
+                <a href="#" class="mr-2" title="Eliminar"
+                  ><i class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i
+                ></a>
               </td>
             </tr>
-
           </tbody>
         </table>
       </div>
@@ -45,89 +77,180 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls (pageChange)="changePageTable($event)" previousLabel= 'Anterior' nextLabel='Siguiente'></pagination-controls>
+      <pagination-controls
+        (pageChange)="changePageTable($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+      ></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo permiso-->
-<div class="modal animated fadeInDown" id="PermissionNew" tabindex="3" role="dialog" aria-labelledby="permissionInsertLabel" aria-hidden="true">
+<div
+  class="modal animated fadeInDown"
+  id="PermissionNew"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="permissionInsertLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="permissionInsertLabel" style="font-weight: 600;">Editar permiso</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h4
+          class="modal-title"
+          id="permissionInsertLabel"
+          style="font-weight: 600"
+        >
+          Editar permiso
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body parent" >
+      <div class="modal-body parent">
         <div class="row">
-        <div class="col">
-          <form>
-            <div class="form-group">
-              <label for="name_permission">Nombre</label>
-              <input type="text" class="form-control" id="name_permission"  placeholder="Ingrese el nombre del permiso">
-            </div>
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <label for="name_permission">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name_permission"
+                  placeholder="Ingrese el nombre del permiso"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="verbo_permission">Método (Verbo)</label>
-              <input type="text" class="form-control" id="verbo_permission"  placeholder="Ingrese tipo de método http usado">
-            </div>
+              <div class="form-group">
+                <label for="verbo_permission">Método (Verbo)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="verbo_permission"
+                  placeholder="Ingrese tipo de método http usado"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="url_permission">Url</label>
-              <input type="text" class="form-control" id="url_permission"  placeholder="Ingrese la url relativa">
-            </div>
+              <div class="form-group">
+                <label for="url_permission">Url</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="url_permission"
+                  placeholder="Ingrese la url relativa"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="nemu_permission">Menú</label>
-              <input type="text" class="form-control" id="menu_permission"  placeholder="Ingrese el nombre del menú">
-            </div>
+              <div class="form-group">
+                <label for="nemu_permission">Menú</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="menu_permission"
+                  placeholder="Ingrese el nombre del menú"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="desc_permission">Descripción</label>
-              <textarea class="form-control" id="desc_permission" rows="3"></textarea>
-            </div>
-
-          </form>
-        </div>
+              <div class="form-group">
+                <label for="desc_permission">Descripción</label>
+                <textarea
+                  class="form-control"
+                  id="desc_permission"
+                  rows="3"
+                ></textarea>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal confirmar eliminar-->
-<div class="modal animated fadeInDown" id="PermissionDelete" tabindex="3" role="dialog" aria-labelledby="permissionDeleteLabel" aria-hidden="true">
+<div
+  class="modal animated fadeInDown"
+  id="PermissionDelete"
+  tabindex="3"
+  role="dialog"
+  aria-labelledby="permissionDeleteLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="permissionDeleteLabel" style="font-weight: 600;">Eliminar permiso</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h4
+          class="modal-title"
+          id="permissionDeleteLabel"
+          style="font-weight: 600"
+        >
+          Eliminar permiso
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body parent" >
+      <div class="modal-body parent">
         <div class="row">
-        <div class="col">
-          <form>
-            <div class="form-group">
-              <span>
-                ¿Confirma que desea eliminar el permiso "Permiso de prueba" del sistema?
-              </span>
-            </div>
-
-          </form>
-        </div>
+          <div class="col">
+            <form>
+              <div class="form-group">
+                <span>
+                  ¿Confirma que desea eliminar el permiso "Permiso de prueba"
+                  del sistema?
+                </span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-outline-success" style="border-radius: 10px" data-dismiss="modal">Aceptar</button>
-        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Aceptar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
       </div>
     </div>
   </div>

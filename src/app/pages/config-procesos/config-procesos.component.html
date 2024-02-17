@@ -1,4 +1,4 @@
-<div class="container-fluid 
+<div class="container-fluid
  cf-custom">
   <div class="row">
     <div class="col-lg-12 col-xlg-12 text-center">
@@ -14,7 +14,7 @@
                 <span class="span-title-actions">Acciones</span>
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddProcess()"
                   style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo proceso">
-                  <i class="fa fa-plus fa-4 btn-grid-plus" aria-hidden="true"></i>
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
@@ -34,12 +34,12 @@
               <td scope="row">{{ (item.description !==null ) ? item.description.substring(0,50) + '...' : '' }}</td>
               <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
-                <a (click)="modalEditProcess(item.id)" class="mr-3" title="Editar"><i
-                    class="fa fa-lg fa-pencil-square-o btn-grid-edit"></i></a>
-                <a (click)="removeProcess(item.id)" class="mr-3" title="Eliminar"><i
-                    class="fa fa-lg fa-times btn-grid-delete"></i></a>
-                <a (click)="modalDetailsProcess(item.id)" class="mr-3" title="Detalle"><i
-                    class="fa fa-lg fa-table btn-grid-detail"></i></a>
+                <a (click)="modalEditProcess(item.id)" class="mr-2" title="Editar"><i
+                    class="fa-solid fa-pencil"></i></a>
+                <a (click)="removeProcess(item.id)" class="mr-2" title="Eliminar"><i
+                    class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i></a>
+                <a (click)="modalDetailsProcess(item.id)" class="mr-2" title="Detalle"><i
+                    class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"></i></a>
               </td>
             </tr>
           </tbody>

@@ -25,7 +25,6 @@ import { ConfigParametersComponent } from './config-parameters/config-parameters
 import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.component';
 import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
-import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
 import { DetailsExamProcessComponent } from './details-exam-process/details-exam-process.component';
 import { ConfigExecSubTaskExamComponent } from './config-exec-subtask-exam/config-exec-subtask-exam.component';
 import { ConfigNewInstancePipelineComponent } from './config-new-instance-pipeline/config-new-instance-pipeline.component';
@@ -49,7 +48,6 @@ import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.com
     ConfigPacientesComponent,
     ConfigDatumComponent,
     ConfigExamsComponent,
-    ConfigDatumSubTaskExamComponent,
     ExamsByPatientComponent,
     DetailsExamProcessComponent,
     ConfigExecSubTaskExamComponent,
