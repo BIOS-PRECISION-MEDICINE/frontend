@@ -49,6 +49,7 @@ File: scss
 /*******************
 Global Styles
 *******************/
+/*
 @import url(../scss/icons/font-awesome/css/font-awesome.min.css);
 @import url(../scss/icons/simple-line-icons/css/simple-line-icons.css);
 @import url(../scss/icons/weather-icons/css/weather-icons.min.css);
@@ -56,6 +57,7 @@ Global Styles
 @import url(../scss/icons/themify-icons/themify-icons.css);
 @import url(../scss/icons/flag-icon-css/flag-icon.min.css);
 @import url(../scss/icons/material-design-iconic-font/css/materialdesignicons.min.css);
+*/
 @import url(../css/spinners.css);
 @import url(../css/animate.css);
 
@@ -7822,21 +7824,6 @@ File: scss
   color: #000000;
 }
 
-.tbody-custom tr td a>i.btn-grid-edit{
-  color: #F1BD46 !important;
-}
-
-.tbody-custom tr td a>i.btn-grid-delete{
-  color: #ff0000 !important;
-}
-
-.tbody-custom tr td a>i.btn-grid-detail{
-  color: #007bb6 !important;
-}
-
-a>i.link-grid-plus{
-  color: #3dc314!important;
-}
 .tbody-custom tr td a:hover{
   cursor: pointer;
 }

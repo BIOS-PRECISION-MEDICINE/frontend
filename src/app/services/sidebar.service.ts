@@ -30,7 +30,7 @@ export class SidebarService {
     let menu: Array<Menu> = [
       {
         titulo: 'Dashboard',
-        icono: 'mdi mdi-gauge',
+        icono: 'mdi mdi-gauge--1',
         subMenu: []
       },
     ];

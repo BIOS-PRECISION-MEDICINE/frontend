@@ -17,7 +17,7 @@ export class MenuConfigService {
     let menu: Array<Menu> = [
       {
         titulo: 'Ajustes',
-        icono: 'fa fa-cogs',
+        icono: 'fa-solid fa-gears',
         subMenu: [
           new SubMenu(
             'Usuarios', 'config-usuarios', ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN

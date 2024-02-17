@@ -317,3 +317,59 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   &:required,&:invalid { box-shadow:none; }
 }
 
+/*Icons buttons grid table*/
+table > tbody.tbody-custom > tr > td a > i{
+  font-size: 1.15em;
+}
+
+table > tbody.tbody-custom > tr > td a > i.btn-grid-exams{
+  color: #22a534 !important;
+}
+
+
+table > tbody.tbody-custom > tr > td a > i.btn-grid-delete{
+  color: #ff0000 !important;
+}
+
+table > tbody.tbody-custom > tr > td a > i.btn-grid-detail{
+  color: #00437a !important;
+}
+
+table > thead.thead-custom > tr > th > button i{
+  color: #000000;
+  font-size: 1.1em;
+}
+table > tbody.tbody-custom > tr > td a {
+  background-size: 200% 100%;
+  background-position: -100%;
+  display: inline-block;
+  padding: 5px 0;
+  position: relative;
+  -webkit-background-clip: text;
+  transition: all 0.3s ease-in-out;
+}
+
+table > tbody.tbody-custom > tr > td a:before{
+  content: '';
+  background-image: linear-gradient(
+    to right,
+    #54b3d6,
+    #54b3d6 20%,
+    #432a7bde 80%
+  );
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+table > tbody.tbody-custom > tr > td a:hover {
+  background-position: 0;
+ }
+
+ table > tbody.tbody-custom > tr > td a:hover::before{
+  width: 100%;
+}

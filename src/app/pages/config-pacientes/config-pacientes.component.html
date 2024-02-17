@@ -23,7 +23,7 @@
                   title="Nuevo paciente"
                 >
                   <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
+                    class="fa-4 fa-solid fa-plus"
                     aria-hidden="true"
                   ></i>
                 </button>
@@ -51,29 +51,29 @@
               <td scope="row">
                 <a
                   (click)="modalEditPatient(item.id)"
-                  class="mr-3"
+                  class="mr-2"
                   title="Editar"
-                  ><i class="fa fa-pencil-square-o btn-grid-edit"></i
-                ></a>
-                <a
-                  (click)="sendToDetailExamsByIdPatient(item.id)"
-                  class="mr-3"
-                  title="Examenes"
-                >
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  ><i class="fa-solid fa-pencil"></i>
                 </a>
                 <a
                   (click)="modalPatientsDetails(item.id)"
-                  class="mr-3"
+                  class="mr-2"
                   title="Detalle"
-                  ><i class="fa fa-table btn-grid-detail"></i
+                  ><i class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"></i
                 ></a>
                 <a
                   (click)="removePatient(item.id, item.document)"
-                  class="mr-3"
+                  class="mr-2"
                   title="Eliminar"
-                  ><i class="fa fa-times btn-grid-delete"></i
+                  ><i class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i
                 ></a>
+                <a
+                (click)="sendToDetailExamsByIdPatient(item.id)"
+                class="mr-2"
+                title="Examenes"
+              >
+                <i class="fa-solid fa-file-medical btn-grid-exams"></i>
+              </a>
               </td>
             </tr>
           </tbody>

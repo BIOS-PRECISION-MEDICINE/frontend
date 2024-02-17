@@ -17,7 +17,7 @@ export class MenuPipelineService {
     let menu: Array<Menu> = [
       {
         titulo: 'Examenes',
-        icono: 'fa fa-medkit',
+        icono: 'fa-solid fa-suitcase-medical',
         subMenu: [
           new SubMenu(
             'Pacientes', 'config-pacientes' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
