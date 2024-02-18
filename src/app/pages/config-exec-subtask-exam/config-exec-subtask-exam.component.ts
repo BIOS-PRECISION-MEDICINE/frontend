@@ -14,6 +14,7 @@ declare var $: any;
 })
 export class ConfigExecSubTaskExamComponent {
   public id_exam: number = -1;
+  public id_patient: number= -1;
   public id_subtask: number = -1;
   public order_subtask: number = -1;
   public name_task: string = '';
@@ -37,6 +38,7 @@ export class ConfigExecSubTaskExamComponent {
   ngOnInit(): void {
     let tempPrevConfig: any = history.state;
     this.id_exam = tempPrevConfig.id_exam;
+    this.id_patient = tempPrevConfig.id_patient
     this.id_subtask = tempPrevConfig.id_subtask;
     this.name_task = tempPrevConfig.task_name;
     this.name_subtask = tempPrevConfig.subtask_name;
@@ -44,9 +46,31 @@ export class ConfigExecSubTaskExamComponent {
     this.lst_config_subtask_exam = tempPrevConfig.lst_config_subtask_exec;
     delete this.lst_config_subtask_exam.navigationId;
     this.lst_config_subtask_exam = Object.values(this.lst_config_subtask_exam);
-    this.SetConfigDataSubTaskExam();
     this.getListingPrevSubTaskExamById();
     this.getListingSubTaskExamByIds();
+    this.addEventsTabsClick();
+  }
+
+  addEventsTabsClick():void{
+    $(".tab-container").on("click", ".tabs a", function(e:any) {
+      e.preventDefault(),
+      $(e.target)
+        .parents(".tab-container")
+        .find(".tab-content > div")
+        .each(function(i:number,d:any) {
+          $(d).hide();
+        });
+      let find= $(e.target)[0].tagName == 'div' ? 'a.active' :'a';
+      $(e.target)
+        .parents(".tabs")
+        .find(find)
+        .removeClass("active"),
+        $(e.target).parents('a').toggleClass("active"),
+        $(e.target).toggleClass("active"),
+        $("#" + $(e.target).attr("src")).show();
+        $("#" + $(e.target).parents('a').attr("src")).show();
+    });
+
   }
 
   getListingSubTaskExamByIds(): void {
@@ -60,7 +84,6 @@ export class ConfigExecSubTaskExamComponent {
         .subscribe((resp) => {
           this.lstExecSubTaskExam = resp;
           this.SetParametersForNewExecSubTaskExam();
-          console.log(this.lstExecSubTaskExam);
           $('.preloader').hide();
         });
     }
@@ -189,17 +212,8 @@ export class ConfigExecSubTaskExamComponent {
   previousPage(): void {
     this._router.navigate([
       '/details-exam-process/' + this.lstExecSubTaskExam[0].exam_id,
-      this.lstExecSubTaskExam[0].subtask_id,
+      this.lstExecSubTaskExam[0].subtask_id,this.id_patient
     ]);
-  }
-
-  // Sets values for properties from the values sent as parameters to page
-  SetConfigDataSubTaskExam(): void {
-    if (this.lst_config_subtask_exam.length > 0) {
-      this.order_subtask = this.lst_config_subtask_exam[0].order;
-      this.name_task = this.lst_config_subtask_exam[0].name_task;
-      this.name_subtask = this.lst_config_subtask_exam[0].name_subtask;
-    }
   }
 
   // Checks if a new execution subtask has parameters set; otherwise, create the parameters

@@ -40,11 +40,11 @@
               <td scope="row">{{ item.order }}</td>
               <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
-                <a (click)="modalEditSubTask(item.id)" class="mr-2" title="Editar"><i
+                <a (click)="modalEditSubTask(item.id)" class="mr-3" title="Editar"><i
                     class="fa-solid fa-pencil"></i></a>
-                <a (click)="removeSubTask(item.id)" class="mr-2" title="Eliminar"><i
+                <a (click)="removeSubTask(item.id)" class="mr-3" title="Eliminar"><i
                     class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i></a>
-                <a (click)="modalDetailsSubTask(item.id)" class="mr-2" title="Detalle"><i
+                <a (click)="modalDetailsSubTask(item.id)" class="mr-3" title="Detalle"><i
                     class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"></i></a>
               </td>
             </tr>

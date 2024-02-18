@@ -1,9 +1,9 @@
 <div class="container-fluid cf-custom">
   <div class="row">
-    <div class="col-lg-4 col-xlg-4">
+    <div class="col-lg-8 col-xlg-8">
       <h2>Examen: {{ detailsExam?.name }}</h2>
     </div>
-    <div class="col-lg-8 col-xlg-8">
+    <div class="col-lg-4 col-xlg-4">
       <span class="state_red label_state_icon"></span>
       <span class="label_state">Pendiente</span>
       <span class="state_yellow label_state_icon"></span>
@@ -41,10 +41,21 @@
               <div class="col-lg-8 col-xlg-8">
                 <span [ngClass]="subtask.state"></span>
                 <strong>Subtarea {{ j + 1 }}: {{ subtask.name }}</strong>
-                <button type="button" *ngIf="subtask.state !== 'state_red'" class="btn-custom-1 btn btn-outline-dark"
+                <button
+                  type="button"
+                  [disabled]="subtask.state === 'state_red'"
+                  class="btn-custom-1 btn btn-outline-dark"
                   type="button"
                   class="btn-custom-1 btn btn-outline-dark"
-                  (click)="SendToConfigExecSubTaskExam(task.name,subtask.name,subtask.id,subtask.prevSubTexExam,subtask?.lst_config_subtask_exec)"
+                  (click)="
+                    SendToConfigExecSubTaskExam(
+                      task.name,
+                      subtask.name,
+                      subtask.id,
+                      subtask.prevSubTexExam,
+                      subtask?.lst_config_subtask_exec
+                    )
+                  "
                 >
                   <i
                     class="fa fa-cog"
@@ -60,4 +71,21 @@
     </div>
     <!-- End SubTask -->
   </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="sendToPreviousPage()"
+        >
+          Volver
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -1334,12 +1334,12 @@ File: scss
 }
 
 .topbar .navbar-collapse {
-  background: #432a7bde;
-  padding: 0 10px;
+  background: #432a7b;
+  height: 50px;
 }
 
 .topbar .top-navbar {
-  min-height: 70px;
+  min-height: 50px;
   padding: 0px;
 }
 
@@ -7839,38 +7839,38 @@ File: scss
   background-color: #343a40a1;
 }
 .state_yellow{
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   position: relative;
   background-color: #ffff00ad;
   float: left;
-  margin: 17px 5px;
+  margin: 18px 5px;
   border-radius: 10px;
 }
 
 .state_red{
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   position: relative;
   background-color: #ff0000c7;
   float: left;
-  margin: 17px 5px;
+  margin: 18px 5px;
   border-radius: 10px;
 }
 
 .state_green{
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   position: relative;
   background-color: #00ff22a6;
   float: left;
-  margin: 17px 5px;
+  margin: 18px 5px;
   border-radius: 10px;
 }
 .label_state_icon{
-  width: 15px;
-  height: 15px;
-  margin: 10px 10px;
+  width: 10px;
+  height: 10px;
+  margin: 12px 5px;
 }
 .label_state{
   position: relative;

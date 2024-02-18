@@ -1,12 +1,6 @@
-import { filter } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Tarea } from 'src/app/models/tarea.model';
-import { AlertPersonalService } from 'src/app/services/alert-custome.service';
-import { SubTaskExamService } from 'src/app/services/sub-task-exam.service';
-import { SubTasksService } from 'src/app/services/sub-tasks.service';
-import { ExamsService } from 'src/app/services/exam.service';
-import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
+import { ExamsService } from 'src/app/services/exam.service';;
 
 declare var $: any;
 
@@ -16,21 +10,21 @@ declare var $: any;
 })
 export class DetailsExamProcessComponent {
   public id_exam: number = -1;
+  public id_patient: number = -1;
   public id_process: number = -1;
   public detailsExam!: any;
 
   constructor(
     private _router: Router,
     private _exam_service: ExamsService,
-    private _subtask_exam_service: SubTaskExamService,
     private _activatedroute: ActivatedRoute,
-    private _alert: AlertPersonalService
   ) {}
 
   ngOnInit(): void {
     this._activatedroute.params.subscribe((params) => {
       this.id_exam = params['id_exam'];
       this.id_process = params['id_process'];
+      this.id_patient = params['id_patient'];
       this.getDetailsOfProcessExam();
     });
   }
@@ -107,6 +101,7 @@ export class DetailsExamProcessComponent {
   ): void {
     this._router.navigateByUrl('/config-exec-subtask-exam', {
       state: {
+        id_patient: this.id_patient,
         id_subtask: id_subtask,
         id_exam: this.id_exam,
         task_name: task_name,
@@ -115,5 +110,9 @@ export class DetailsExamProcessComponent {
         lst_config_subtask_exec: lst_config,
       },
     });
+  }
+
+  sendToPreviousPage(): void{
+    this._router.navigate(['/exams-by-patient/'+this.id_patient]);
   }
 }

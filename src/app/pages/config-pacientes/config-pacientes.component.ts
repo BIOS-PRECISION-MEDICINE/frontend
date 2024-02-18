@@ -220,4 +220,6 @@ export class ConfigPacientesComponent {
       $('.preloader').hide();
     })
   }
+
+
 }

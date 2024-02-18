@@ -58,7 +58,11 @@ export class ExamsByPatientComponent {
   }
 
   sendToDetailExamSubTasks(id:number,id_process:number): void{
-    this._router.navigate(['/details-exam-process/'+id+'/'+id_process]);
+    this._router.navigate(['/details-exam-process/'+id+'/'+id_process+'/'+this.id_patient]);
+  }
+
+  sendToPreviousPage(): void{
+    this._router.navigate(['/config-pacientes/']);
   }
 
   removeExam(id_examen: string): void {
