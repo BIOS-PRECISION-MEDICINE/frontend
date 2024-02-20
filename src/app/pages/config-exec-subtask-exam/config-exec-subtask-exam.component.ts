@@ -14,7 +14,7 @@ declare var $: any;
 })
 export class ConfigExecSubTaskExamComponent {
   public id_exam: number = -1;
-  public id_patient: number= -1;
+  public id_patient: number = -1;
   public id_subtask: number = -1;
   public order_subtask: number = -1;
   public name_task: string = '';
@@ -38,7 +38,7 @@ export class ConfigExecSubTaskExamComponent {
   ngOnInit(): void {
     let tempPrevConfig: any = history.state;
     this.id_exam = tempPrevConfig.id_exam;
-    this.id_patient = tempPrevConfig.id_patient
+    this.id_patient = tempPrevConfig.id_patient;
     this.id_subtask = tempPrevConfig.id_subtask;
     this.name_task = tempPrevConfig.task_name;
     this.name_subtask = tempPrevConfig.subtask_name;
@@ -51,26 +51,22 @@ export class ConfigExecSubTaskExamComponent {
     this.addEventsTabsClick();
   }
 
-  addEventsTabsClick():void{
-    $(".tab-container").on("click", ".tabs a", function(e:any) {
+  addEventsTabsClick(): void {
+    $('.tab-container').on('click', '.tabs a', function (e: any) {
       e.preventDefault(),
-      $(e.target)
-        .parents(".tab-container")
-        .find(".tab-content > div")
-        .each(function(i:number,d:any) {
-          $(d).hide();
-        });
-      let find= $(e.target)[0].tagName == 'div' ? 'a.active' :'a';
-      $(e.target)
-        .parents(".tabs")
-        .find(find)
-        .removeClass("active"),
-        $(e.target).parents('a').toggleClass("active"),
-        $(e.target).toggleClass("active"),
-        $("#" + $(e.target).attr("src")).show();
-        $("#" + $(e.target).parents('a').attr("src")).show();
+        $(e.target)
+          .parents('.tab-container')
+          .find('.tab-content > div')
+          .each(function (i: number, d: any) {
+            $(d).hide();
+          });
+      let find = $(e.target)[0].tagName == 'div' ? 'a.active' : 'a';
+      $(e.target).parents('.tabs').find(find).removeClass('active'),
+        $(e.target).parents('a').toggleClass('active'),
+        $(e.target).toggleClass('active'),
+        $('#' + $(e.target).attr('src')).show();
+      $('#' + $(e.target).parents('a').attr('src')).show();
     });
-
   }
 
   getListingSubTaskExamByIds(): void {
@@ -96,22 +92,31 @@ export class ConfigExecSubTaskExamComponent {
       this._subTask_exam_service
         .getSubTaskExamByLstId(this.lst_prev_ids_ste.toString())
         .subscribe((resp) => {
-          this.lst_subtask_exam_prev = resp.map((ste: any) => ({
-            id: ste.id,
-            name: ste.description,
-          }));
+          this.lst_subtask_exam_prev = resp
+            .filter((r: any) => {
+              return r.finished_at;
+            })
+            .map((ste: any, index: number) => ({
+              id: ste.id,
+              name:
+                'Exec N° ' + (index + 1) + ' sub-tarea: ' + ste.sub_task.name,
+              description: ste.description,
+            }));
           $('.preloader').hide();
         });
     }
   }
 
-  getPreviousSubTaskExamNameById(): void{
-    this.lstExecSubTaskExam.forEach((ste:any) => {
-      ste.subTaskExamPrevName = this.lst_subtask_exam_prev.find((step:any)=>{
+  getPreviousSubTaskExamNameById(): void {
+    this.lstExecSubTaskExam.forEach((ste: any) => {
+      let step: any = this.lst_subtask_exam_prev.find((step: any) => {
         return step.id == ste.previous_subtask_exam_id;
-      }).name;
+      });
+      ste.subTaskExamPrevName = step.name;
+      ste.subTaskExamPrevDesc = step.description;
     });
   }
+
   startProcess(id_exam: number, id_subtask: number) {
     if (id_subtask > 0 && id_exam > 0 && this.validateValueParameters()) {
       let desc: string = $(
@@ -220,10 +225,10 @@ export class ConfigExecSubTaskExamComponent {
   previousPage(): void {
     this._router.navigate([
       '/details-exam-process/' + this.lstExecSubTaskExam[0].exam_id,
-      this.lstExecSubTaskExam[0].subtask_id,this.id_patient
+      this.lstExecSubTaskExam[0].subtask_id,
+      this.id_patient,
     ]);
   }
-
   // Checks if a new execution subtask has parameters set; otherwise, create the parameters
   SetParametersForNewExecSubTaskExam(): void {
     if (this.lstExecSubTaskExam.length === 0) {
@@ -446,5 +451,15 @@ export class ConfigExecSubTaskExamComponent {
       },
       data_sub_task_exam: params,
     };
+  }
+
+  changeSelectIdSubTaskExamPrev(event: any): void {
+    let id_subTaskExamPrev = event.target.value;
+    if (id_subTaskExamPrev) {
+      let step: any = this.lst_subtask_exam_prev.find((step: any) => {
+        return step.id == id_subTaskExamPrev;
+      });
+      $('#text_desc_subtask_exam_prev').val(step.description);
+    }
   }
 }

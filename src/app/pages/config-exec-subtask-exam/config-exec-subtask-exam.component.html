@@ -58,11 +58,12 @@
                         <!-- Content div -->
                         <!-- Fields previous subtask_exam and description-->
                         <div class="row">
-                          <div class="col-6">
+                          <div class="col-4">
                             <select
                               id="{{ 'id_subtask_prev_' + i }}"
                               *ngIf="!exec.id"
                               class="form-control custom-select"
+                              (change)="changeSelectIdSubTaskExamPrev($event)"
                             >
                               <option value="">Seleccione subTarea</option>
                               <option
@@ -80,6 +81,27 @@
                               value="{{ exec.subTaskExamPrevName }}"
                               disabled
                             />
+                          </div>
+                          <div class="col-8">
+                            <textarea
+                              id="{{
+                                'text_desc_subtask_exam_prev_' + exec.id
+                              }}"
+                              *ngIf="exec.id"
+                              class="form-control"
+                              placeholder="Descripción sub-tarea previa"
+                              rows="2"
+                              disabled
+                              >{{ exec.subTaskExamPrevDesc }}</textarea
+                            >
+                            <textarea
+                              id="text_desc_subtask_exam_prev"
+                              *ngIf="!exec.id"
+                              class="form-control"
+                              placeholder="Descripción sub-tarea previa"
+                              rows="2"
+                              disabled
+                            ></textarea>
                           </div>
                         </div>
                         <div class="row">
