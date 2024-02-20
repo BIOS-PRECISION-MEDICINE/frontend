@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ExamsService } from 'src/app/services/exam.service';;
+import { ExamsService } from 'src/app/services/exam.service';
 
 declare var $: any;
 
@@ -17,7 +17,7 @@ export class DetailsExamProcessComponent {
   constructor(
     private _router: Router,
     private _exam_service: ExamsService,
-    private _activatedroute: ActivatedRoute,
+    private _activatedroute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +90,7 @@ export class DetailsExamProcessComponent {
         // Fin configuracion nuevo estado
       });
     });
+    this.TaskCompletionPercentage(this.detailsExam.theProcess.tasks);
   }
 
   SendToConfigExecSubTaskExam(
@@ -112,7 +113,22 @@ export class DetailsExamProcessComponent {
     });
   }
 
-  sendToPreviousPage(): void{
-    this._router.navigate(['/exams-by-patient/'+this.id_patient]);
+  sendToPreviousPage(): void {
+    this._router.navigate(['/exams-by-patient/' + this.id_patient]);
+  }
+
+  TaskCompletionPercentage(lstTasks: any): void {
+    lstTasks.forEach((task: any) => {
+      let total: number = task.subTasks.length;
+      let cpt: number = 0;
+      task.subTasks.forEach((sub_task: any) => {
+        let ste_finished: any = sub_task.subTaskExam.find((ste: any) => {
+          return ste.subtask_id == sub_task.id && ste.finished_at;
+        });
+        cpt += ste_finished ? 1 : 0;
+      });
+      let per = cpt > 0 ? (cpt * 100) / total : 0;
+      task.per_finished = Math.trunc(per);
+    });
   }
 }

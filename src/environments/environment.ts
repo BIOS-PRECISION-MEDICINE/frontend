@@ -9,8 +9,8 @@ export const environment = {
   url_base:"http://localhost:4200/login",
   url_login:"http://localhost:4200/login",
   // Apis propias para hacer el canal de comunicación con back-end.
-  url_base_api:'https://devapps.origen.com/ApiRestOrigen/api/v1/',
-  url_auth: 'https://devapps.origen.com/ApiRestAutenticacion/api/',
+  url_base_api:'http://localhost:3333',
+  url_auth: 'http://localhost:3333/login-fake',
   //API permissions
   url_api_permissions: 'http://127.0.0.1:3333/permissions',
   //API rols

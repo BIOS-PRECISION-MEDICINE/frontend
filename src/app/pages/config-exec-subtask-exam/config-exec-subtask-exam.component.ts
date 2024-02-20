@@ -84,6 +84,7 @@ export class ConfigExecSubTaskExamComponent {
         .subscribe((resp) => {
           this.lstExecSubTaskExam = resp;
           this.SetParametersForNewExecSubTaskExam();
+          this.getPreviousSubTaskExamNameById();
           $('.preloader').hide();
         });
     }
@@ -104,6 +105,13 @@ export class ConfigExecSubTaskExamComponent {
     }
   }
 
+  getPreviousSubTaskExamNameById(): void{
+    this.lstExecSubTaskExam.forEach((ste:any) => {
+      ste.subTaskExamPrevName = this.lst_subtask_exam_prev.find((step:any)=>{
+        return step.id == ste.previous_subtask_exam_id;
+      }).name;
+    });
+  }
   startProcess(id_exam: number, id_subtask: number) {
     if (id_subtask > 0 && id_exam > 0 && this.validateValueParameters()) {
       let desc: string = $(

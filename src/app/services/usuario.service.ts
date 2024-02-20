@@ -18,11 +18,11 @@ import { googleCredentials } from 'src/app/interfaces/googleCredentials';
 import { googleSignInResponse } from 'src/app/interfaces/googleSignInResponse';
 import { ResponseApi } from '../interfaces/responseApi';
 
-const URL_AUTH = environment.url_auth;
 const CLIENT_ID = environment.client_id_google;
 const URL_BASE = environment.url_base;
 const URL_LOGIN = environment.url_login;
 const URL_USERS = environment.url_api_users;
+const URL_AUTH = environment.url_auth;
 const per_page: number = environment.pagination_size;
 
 declare var $: any;
@@ -57,118 +57,6 @@ export class UsuarioService {
     window.onload = () => {
       google.accounts.id.disableAutoSelect();
     };
-  }
-
-  validarToken(): Observable<boolean> {
-    this.loginUsuario = JSON.parse(
-      sessionStorage.getItem('variablesDeUsuarioLogadoDTO')!
-    ).UsuarioLogado.Login;
-
-    return this.http
-      .get(`${URL_AUTH}Token/RenovarToken?login=${this.loginUsuario}`)
-      .pipe(
-        map((resp: any) => {
-          this.usuario = new Usuario(
-            'nombre',
-            'email',
-            '',
-            'img',
-            false,
-            'USER_ROLE',
-            'uid'
-          );
-
-          this.saveSessionStorage('token', resp.Token);
-
-          return true;
-        }),
-        catchError((error) => of(false))
-      );
-  }
-
-  //Autenticación con usuarios locales en el sistema
-  login(userLogin: UserLogin) {
-    let login: any = {};
-    let url: string = '';
-    login = { UserName: userLogin.Login, Password: userLogin.Password };
-    url = `${URL_AUTH}Authetication`;
-    return this.http.post(`${url}`, login).pipe(
-      map((respuesta: any) => {
-        if (respuesta) {
-          // Se valida a donde se hace la petición, ya que el objeto de respuesta cambia.
-          if (url.includes('ActiveDirectory')) {
-            return respuesta.Datos;
-          }
-          return respuesta;
-        }
-      }),
-      filter((valor: any, index) => {
-        if (valor.VariablesDeUsuarioLogadoDTO.UsuarioLogado) {
-          this.usuario = new Usuario(
-            valor.VariablesDeUsuarioLogadoDTO.UsuarioLogado.NombreCompleto,
-            valor.VariablesDeUsuarioLogadoDTO.UsuarioLogado.Email
-          );
-          this.saveSessionStorage('token', valor.Token);
-          this.saveSessionStorage(
-            'variablesDeUsuarioLogadoDTO',
-            valor.VariablesDeUsuarioLogadoDTO
-          );
-          return valor;
-        } else if (valor.TipoRespuesta === 'No autorizado!!') {
-          let tipoAlert: string =
-            valor.VariablesDeUsuarioLogadoDTO.ErrorUsuario ===
-              'El usuario se encuentra bloqueado para acceder.'
-              ? 'error'
-              : 'info';
-          let titulo =
-            valor.VariablesDeUsuarioLogadoDTO.ErrorUsuario ===
-              'El usuario se encuentra bloqueado para acceder.'
-              ? 'Bloqueado'
-              : 'Credenciales';
-          this._alerService.mostrarAlertaSimplesPorTipo(
-            tipoAlert,
-            valor.VariablesDeUsuarioLogadoDTO.ErrorUsuario,
-            titulo
-          );
-        } else if (valor.TipoRespuesta !== 'Ok') {
-          this._alerService.mostrarAlertaSimplesPorTipo(
-            ALERT_TYPE.ERROR,
-            'El usuario no cuenta con permisos para acceder al sistema',
-            'Permisos'
-          );
-        } else {
-          this._alerService.mostrarAlertaSimplesPorTipo(
-            ALERT_TYPE.ERROR,
-            MESSAGES.OPERATION_ERROR,
-            'Error inesperado'
-          );
-        }
-        $('.preloader').hide();
-      }),
-      catchError((err: any) => {
-        if (typeof err === 'string') {
-          this._alerService.mostrarAlertaSimplesPorTipo(
-            ALERT_TYPE.ERROR,
-            err,
-            'Ups!'
-          );
-        } else if (typeof err.error === 'string') {
-          this._alerService.mostrarAlertaSimplesPorTipo(
-            ALERT_TYPE.ERROR,
-            err.error,
-            'Ups!'
-          );
-        } else {
-          this._alerService.mostrarAlertaSimplesPorTipo(
-            ALERT_TYPE.ERROR,
-            MESSAGES.OPERATION_ERROR,
-            'Error inesperado'
-          );
-        }
-        $('.preloader').hide();
-        return err;
-      })
-    );
   }
 
   // Autenticación con servicio Google
@@ -374,5 +262,43 @@ export class UsuarioService {
     }
     return msg;
   }
+
+  //Obtiene usuario por id activo en el sistema
+  loginLocalUser(user: any): Observable<any> {
+    user = {email:'admin@admin.com'}
+    return this.http.post(URL_AUTH, user )
+      .pipe(
+        map((resp: any) => {
+          if(resp.token){
+          this.saveSessionStorage('token', resp.token);
+          let VariablesDeUsuarioLogadoDTO = {
+            email:"admin@admin.com"
+          };
+          this.saveSessionStorage(
+            'variablesDeUsuarioLogadoDTO',
+            VariablesDeUsuarioLogadoDTO
+          );
+          this.router.navigate(['/dashboard']);
+          }
+          return resp;
+        }),
+        catchError(error => {
+          $('.preloader').hide();
+          this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrio un error al realizar LogIn', "Error inesperado");
+          return of(
+            {
+              "Data": null,
+              "Meta": {
+                "StatusCode": 500,
+                "ResultadoExitoso": false,
+                "TipoRespuesta": "Error LogIn"
+              }
+            }
+          );
+        })
+      );
+
+  }
+
 
 }

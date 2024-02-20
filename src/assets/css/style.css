@@ -7839,32 +7839,32 @@ File: scss
   background-color: #343a40a1;
 }
 .state_yellow{
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   position: relative;
   background-color: #ffff00ad;
   float: left;
-  margin: 18px 5px;
+  margin: 8px 3px;
   border-radius: 10px;
 }
 
 .state_red{
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   position: relative;
   background-color: #ff0000c7;
   float: left;
-  margin: 18px 5px;
+  margin: 8px 3px;
   border-radius: 10px;
 }
 
 .state_green{
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   position: relative;
   background-color: #00ff22a6;
   float: left;
-  margin: 18px 5px;
+  margin: 8px 3px;
   border-radius: 10px;
 }
 .label_state_icon{
