@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { Examen } from 'src/app/models/exam.model';
+import { Paciente } from 'src/app/models/paciente.model';
 import { Parametro } from 'src/app/models/parametro.model';
 import { SubTareaExamen } from 'src/app/models/subTareaExamen.nodel';
 import { SubTarea } from 'src/app/models/subtarea.model';
@@ -10,6 +11,7 @@ import { Tarea } from 'src/app/models/tarea.model';
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
 import { ExamsService } from 'src/app/services/exam.service';
 import { ParametersService } from 'src/app/services/parameters.service';
+import { PatientService } from 'src/app/services/patient.service';
 import { ProcessesService } from 'src/app/services/processes.service';
 import { SubTaskExamService } from 'src/app/services/sub-task-exam.service';
 import { SubTasksService } from 'src/app/services/sub-tasks.service';
@@ -22,7 +24,9 @@ declare var $: any;
 export class ConfigNewInstancePipelineComponent {
   public forms!: FormGroup;
   public task!: Tarea;
-  public subTask!: SubTarea;
+  public subTask!: any;
+  public patient: Paciente = new Paciente();
+  public lstSubTasks: SubTarea[] = [];
   public id_exam: number = -1;
   public id_patient: number = -1;
   public id_process: number = -1;
@@ -35,12 +39,12 @@ export class ConfigNewInstancePipelineComponent {
     private _alert: AlertPersonalService,
     private _activatedroute: ActivatedRoute,
     private _exams_service: ExamsService,
+    private _patients_service: PatientService,
     private _subtask_service: SubTasksService,
     private _processes_service: ProcessesService,
     private _subtask_exam_service: SubTaskExamService
   ) {
     this.task = new Tarea();
-    this.subTask = new SubTarea();
     this.crearFormulario();
   }
 
@@ -56,14 +60,19 @@ export class ConfigNewInstancePipelineComponent {
   }
 
   get descNoValido() {
-    return this.forms.get('description')?.invalid && this.forms.get('description')?.touched;
+    return (
+      this.forms.get('description')?.invalid &&
+      this.forms.get('description')?.touched
+    );
   }
 
   ngOnInit(): void {
     this.crearFormulario();
+    this.subTask = new SubTarea();
     this._activatedroute.params.subscribe((params) => {
       this.id_patient = params['id_patient'];
       if (this.id_patient !== -1) {
+        this.getDataPatientById(this.id_patient.toString());
         this.getListingAllProcess();
       }
     });
@@ -77,6 +86,14 @@ export class ConfigNewInstancePipelineComponent {
     });
   }
 
+  getDataPatientById(id_patient: string): any {
+    $('.preloader').show();
+    this._patients_service.getPatientById(id_patient).subscribe((resp) => {
+      this.patient = resp;
+      $('.preloader').hide();
+    });
+  }
+
   getListingAllProcess(): any {
     $('.preloader').show();
     this._processes_service.getAllListingProcesses().subscribe((resp) => {
@@ -85,14 +102,24 @@ export class ConfigNewInstancePipelineComponent {
     });
   }
 
-  getConfigSubTask(): any {
+  getSubTasksByIdProcess(): any {
     $('.preloader').show();
     this._subtask_service
       .getListingSubTasksByFilters(this.id_process, 1, 1)
       .subscribe((resp) => {
-        this.subTask = resp.length > 0 ? resp[0] : new SubTarea();
-        this.task = this.subTask.task;
-        this.lstInputParams = this.subTask.input_params.filter((obj) => {
+        this.lstSubTasks = resp.length > 0 ? resp : new SubTarea();
+        this.task = this.lstSubTasks[0].task;
+        $('.preloader').hide();
+      });
+  }
+
+  getConfigurationByIdSubTask(id_subtask: string): any {
+    $('.preloader').show();
+
+    this._subtask_service.getSubtaskById(id_subtask).subscribe((resp: any) => {
+      if (resp) {
+        this.subTask = resp;
+        this.lstInputParams = resp.input_params.filter((obj: any) => {
           return obj.type != 'file';
         });
 
@@ -108,8 +135,9 @@ export class ConfigNewInstancePipelineComponent {
               item.type_tag = 'string';
           }
         });
-        $('.preloader').hide();
-      });
+      }
+      $('.preloader').hide();
+    });
   }
 
   sendToConfigParameters(): void {
@@ -123,14 +151,25 @@ export class ConfigNewInstancePipelineComponent {
   changeSelectIdProcess(event: any): void {
     this.id_process = event.target.value;
     if (this.id_process) {
-      this.getConfigSubTask();
+      this.getSubTasksByIdProcess();
       $('#main-panel').removeClass('d-none');
+    }
+  }
+
+  changeSelectIdSubTask(event: any): void {
+    let id_subtask = event.target.value;
+    if (id_subtask > 0) {
+      this.getConfigurationByIdSubTask(id_subtask);
+      $('#main-panel').removeClass('d-none');
+    }
+    else {
+      this.subTask = new this.subTask();
     }
   }
 
   newSubTaskExam(): void {
     $('.preloader').show();
-    let id_subtask = $('#id_subtask_global').val();
+    let id_subtask = $('#id_subTask').val();
     let description = $('#description').val();
     if (this.id_patient && id_subtask && this.validateValueParameters()) {
       //Create a new exam for the test
@@ -194,7 +233,7 @@ export class ConfigNewInstancePipelineComponent {
   validateValueParameters(): boolean {
     let valid: boolean = true;
     this.subTask.input_params
-      .filter((obj) => {
+      .filter((obj: any) => {
         return obj.type != 'file';
       })
       .forEach((item: Parametro) => {

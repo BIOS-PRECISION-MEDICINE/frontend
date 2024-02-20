@@ -112,8 +112,8 @@ export class ConfigExecSubTaskExamComponent {
       let step: any = this.lst_subtask_exam_prev.find((step: any) => {
         return step.id == ste.previous_subtask_exam_id;
       });
-      ste.subTaskExamPrevName = step.name;
-      ste.subTaskExamPrevDesc = step.description;
+      ste.subTaskExamPrevName = step?.name;
+      ste.subTaskExamPrevDesc = step?.description;
     });
   }
 

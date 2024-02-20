@@ -19,7 +19,7 @@ export class DetailsExamProcessComponent {
     private _router: Router,
     private _exam_service: ExamsService,
     private _activatedroute: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this._activatedroute.params.subscribe((params) => {
@@ -102,10 +102,14 @@ export class DetailsExamProcessComponent {
             task.subTasks[i].state = 'state_yellow';
           }
         });
+
         if (task.subTasks[i].multiSubTask) {
-          if (i == task.subTasks.length-1) {
+          if (i == task.subTasks.length - 1) {
             id_last_subtask = task.subTasks[i].id;
             order_last_subtask = task.subTasks[i].order;
+            task.subTasks.forEach((item: any) => {
+              item.state = task.subTasks[i].state;
+            });
           }
         } else {
           id_last_subtask = task.subTasks[i].id;

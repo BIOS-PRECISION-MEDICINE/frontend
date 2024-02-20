@@ -1,71 +1,54 @@
 <div class="row">
   <div class="col">
     <div class="card">
-      <div class="card-header card-header-color">General</div>
+      <div class="card-header card-header-color"><strong>{{patient.document +' -- '+patient.name +' '+
+          patient.lastname}}</strong></div>
       <div class="card-body">
         <div class="row">
           <div class="col">
+            <!-- Fields process, name and description of exam -->
             <form [formGroup]="forms">
               <div class="input-group mb-2">
                 <div class="form-control">
-                  <select
-                    id="id_process"
-                    class="form-control custom-select"
-                    [class.is-invalid]="processNoValido"
-                    formControlName="id_process"
-                    (change)="changeSelectIdProcess($event)"
-                  >
+                  <select id="id_process" class="form-control custom-select" [class.is-invalid]="processNoValido"
+                    formControlName="id_process" (change)="changeSelectIdProcess($event)">
                     <option value="">Seleccione Proceso</option>
-                    <option
-                      value="{{ item.id }}"
-                      *ngFor="let item of lstProcesses"
-                    >
+                    <option value="{{ item.id }}" *ngFor="let item of lstProcesses">
                       {{ item.name }}
                     </option>
                   </select>
                 </div>
                 <div class="form-control">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    [class.is-invalid]="nameNoValido"
-                    formControlName="name"
-                    placeholder="Ingrese el nombre del examen"
-                  />
+                  <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
+                    formControlName="name" placeholder="Ingrese el nombre del examen" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="description">Descripción</label>
-                <textarea
-                  id="description"
-                  class="form-control"
-                  [class.is-invalid]="descNoValido"
-                  formControlName="description"
-                  rows="2"
-                ></textarea>
+                <textarea id="description" class="form-control" [class.is-invalid]="descNoValido"
+                  formControlName="description" rows="2"></textarea>
               </div>
             </form>
-
+            <!-- End fields process, name and description of exam -->
+            <!-- Panel subTask configuration-->
             <div id="main-panel" class="custom-panel d-none">
-              <div class="title-custom-te">
-                <h1>
-                  Tare1: {{ task.name }}
-                  <span>
-                    <p>{{ task.description }}</p>
-                  </span>
-                </h1>
+              <!-- Select subtask -->
+              <div class="row">
+                <div class="col">
+                  <select id="id_subTask" class="form-control custom-select" (change)="changeSelectIdSubTask($event)">
+                    <option value="">Seleccione sub-tarea</option>
+                    <option value="{{ item.id }}" *ngFor="let item of lstSubTasks">
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
               </div>
-
+              <!-- End Select subtask -->
               <div class="row">
                 <div class="col">
                   <div class="row">
                     <div class="col">
-                      <input
-                        type="hidden"
-                        id="id_subtask_global"
-                        value="{{ subTask.id }}"
-                      />
+                      <input type="hidden" id="id_subtask_global" value="{{ subTask.id }}" />
 
                       <div class="title-custom-te">
                         <h1>
@@ -88,9 +71,7 @@
                   <div class="row">
                     <div class="col">
                       <div class="table-responsive animated fadeInLeftBig">
-                        <table
-                          class="table table-sm table-bordered table-striped"
-                        >
+                        <table class="table table-sm table-bordered table-striped">
                           <thead class="thead-custom">
                             <tr>
                               <th class="text-center">Nombre</th>
@@ -109,18 +90,12 @@
                               </td>
                               <td class="text-center">
                                 <div class="form-outline">
-                                  <input
-                                    id="param_{{ param.id }}"
-                                    type="{{ param.type_tag }}"
-                                    value="{{
+                                  <input id="param_{{ param.id }}" type="{{ param.type_tag }}" value="{{
                                       param.optional === 1
                                         ? param.default_value
                                         : param.value
-                                    }}"
-                                  />
-                                  <span
-                                    class="icon-info-custome fa fas fa-info error-icon-custom d-none"
-                                  ></span>
+                                    }}" />
+                                  <span class="icon-info-custome fa fas fa-info error-icon-custom d-none"></span>
                                 </div>
                               </td>
                               <td></td>
@@ -133,25 +108,16 @@
                 </div>
               </div>
             </div>
+            <!-- Panel subTask configuration-->
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-success"
-          [disabled]="lstInputParams.length == 0"
-          style="border-radius: 10px"
-          (click)="newSubTaskExam()"
-        >
+        <button type="button" class="btn btn-outline-success" [disabled]="lstInputParams.length == 0"
+          style="border-radius: 10px" (click)="newSubTaskExam()">
           Guardar
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          (click)="sendToPreviusPage()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" (click)="sendToPreviusPage()">
           Cancelar
         </button>
       </div>
