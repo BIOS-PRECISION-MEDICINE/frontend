@@ -53,89 +53,55 @@ export class DetailsExamProcessComponent {
   }
 
   setStateOfSubTaskExam(): void {
-    let id_last_subtask: number = -1;
-    let order_last_subtask: number = -1;
     // Iterates list of task for get sub Objects for each task
     this.detailsExam.theProcess.tasks.forEach((task: any) => {
       //Iterates list of subtask for get sub Objects for each subtask
       this.groupSubTaskByOrder(task.subTasks);
-      for (let i = 0; i < task.subTasks.length; i++) {
-        task.subTasks[i].lst_config_subtask_exec = [];
-        task.subTasks[i].state =
-          task.subTasks[i].subTaskExam.length == 0 ? 'state_red' : null;
+      task.subTasks.forEach((a: any) => {
+        a.lst_subtask_exec = [];
+        a.state = a.subTaskExam.length == 0 ? 'state_red' : null;
         // Check if exist a previous subtask_exam for set in config
-        let prev_subtask_exam = this.detailsExam.theProcess.tasks.find(
-          (t: any) => {
-            return t.subTasks.find((st: any) => {
-              return (
-                st.id === id_last_subtask &&
-                st.order == order_last_subtask &&
-                st.subTaskExam.find((ste: any) => {
-                  return ste.finished_at;
-                })
-              );
-            });
-          }
-        );
+        let prev_subtask_exam = this.setPreviousSuTaskExam(this.detailsExam.theProcess.tasks, task.order, a.order);
 
-        if (prev_subtask_exam) {
-          task.subTasks[i].prevSubTexExam = prev_subtask_exam.subTasks
-            .find((step: any) => {
-              return (
-                step.id === id_last_subtask && step.order == order_last_subtask
-              );
-            })
-            .lst_config_subtask_exec.map((st: any) => st.id_subtask_exam);
-          task.subTasks[i].state = 'state_yellow';
+        if (prev_subtask_exam.length > 0) {
+          a.prevSubTexExam = prev_subtask_exam.map((st: any) => st.id);
+          a.state = 'state_yellow';
+        }
+        else if (task.order === 1 && a.order === 1) {
+          a.state = 'state_yellow';
         }
 
         //Iterates list of subtask_exam for set state of subtask
-        task.subTasks[i].subTaskExam.forEach((subtask_exam: any) => {
-          // Creates basic config for each subtask
-          task.subTasks[i].lst_config_subtask_exec.push({
+        a.subTaskExam.forEach((subtask_exam: any) => {
+          // Creates list executions prev of subtask
+          a.lst_subtask_exec.push({
             id_subtask_exam: subtask_exam.id,
           });
           // Configuration of state for subtask_exam
           if (subtask_exam.finished_at) {
-            task.subTasks[i].state = 'state_green';
+            a.state = 'state_green';
           } else {
-            task.subTasks[i].state = 'state_yellow';
+            a.state = 'state_yellow';
           }
         });
 
-        if (task.subTasks[i].multiSubTask) {
-          if (i == task.subTasks.length - 1) {
-            id_last_subtask = task.subTasks[i].id;
-            order_last_subtask = task.subTasks[i].order;
-            task.subTasks.forEach((item: any) => {
-              item.state = task.subTasks[i].state;
-            });
-          }
-        } else {
-          id_last_subtask = task.subTasks[i].id;
-          order_last_subtask = task.subTasks[i].order;
-        }
-      }
+      });
     });
     this.taskCompletionPercentage(this.detailsExam.theProcess.tasks);
   }
 
   SendToConfigExecSubTaskExam(
-    task_name: string,
-    subtask_name: string,
     id_subtask: number,
     prev_subtex_exam: any,
-    lst_config: any
+    lst_subtask_exec: any,
   ): void {
     this._router.navigateByUrl('/config-exec-subtask-exam', {
       state: {
         id_patient: this.id_patient,
         id_subtask: id_subtask,
         id_exam: this.id_exam,
-        task_name: task_name,
-        subtask_name: subtask_name,
         prev_subtex_exam: prev_subtex_exam,
-        lst_config_subtask_exec: lst_config,
+        lst_subtask_exec: lst_subtask_exec
       },
     });
   }
@@ -153,7 +119,11 @@ export class DetailsExamProcessComponent {
           return ste.subtask_id == sub_task.id && ste.finished_at;
         });
         cpt += ste_finished ? 1 : 0;
+        if(sub_task.multiSubTask && ste_finished){
+          cpt=total;
+        }
       });
+
       let per = cpt > 0 ? (cpt * 100) / total : 0;
       task.per_finished = Math.trunc(per);
     });
@@ -184,5 +154,52 @@ export class DetailsExamProcessComponent {
         });
       }
     });
+  }
+
+  setPreviousSuTaskExam(lst_task: any, order_task: number, order_subtask: number): any {
+    let tOrderTask: number = order_task;
+    let tOrderSubTask: number = order_subtask;
+    let lstPrevSubTaskExam: any = [];
+    Object.freeze(lst_task);
+    if (order_task > 1) {
+      if (order_subtask - 1 === 0) {
+        tOrderTask -= 1;
+        let lstOrder: any = lst_task.find((task: any) => {
+          return task.order == tOrderTask;
+        }).subTasks?.map((t: any) => {
+          return t.order;
+        });
+        tOrderSubTask = Math.max(...lstOrder);
+      }
+      else {
+        tOrderSubTask -= 1;
+      }
+      // Search task
+      let task: any;
+      let subtask: any = [];
+      lst_task.forEach((a: any) => {
+        if (a.order === tOrderTask) {
+          task = a;
+        }
+      });
+
+      task.subTasks.forEach((b: any) => {
+        if (b.order === tOrderSubTask) {
+          subtask.push(b);
+        }
+      });
+
+      subtask.forEach((c: any) => {
+        let temp = c.subTaskExam.filter((d: any) => {
+          return d.finished_at;
+        });
+        if (temp.length > 0) {
+          lstPrevSubTaskExam = lstPrevSubTaskExam.concat(temp);
+        }
+      });
+
+      return lstPrevSubTaskExam;
+    }
+    return [];
   }
 }

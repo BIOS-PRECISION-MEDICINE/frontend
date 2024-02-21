@@ -1,26 +1,29 @@
 <div class="container-fluid cf-custom">
+
   <!--Panel subtarea -->
   <div class="row">
     <div class="col">
       <div class="row justify-content-end">
         <div class="col-lg-4 col-xlg-4">
-          <span class="state_red label_state_icon"></span
-          ><span class="label_state">Pendiente</span
-          ><span class="state_yellow label_state_icon"></span
-          ><span class="label_state">En ejecución</span
-          ><span class="state_green label_state_icon"></span
-          ><span class="label_state">Finalizado</span>
+          <span class="state_red label_state_icon"></span><span class="label_state">Pendiente</span><span
+            class="state_yellow label_state_icon"></span><span class="label_state">En ejecución</span><span
+            class="state_green label_state_icon"></span><span class="label_state">Finalizado</span>
         </div>
       </div>
       <div class="card">
-        <div class="card-header card-header-color">{{ name_task }}</div>
+        <div class="card-header card-header-color">{{ subTaskDetail.task?.name }}</div>
         <div class="card-body">
           <div class="row">
             <div class="col">
               <div class="row">
                 <div class="col">
                   <div class="title-custom-te">
-                    <h1>Subtarea: {{ name_subtask }}</h1>
+                    <h1>
+                      {{ subTaskDetail.name + ' (Tarea: '+
+                      subTaskDetail.task?.order+', Sub-tarea:'+
+                      subTaskDetail.order+')'
+                      }}
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -29,91 +32,53 @@
                 <div class="col">
                   <div class="tab-container">
                     <ul class="tabs">
-                      <a
-                        *ngFor="let exec of lstExecSubTaskExam; index as i"
-                        [attr.src]="'tabf0-' + i"
-                        [ngClass]="i == 0 ? 'active' : ''"
-                      >
+                      <a *ngFor="let exec of lstExecSubTaskExam; index as i" [attr.src]="'tabf0-' + i"
+                        [ngClass]="i == 0 ? 'active' : ''">
                         <div>
-                          <span
-                            [ngClass]="
+                          <span [ngClass]="
                               exec.finished_at ? 'state_green' : 'state_yellow'
-                            "
-                          ></span>
+                            "></span>
                           {{
-                            exec.id
-                              ? "Ejecución: (" + (i + 1) + ")"
-                              : lstExecSubTaskExam.length - 1 == i
-                              ? "(+)"
-                              : i + 1
+                          exec.id
+                          ? "Ejecución: (" + (i + 1) + ")"
+                          : lstExecSubTaskExam.length - 1 == i
+                          ? "(+)"
+                          : i + 1
                           }}
-                        </div></a
-                      >
+                        </div>
+                      </a>
                     </ul>
                     <div class="tab-content">
-                      <div
-                        *ngFor="let exec of lstExecSubTaskExam; index as i"
-                        id="{{ 'tabf0-' + i }}"
-                      >
+                      <div *ngFor="let exec of lstExecSubTaskExam; index as i" id="{{ 'tabf0-' + i }}">
                         <!-- Content div -->
                         <!-- Fields previous subtask_exam and description-->
                         <div class="row">
                           <div class="col-4">
-                            <select
-                              id="{{ 'id_subtask_prev_' + i }}"
-                              *ngIf="!exec.id"
+                            <select id="{{ 'id_subtask_prev_' + i }}" *ngIf="exec.id < 0 && lst_objs_prev_subtask_exam.length > 0"
                               class="form-control custom-select"
-                              (change)="changeSelectIdSubTaskExamPrev($event)"
-                            >
+                              (change)="changeSelectIdSubTaskExamPrev($event)">
                               <option value="">Seleccione subTarea</option>
-                              <option
-                                value="{{ item.id }}"
-                                *ngFor="let item of lst_subtask_exam_prev"
-                              >
+                              <option value="{{ item.id }}" *ngFor="let item of lst_objs_prev_subtask_exam">
                                 {{ item.name }}
                               </option>
                             </select>
-                            <input
-                              id="{{ 'subtask_exam_prev_name' + exec.id }}"
-                              type="text"
-                              *ngIf="exec.id"
-                              class="form-control"
-                              value="{{ exec.subTaskExamPrevName }}"
-                              disabled
-                            />
+                            <input id="{{ 'subtask_exam_prev_name' + exec.id }}" type="text"
+                            *ngIf="exec.id > 0"
+                              class="form-control" value="{{ exec.subTaskExamPrevName }}" disabled />
                           </div>
                           <div class="col-8">
-                            <textarea
-                              id="{{
+                            <textarea id="{{
                                 'text_desc_subtask_exam_prev_' + exec.id
-                              }}"
-                              *ngIf="exec.id"
-                              class="form-control"
-                              placeholder="Descripción sub-tarea previa"
-                              rows="2"
-                              disabled
-                              >{{ exec.subTaskExamPrevDesc }}</textarea
-                            >
-                            <textarea
-                              id="text_desc_subtask_exam_prev"
-                              *ngIf="!exec.id"
-                              class="form-control"
-                              placeholder="Descripción sub-tarea previa"
-                              rows="2"
-                              disabled
-                            ></textarea>
+                              }}" *ngIf="exec.id > 0" class="form-control" placeholder="Descripción sub-tarea previa"
+                              rows="2" disabled>{{ exec.subTaskExamPrevDesc }}</textarea>
+                            <textarea id="text_desc_subtask_exam_prev" *ngIf="exec.id < 0" class="form-control"
+                              placeholder="Descripción sub-tarea previa" rows="2" disabled></textarea>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col">
-                            <textarea
-                              id="{{ 'description_' + i }}"
-                              [disabled]="exec.id"
-                              class="form-control"
-                              placeholder="Descripción"
-                              rows="2"
-                              >{{ exec.description }}</textarea
-                            >
+                            <textarea id="{{ 'description_' + i }}" [disabled]="exec.id > 0" class="form-control"
+                              placeholder="Descripción" rows="2">{{ exec.description }}</textarea>
                           </div>
                         </div>
                         <!-- End fields previous subtask_exam and description-->
@@ -128,13 +93,8 @@
                         <!-- Table parameters -->
                         <div class="row">
                           <div class="col">
-                            <div
-                              class="table-responsive animated fadeInLeftBig"
-                            >
-                              <table
-                                class="table table-sm table-bordered"
-                                style="background: rgb(224, 231, 238)"
-                              >
+                            <div class="table-responsive animated fadeInLeftBig">
+                              <table class="table table-sm table-bordered" style="background: rgb(224, 231, 238)">
                                 <thead class="thead-custom">
                                   <tr>
                                     <th class="text-center">Nombre</th>
@@ -145,11 +105,7 @@
                                   </tr>
                                 </thead>
                                 <tbody class="tbody-custom">
-                                  <tr
-                                    *ngFor="
-                                      let item of exec?.data_sub_task_exam
-                                    "
-                                  >
+                                  <tr *ngFor="let item of exec?.data_sub_task_exam">
                                     <td class="text-center">
                                       {{ item.datum.param?.name }}
                                     </td>
@@ -158,28 +114,21 @@
                                     </td>
                                     <td class="text-center">
                                       {{
-                                        item.datum.param?.optional === 1
-                                          ? "Si"
-                                          : "No"
+                                      item.datum.param?.optional === 1
+                                      ? "Si"
+                                      : "No"
                                       }}
                                     </td>
                                     <td class="text-center">
                                       <div class="form-outline">
-                                        <input
-                                          id="{{
+                                        <input id="{{
                                             'param_' +
                                               exec.id +
                                               '_' +
                                               item.datum.param?.id
-                                          }}"
-                                          type="{{ item.datum?.type_tag }}"
-                                          class="form-control"
-                                          value="{{ item.datum?.value }}"
-                                          [disabled]="exec.id"
-                                        />
-                                        <span
-                                          class="icon-info-custome fa fas fa-info error-icon-custom d-none"
-                                        ></span>
+                                          }}" type="{{ item.datum?.type_tag }}" value="{{ item.datum?.value }}"
+                                          [disabled]="exec.id >0" />
+                                        <span class="icon-info-custome fa fas fa-info error-icon-custom d-none"></span>
                                       </div>
                                     </td>
                                     <td></td>
@@ -195,33 +144,15 @@
                         <div class="row">
                           <div class="col">
                             <div class="modal-footer justify-content-center">
-                              <button
-                                type="button"
-                                class="btn btn-success ml-2"
-                                style="border-radius: 10px"
-                                *ngIf="
-                                  !exec.id && lstExecSubTaskExam.length == 1
-                                "
-                                (click)="
-                                  startProcess(exec.exam_id, exec.subtask_id)
-                                "
-                              >
+                              <button type="button" class="btn btn-success ml-2" style="border-radius: 10px"
+                                *ngIf="exec.id < 0 && lstExecSubTaskExam.length == 1"
+                                (click)="startProcess(exec.exam_id, exec.subtask_id)">
                                 <span class="fa fa-reply"></span>
                                 Iniciar
                               </button>
-                              <button
-                                type="button"
-                                class="btn btn-success ml-2"
-                                style="border-radius: 10px"
-                                *ngIf="
-                                  !exec.id &&
-                                  !exec.finished_at &&
-                                  lstExecSubTaskExam.length > 1
-                                "
-                                (click)="
-                                  restartProcess(exec.exam_id, exec.subtask_id)
-                                "
-                              >
+                              <button type="button" class="btn btn-success ml-2" style="border-radius: 10px"
+                                *ngIf="exec.id < 0 && !exec.finished_at && lstExecSubTaskExam.length > 1"
+                                (click)="restartProcess(exec.exam_id, exec.subtask_id)">
                                 <span class="fa fa-reply"></span>
                                 Reiniciar
                               </button>
@@ -238,25 +169,16 @@
 
                             <div class="row">
                               <div class="col-lg-12 result-img">
-                                <img
-                                  src="../../../assets/images/gallery/result1.jpg"
-                                  alt="resultado"
-                                />
+                                <img src="../../../assets/images/gallery/result1.jpg" alt="resultado" />
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-lg-12 form-group">
-                                <textarea
-                                  type="text"
-                                  class="form-control"
-                                  id="{{ 'desc_report_' + i }}"
-                                  rows="3"
-                                  readonly
-                                >
+                                <textarea type="text" class="form-control" id="{{ 'desc_report_' + i }}" rows="3"
+                                  readonly>
           Lorem ipsum dolor sit amet,
           consectetuer adipiscing elit, sed diam nonummy
-        </textarea
-                                >
+        </textarea>
                               </div>
                             </div>
                           </div>
@@ -272,12 +194,8 @@
               <div class="row">
                 <div class="col">
                   <div class="modal-footer justify-content-center">
-                    <button
-                      type="button"
-                      class="btn btn-danger ml-2"
-                      style="border-radius: 10px"
-                      (click)="previousPage()"
-                    >
+                    <button type="button" class="btn btn-danger ml-2" style="border-radius: 10px"
+                      (click)="previousPage()">
                       <span class="fa fa-times"></span>
                       Volver
                     </button>

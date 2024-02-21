@@ -52,11 +52,9 @@
                     *ngIf="subtask.state !== 'state_red'"
                     (click)="
                       SendToConfigExecSubTaskExam(
-                        task.name,
-                        subtask.name,
                         subtask.id,
                         subtask.prevSubTexExam,
-                        subtask?.lst_config_subtask_exec
+                        subtask.lst_subtask_exec
                       )
                     "
                   >
