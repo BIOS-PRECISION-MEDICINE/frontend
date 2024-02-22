@@ -23,8 +23,10 @@ export const environment = {
   url_api_tasks: 'http://127.0.0.1:3333/tasks',
   //API sub-tasks
   url_api_subtasks: 'http://127.0.0.1:3333/subtasks',
-  //API sub-tasks-EXAM
+  //API sub-tasks-exam
   url_api_subtask_exam: 'http://localhost:3333/subtasks-exam',
+  //API sub-task-exam-output
+  url_api_subtask_exam_output: 'http://localhost:3333/subtasks-exam-outputs',
   //API parameters
   url_api_parameters: 'http://127.0.0.1:3333/params',
   //API patients

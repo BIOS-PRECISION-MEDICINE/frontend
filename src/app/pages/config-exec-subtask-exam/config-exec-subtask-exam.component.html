@@ -11,7 +11,14 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header card-header-color">{{ subTaskDetail.task?.name }}</div>
+        <div class="card-header card-header-color">
+          <div class="title-panel-subtask_exam">{{ subTaskDetail.task?.name }}</div>
+          <div class="btn-back-panel-title">
+            <a title="Volver" (click)="previousPage()">
+              <i class="fa-solid fa-circle-chevron-left"></i>
+            </a>
+          </div>
+        </div>
         <div class="card-body">
           <div class="row">
             <div class="col">
@@ -54,16 +61,15 @@
                         <!-- Fields previous subtask_exam and description-->
                         <div class="row">
                           <div class="col-4">
-                            <select id="{{ 'id_subtask_prev_' + i }}" *ngIf="exec.id < 0 && lst_objs_prev_subtask_exam.length > 0"
-                              class="form-control custom-select"
-                              (change)="changeSelectIdSubTaskExamPrev($event)">
+                            <select id="{{ 'id_subtask_prev_' + i }}"
+                              *ngIf="exec.id < 0 && lst_objs_prev_subtask_exam.length > 0"
+                              class="form-control custom-select" (change)="changeSelectIdSubTaskExamPrev($event)">
                               <option value="">Seleccione subTarea</option>
                               <option value="{{ item.id }}" *ngFor="let item of lst_objs_prev_subtask_exam">
                                 {{ item.name }}
                               </option>
                             </select>
-                            <input id="{{ 'subtask_exam_prev_name' + exec.id }}" type="text"
-                            *ngIf="exec.id > 0"
+                            <input id="{{ 'subtask_exam_prev_name' + exec.id }}" type="text" *ngIf="exec.id > 0"
                               class="form-control" value="{{ exec.subTaskExamPrevName }}" disabled />
                           </div>
                           <div class="col-8">
@@ -162,23 +168,13 @@
                         <!-- End panel buttons-->
                         <!-- End section parameters-->
 
-                        <!-- Panel exam report -->
-                        <div class="row">
+                        <!-- Panel exams report -->
+                        <div class="row" *ngIf="exec.finished_at">
                           <div class="col-lg">
                             <h5 class="card-title">Resultados</h5>
+                            <div class="row">
+                              <div id="panel_result" class="col">
 
-                            <div class="row">
-                              <div class="col-lg-12 result-img">
-                                <img src="../../../assets/images/gallery/result1.jpg" alt="resultado" />
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-lg-12 form-group">
-                                <textarea type="text" class="form-control" id="{{ 'desc_report_' + i }}" rows="3"
-                                  readonly>
-          Lorem ipsum dolor sit amet,
-          consectetuer adipiscing elit, sed diam nonummy
-        </textarea>
                               </div>
                             </div>
                           </div>

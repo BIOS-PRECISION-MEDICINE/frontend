@@ -22,6 +22,7 @@ export class ConfigExecSubTaskExamComponent {
   public name_subtask: string = '';
   public subTaskDetail: SubTarea = new SubTarea();
   public lst_subtask_exec: any = []; //List of done executions for current subtask
+  public lst_result_subtask_exec: any = []; // List of results for each subtask_exam
   public lst_ids_prev_subtex_exam: any = [];//List of ids for previous subtaskExam done
   public lst_objs_prev_subtask_exam: any = [];//List of previous subtaskExam done
   public lstExecSubTaskExam: any = [];
@@ -331,7 +332,13 @@ export class ConfigExecSubTaskExamComponent {
 
   setResultsReportBySubTaskExam(): void{
     if (this.lstExecSubTaskExam.length > 0) {
-      this.lstExecSubTaskExam.forEach((a:any) => {
+      this.lstExecSubTaskExam.forEach((a: any) => {
+        this._subTask_exam_service.getResultOfSubtaskByIdExam(a.id).
+        subscribe((b:any)=>{
+          if(b){
+            this.lst_result_subtask_exec.push(b);
+          }
+        })
 
       });
     }

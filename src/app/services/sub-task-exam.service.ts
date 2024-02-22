@@ -17,6 +17,7 @@ import { ALERT_TYPE } from '../constants/alerts.constans';
 import { SubTareaExamen } from '../models/subTareaExamen.nodel';
 
 const URL_SUBTASKS_EXAM = environment.url_api_subtask_exam;
+const URL_SUBTASKS_EXAM_OUTPUT = environment.url_api_subtask_exam_output;
 const per_page: number = environment.pagination_size;
 
 declare var $: any;
@@ -49,6 +50,17 @@ export class SubTaskExamService {
     return this.http.get<any>(url).pipe(
       map((resp) => {
         return resp.data;
+      })
+    );
+  }
+
+  //Obtiene resultados de subTareaExam especificada por id_exam activo en el sistema
+  getResultOfSubtaskByIdExam(id_subtask_exam: string): Observable<any> {
+    let url =
+      URL_SUBTASKS_EXAM_OUTPUT + '/'+id_subtask_exam;
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp;
       })
     );
   }
