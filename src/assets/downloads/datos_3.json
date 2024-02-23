@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "type": "pie",
+      "values": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "labels": [
+        "Wages",
+        "Operating expenses",
+        "Cost of sales",
+        "Insurance"
+      ],
+      "textinfo": "label+percent",
+      "insidetextorientation": "radial"
+    }
+  ],
+  "layout": [
+    {
+      "height": 700,
+      "width": 700
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
@@ -8,13 +9,14 @@ import { SubTasksService } from 'src/app/services/sub-tasks.service';
 import { SubTarea } from 'src/app/models/subtarea.model';
 
 declare var $: any;
-declare var TimePicker: any;
-
+declare var igv: any;
+declare var Plotly: any;
 @Component({
   selector: 'app-config-exec-subtask-exam',
   templateUrl: './config-exec-subtask-exam.component.html',
 })
 export class ConfigExecSubTaskExamComponent {
+  public browser: any;
   public id_exam: number = -1;
   public id_patient: number = -1;
   public id_subtask: number = -1;
@@ -30,6 +32,7 @@ export class ConfigExecSubTaskExamComponent {
 
   constructor(
     private _router: Router,
+    public sanitizer: DomSanitizer,
     private _activatedroute: ActivatedRoute,
     private _params_service: ParametersService,
     private _subTask_service: SubTasksService,
@@ -330,18 +333,56 @@ export class ConfigExecSubTaskExamComponent {
     }
   }
 
-  setResultsReportBySubTaskExam(): void{
+  setResultsReportBySubTaskExam(): void {
     if (this.lstExecSubTaskExam.length > 0) {
       this.lstExecSubTaskExam.forEach((a: any) => {
-        this._subTask_exam_service.getResultOfSubtaskByIdExam(a.id).
-        subscribe((b:any)=>{
-          if(b){
-            this.lst_result_subtask_exec.push(b);
-          }
-        })
-
+        a.lst_outputs = [];
+        if (a.finished_at) {
+          this._subTask_exam_service.getResultOfSubtaskByIdExam(a.id).
+            subscribe((b: any) => {
+              if (b) {
+                b.outputs.forEach((c: any) => {
+                  //a.lst_outputs.push(this.sanitizer.bypassSecurityTrustResourceUrl(c.value));
+                  a.lst_outputs.push(c.value);
+                });
+                this.showResultByIdSubTaskExam(a);
+              }
+            });
+        }
       });
     }
+  }
+
+  showResultByIdSubTaskExam(subtask_exam: any): void {
+    let idDiv: string = 'panel-results_' + subtask_exam.id;
+    let file_cvf: string = '';
+    let file_cvf_gz: string = '';
+
+    subtask_exam.lst_outputs.forEach((a: any) => {
+      let regx: any = /(?:\.([^.]+))?$/;
+      let ext: string = regx.exec(a)[1];
+      switch (ext) {
+        case 'vcf':
+          file_cvf = a;
+          break;
+        case 'gz':
+        case 'tbi':
+          file_cvf_gz = a;
+          break;
+        case 'html':
+        case 'json':
+        case 'pdf':
+          this.createIframe(idDiv, a, ext);
+          break;
+        default:
+          console.log(`Sorry, we are out of ${a}.`);
+      }
+
+      if (file_cvf && file_cvf_gz) {
+        this.createVcfBrowser(idDiv, file_cvf, file_cvf_gz);
+      }
+
+    });
   }
 
   createNewObjSubTareaExamen(): void {
@@ -483,6 +524,199 @@ export class ConfigExecSubTaskExamComponent {
         return step.id == id_subTaskExamPrev;
       });
       $('#text_desc_subtask_exam_prev').val(step.description);
+    }
+  }
+
+  drawTrianglerect(context: any, x: any, y: any, w: any, h: any): void {
+    let n = Math.floor(w / h);
+    let p = (w % h) / 2;
+
+    context.clearRect(x, y, w, h);
+    context.fillRect(x, y, w, h / 2);
+
+    for (var i = 0; i < n; i++) {
+      this.drawTriangle(context, p + x + i * h, y, h, h);
+    }
+  }
+
+  drawTriangle(context: any, x: any, y: any, w: any, h: any): void {
+    // context.clearRect(x:any, y:any, w:any, h:any)
+
+    context.beginPath();
+    context.moveTo(x, y);
+    context.lineTo(x + w / 2, y + h);
+    context.lineTo(x + w, y);
+    context.closePath();
+    context.fill();
+  }
+
+  drawCirclerect(context: any, x: any, y: any, w: any, h: any): void {
+    let n = Math.floor(w / h);
+    let p = (w % h) / 2;
+
+    context.clearRect(x, y, w, h);
+    context.fillRect(x, y, w, h / 2);
+
+    for (var i = 0; i < n; i++) {
+      this.drawCircle(context, p + x + i * h, y, h, h);
+    }
+  }
+
+  drawCircle(context: any, x: any, y: any, w: any, h: any): void {
+    // context.clearRect(x:any, y:any, w:any, h:any)
+
+    context.beginPath();
+    context.arc(x + w / 2, y + h / 2, h / 2, 0, 2 * Math.PI);
+    context.fill();
+  }
+
+  drawRoundrect(context: any, x: any, y: any, w: any, h: any): void {
+    let radius = 5;
+    context.clearRect(x, y, w, h);
+    context.beginPath();
+    context.moveTo(x + radius, y);
+    context.lineTo(x + w - radius, y);
+    context.quadraticCurveTo(x + w, y, x + w, y + radius);
+    context.lineTo(x + w, y + h - radius);
+    context.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+    context.lineTo(x + radius, y + h);
+    context.quadraticCurveTo(x, y + h, x, y + h - radius);
+    context.lineTo(x, y + radius);
+    context.quadraticCurveTo(x, y, x + radius, y);
+    context.closePath();
+    // context.stroke()
+    context.fill();
+  }
+
+  ngOnDestroy(): void {
+    igv.removeAllBrowsers();
+  }
+
+  async createVcfBrowser(igvIdDiv: string, file_vcf: string, file_vcf_gz: string) {
+    let igvDiv: any = document.getElementById(igvIdDiv);
+    let options_vcf: any = {
+      locus: 'chr22',
+      genome: 'hg38',
+      tracks: [
+        {
+          //url: out_vcf_pepper_margin_deepvariant.vcf
+          //indexURL: out_vcf_pepper_margin_deepvariant.vcf.gz.tbi
+          url: 'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz',
+          indexURL:
+            'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz.tbi',
+          name: 'Color by function, SVTYPE',
+          visibilityWindow: -1,
+          color: function (variant: any) {
+            const svtype = variant.info['SVTYPE'];
+            switch (svtype) {
+              case 'DEL':
+                return '#ff2101';
+              case 'INS':
+                return '#001888';
+              case 'DUP':
+                return '#028401';
+              case 'INV':
+                return '#008688';
+              case 'CNV':
+                return '#8931ff';
+              case 'BND':
+                return '#891100';
+              default:
+                return '#002eff';
+            }
+          },
+        },
+        {
+          url: 'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz',
+          indexURL:
+            'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz.tbi',
+          name: 'Color by table, SVTYPE',
+          visibilityWindow: -1,
+          colorBy: 'SVTYPE',
+          colorTable: {
+            DEL: '#ff2101',
+            INS: '#001888',
+            DUP: '#028401',
+            INV: '#008688',
+            CNV: '#8931ff',
+            BND: '#891100',
+            '*': '#002eff',
+          },
+        },
+        {
+          url: 'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz',
+          indexURL:
+            'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz.tbi',
+          name: 'Color by REGIONID',
+          colorBy: 'REGIONID',
+          visibilityWindow: -1,
+        },
+        {
+          url: 'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz',
+          indexURL:
+            'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz.tbi',
+          name: 'Color by ALT',
+          colorBy: 'ALT',
+          colorTable: {
+            '<DEL>': '#ff2101',
+            '<INS>': '#001888',
+            '<DUP>': '#028401',
+            '<INV>': '#008688',
+            '<CNV>': '#8931ff',
+            '<BND>': '#891100',
+            '*': '#002eff',
+          },
+          visibilityWindow: -1,
+        },
+        {
+          url: 'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz',
+          indexURL:
+            'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz.tbi',
+          name: 'Color by FILTER',
+          colorBy: 'FILTER',
+          colorTable: {
+            FAIL: '#ff2101',
+            PASS: '#028401',
+            '.': '#891100',
+            '*': '#002eff',
+          },
+          visibilityWindow: -1,
+        },
+        {
+          url: 'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz',
+          indexURL:
+            'https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz.tbi',
+          name: 'Default Color',
+          visibilityWindow: -1,
+        },
+      ],
+    };
+    $('.preloader').show();
+    igv.createBrowser(igvDiv, options_vcf)
+      .then(function (res: string) {
+        $('.preloader').hide();
+        console.log('Created IGV browser' + res);
+      });
+  }
+
+  async createIframe(contentId: string, url: string, type: string): Promise<void> {
+    let content: any = document.getElementById(contentId);
+    let iframe: any = document.createElement('iframe');
+    iframe.setAttribute("style", "height:600px;width:100%;");
+
+    switch (type) {
+      case 'json':
+        $.getJSON(url, (a: any) => {
+          Plotly.newPlot(content, a.data, a.layout);
+        });
+        break;
+      case 'html':
+      case 'pdf':
+        iframe.src = url;
+        content.appendChild(iframe);
+        break;
+      default:
+        console.log(`Sorry, we are out of ${content}.`);
     }
   }
 }

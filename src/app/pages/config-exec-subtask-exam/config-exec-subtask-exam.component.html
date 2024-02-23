@@ -111,7 +111,7 @@
                                   </tr>
                                 </thead>
                                 <tbody class="tbody-custom">
-                                  <tr *ngFor="let item of exec?.data_sub_task_exam">
+                                  <tr *ngFor="let item of exec?.data_sub_task_exam" >
                                     <td class="text-center">
                                       {{ item.datum.param?.name }}
                                     </td>
@@ -170,13 +170,9 @@
 
                         <!-- Panel exams report -->
                         <div class="row" *ngIf="exec.finished_at">
-                          <div class="col-lg">
+                          <div class="col">
                             <h5 class="card-title">Resultados</h5>
-                            <div class="row">
-                              <div id="panel_result" class="col">
-
-                              </div>
-                            </div>
+                            <div id="{{'panel-results_'+exec.id}}"></div>
                           </div>
                         </div>
                         <!--End panel exam report-->
@@ -186,19 +182,6 @@
                   </div>
                 </div>
               </div>
-              <!-- Panel button cancel-->
-              <div class="row">
-                <div class="col">
-                  <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger ml-2" style="border-radius: 10px"
-                      (click)="previousPage()">
-                      <span class="fa fa-times"></span>
-                      Volver
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!-- End panel button cancel-->
               <!-- End tab current and history executes -->
             </div>
           </div>

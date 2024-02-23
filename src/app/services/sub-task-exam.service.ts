@@ -61,6 +61,11 @@ export class SubTaskExamService {
     return this.http.get<any>(url).pipe(
       map((resp) => {
         return resp;
+      }),
+      catchError((error) => {
+        $('.preloader').hide();
+        let msg = this.getErrorResponse(error);
+        return of(null);
       })
     );
   }
