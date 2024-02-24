@@ -12,9 +12,6 @@ import { ComponentsModule } from '../components/components.module';
 // Components.
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
-import { HistoricoUsuarioComponent } from './historico-usuario/historico-usuario.component';
-import { HistoricoPruebasComponent } from './historico-pruebas/historico-pruebas.component';
-import { HistoricoUsuarioPruebasComponent } from './historico-usuario-pruebas/historico-usuario-pruebas.component';
 import { ConfigUsuariosComponent } from './config-usuarios/config-usuarios.component';
 import { ConfigRolesComponent } from './config-roles/config-roles.component';
 import { ConfigPermisosComponent } from './config-permisos/config-permisos.component';
@@ -35,9 +32,6 @@ import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.com
   declarations: [
     DashboardComponent,
     PagesComponent,
-    HistoricoUsuarioComponent,
-    HistoricoPruebasComponent,
-    HistoricoUsuarioPruebasComponent,
     ConfigUsuariosComponent,
     ConfigRolesComponent,
     ConfigPermisosComponent,

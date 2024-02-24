@@ -1,7 +1,6 @@
-<div class="container-fluid
- cf-custom">
+<div class="container-fluid cf-custom">
   <div class="row">
-    <div class="col-lg-12 col-xlg-12 text-center">
+    <div class="col text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
@@ -38,8 +37,7 @@
               <td>{{ item.order }}</td>
               <td>{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td>
-                <a (click)="modalEditTask(item.id)" class="mr-3" title="Editar"><i
-                    class="fa-solid fa-pencil"></i></a>
+                <a (click)="modalEditTask(item.id)" class="mr-3" title="Editar"><i class="fa-solid fa-pencil"></i></a>
                 <a (click)="removeTask(item.id, item.name)" class="mr-3" title="Eliminar"><i
                     class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i></a>
                 <a (click)="modalDetailsTask(item.id)" class="mr-3" title="Detalle"><i
@@ -87,7 +85,7 @@
                 <select class="form-control custom-select" id="process_id" [class.is-invalid]="processNoValido"
                   formControlName="process_id">
                   <option value="">Seleccione proceso</option>
-                  <option value = "{{ item.id }}" *ngFor="let item of lstProcesses">
+                  <option value="{{ item.id }}" *ngFor="let item of lstProcesses">
                     {{ item.name }}
                   </option>
                 </select>
@@ -107,12 +105,12 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
-          (click)="newTask()">
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="newTask()">
           Guardar
         </button>
-        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
-          (click)="editTask()">
+        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="editTask()">
           Editar
         </button>
         <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"

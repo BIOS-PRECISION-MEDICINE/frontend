@@ -40,6 +40,9 @@ export class MenuConfigService {
           new SubMenu(
             'Parámetros', 'config-parametros' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
           ),
+          new SubMenu(
+            'Data', 'config-datum' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+          ),
         ]
       }
     ];

@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
       this._usuario_service.loginLocalUser(user)
       .subscribe((resp:any) => {
           if(resp){
-            this._router.navigate(['/dashboard/']);
+            this._router.navigate(['']);
           }
       });
 

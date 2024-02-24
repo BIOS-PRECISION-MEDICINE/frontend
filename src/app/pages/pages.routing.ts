@@ -9,9 +9,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ConfigNewInstancePipelineComponent } from './config-new-instance-pipeline/config-new-instance-pipeline.component';
 import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.component';
 import { ResultPipelineComponent } from './result-pipeline/result-pipeline.component';
-import { HistoricoUsuarioComponent } from './historico-usuario/historico-usuario.component';
-import { HistoricoPruebasComponent } from './historico-pruebas/historico-pruebas.component';
-import { HistoricoUsuarioPruebasComponent } from './historico-usuario-pruebas/historico-usuario-pruebas.component';
 import { ConfigUsuariosComponent } from './config-usuarios/config-usuarios.component';
 import { ConfigRolesComponent } from './config-roles/config-roles.component';
 import { ConfigPermisosComponent } from './config-permisos/config-permisos.component';
@@ -37,16 +34,13 @@ const routes: Routes = [
     component: PagesComponent,
     canActivate: [ AuthGuard, TokenGuard ],
     children: [
-            { path: 'dashboard', canActivate:[TokenGuard, AuthGuard], component: DashboardComponent, data: { titulo: 'Home' } },
+            { path: '', canActivate:[TokenGuard, AuthGuard], component: DashboardComponent, data: { titulo: 'Dashboard' } },
             {path:'config-usuarios',canActivate:[ PermissionGuard,TokenGuard], component: ConfigUsuariosComponent, data: { titulo: 'Configuración usuarios', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-roles',canActivate:[ PermissionGuard,TokenGuard], component: ConfigRolesComponent, data: { titulo: 'Configuración roles', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-permisos',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPermisosComponent, data: { titulo: 'Configuración permisos', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-new-instance-pipeline/:id_patient',canActivate:[ PermissionGuard,TokenGuard], component: ConfigNewInstancePipelineComponent, data: { titulo: 'Configuración pipeline', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'exams-by-patient/:id_patient',canActivate:[ PermissionGuard,TokenGuard], component: ExamsByPatientComponent, data: { titulo: 'Examenes por paciente', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'exams-by-patient/:id_patient',canActivate:[ PermissionGuard,TokenGuard], component: ExamsByPatientComponent, data: { titulo: 'Histórico de pruebas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'result-pipeline',canActivate:[ PermissionGuard,TokenGuard], component: ResultPipelineComponent, data: { titulo: 'Configuración resultados', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'historico-usuario',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioComponent, data: { titulo: 'Histórico usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'historico-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoPruebasComponent, data: { titulo: 'Histórico pruebas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'historico-usuario-pruebas',canActivate:[ PermissionGuard,TokenGuard], component: HistoricoUsuarioPruebasComponent, data: { titulo: 'Histórico pruebas a usuario', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-procesos',canActivate:[ PermissionGuard,TokenGuard], component: ConfigProcesosComponent, data: { titulo: 'Procesos', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigTareasComponent, data: { titulo: 'Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-sub-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigSubTareasComponent, data: { titulo: 'Subtareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},

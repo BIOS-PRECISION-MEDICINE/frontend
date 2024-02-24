@@ -114,7 +114,7 @@ export class UsuarioService {
       'variablesDeUsuarioLogadoDTO',
       VariablesDeUsuarioLogadoDTO
     );
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['']);
   }
 
   public decodeJwtResponse(token: string) {
@@ -278,7 +278,7 @@ export class UsuarioService {
             'variablesDeUsuarioLogadoDTO',
             VariablesDeUsuarioLogadoDTO
           );
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['']);
           }
           return resp;
         }),

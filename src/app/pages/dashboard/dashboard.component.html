@@ -1,0 +1,78 @@
+<div class="container-fluid cf-custom">
+  <!-- Metrics section -->
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div
+            class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-relative">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize position-relative">Pacientes</p>
+            <h4 class="mb-0 position-relative">{{dataPatients.valor}}</h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+          <p class="mb-1">{{dataPatients.desc}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div
+            class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-relative">
+            <i class="fa-notes-medical fa-solid"></i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize position-relative">Examenes</p>
+            <h4 class="mb-0 position-relative">{{dataExams.valor}}</h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+          <p class="mb-1">{{dataExams.desc}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div
+            class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-relative">
+            <i class="fa-solid fa-microscope"></i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize position-relative">Finalizados</p>
+            <h4 class="mb-0 position-relative">{{dataTestsFinished.valor}}</h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+          <p class="mb-1">{{dataTestsFinished.desc}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div
+            class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-relative">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize position-relative">Procesando</p>
+            <h4 class="mb-0 position-relative">{{dataTests.valor}}</h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+          <p class="mb-1"> {{dataTests.desc}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End metrics section -->
+</div>
