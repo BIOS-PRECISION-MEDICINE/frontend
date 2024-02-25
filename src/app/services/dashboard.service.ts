@@ -24,11 +24,12 @@ declare var $: any;
   providedIn: 'root',
 })
 export class DashboardService {
-  public fake_data_patients={valor:"5.478", desc:"Total pacientes registrados en la app."};
-  public fake_data_exams={valor:"12.789", desc:"Total examenes creados en la app."};
-  public fake_data_finished={valor:"2.023", desc:"Total pruebas finalizadas en la app."};
-  public fake_data_test={valor:"10.516", desc:"Pruebas en proceso"};
-  public fake_data_default={valor:"0", desc:"Sin datos."};
+  public fake_data_patients = { valor: "5.478", desc: "Total pacientes registrados en la app." };
+  public fake_data_exams = { valor: "12.789", desc: "Total examenes creados en la app." };
+  public fake_data_finished = { valor: "2.023", desc: "Total pruebas finalizadas en la app." };
+  public fake_data_test = { valor: "10.516", desc: "Pruebas en proceso" };
+  public fake_data_default = { valor: "0", desc: "Sin datos." };
+  public fake_data_graphic = { data: [] };
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -36,7 +37,7 @@ export class DashboardService {
   ) { }
 
 
-  //Obtiene dato PARA LA DASHBOARD
+  //Obtiene datos para las métricas de la dashboard
   getMetricByType(metric_type: string): Observable<any> {
     let url = URL_DASHBOARD + '/' + metric_type;
     $('.preloader').show();
@@ -55,6 +56,45 @@ export class DashboardService {
         break
       default:
         return of(this.fake_data_default);
+    }
+    /*return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp;
+      }), catchError((error) => {
+        $('.preloader').hide();
+        let msg = this.getErrorResponse(error);
+        this._alerService.mostrarAlertaSimplesPorTipo(
+          ALERT_TYPE.ERROR,
+          'Ocurrio un error al obtener metricas de dashboard',
+          'Error inesperado'
+        );
+        return of({
+          Data: null,
+          Meta: {
+            StatusCode: 500,
+            ResultadoExitoso: false,
+            TipoRespuesta: msg,
+          },
+        });
+      })
+    );*/
+  }
+
+  //Obtiene datos para las métricas de la dashboard
+  getDataGraphicByType(graphic_type: string): Observable<any> {
+    let url = URL_DASHBOARD + '/' + graphic_type;
+    $('.preloader').show();
+    switch (graphic_type) {
+      case 'graphic_1':
+        return of(this.fake_data_graphic);
+        break;
+      case 'graphic_2':
+        return of(this.fake_data_graphic);
+        break;
+      case 'graphic_3':
+        return of(this.fake_data_graphic);
+      default:
+        return of(this.fake_data_graphic);
     }
     /*return this.http.get<any>(url).pipe(
       map((resp) => {
