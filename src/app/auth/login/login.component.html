@@ -1,35 +1,65 @@
 <!-- ============================================================== -->
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
-<section id="wrapper" class="login-register login-sidebar"
-  style="background-image:url(assets/images/background/login-register.png);">
+<section
+  id="wrapper"
+  class="login-register login-sidebar"
+  style="background-image: url(assets/images/background/login-register.png)"
+>
   <div class="login-box card">
     <div class="card-body">
-      <form class="form-horizontal form-material" ngNativeValidate autocomplete="off" [formGroup]="loginForm"
-        (ngSubmit)="login()" id="loginform">
-
+      <form
+        class="form-horizontal form-material"
+        ngNativeValidate
+        autocomplete="off"
+        [formGroup]="loginForm"
+        (ngSubmit)="login()"
+        id="loginform"
+      >
         <a href="javascript:void(0)" class="text-center db">
-          <img style="border:none;width:170px;height:140px" src="assets/images/icon/logo.png" alt="homepage"
-            class="dark-logo" />
+          <img
+            style="border: none; width: 170px; height: 140px"
+            src="assets/images/icon/logo.png"
+            alt="homepage"
+            class="dark-logo"
+          />
           <br />
         </a>
 
         <div class="form-group m-t-40">
           <div class="col-xs-12">
-            <input class="form-control" type="text" placeholder="Login" formControlName="login" autocomplete="off">
+            <input
+              id="login"
+              class="form-control"
+              type="text"
+              placeholder="Login"
+              formControlName="login"
+              autocomplete="off"
+            />
           </div>
-          <small class="text-danger"
-            *ngIf="loginForm.controls['login'].errors?.['required'] && this.loginForm.get('login')!.touched">
+          <small
+            class="text-danger"
+            *ngIf="loginForm.controls['login'].errors?.['required'] && this.loginForm.get('login')!.touched"
+          >
             {{ msgRequired }}
           </small>
         </div>
         <div class="form-group">
           <div class="col-xs-12">
-            <input class="form-control" type="password" [type]="inputType" placeholder="Contraseña"
-              formControlName="password" required>
+            <input
+              id="password"
+              class="form-control"
+              type="password"
+              [type]="inputType"
+              placeholder="Contraseña"
+              formControlName="password"
+              required
+            />
           </div>
-          <small class="text-danger"
-            *ngIf="loginForm.controls['password'].errors?.['required'] && this.loginForm.get('password')!.touched">
+          <small
+            class="text-danger"
+            *ngIf="loginForm.controls['password'].errors?.['required'] && this.loginForm.get('password')!.touched"
+          >
             {{ msgRequired }}
           </small>
         </div>
@@ -37,8 +67,14 @@
         <div class="form-group row">
           <div class="col-md-12">
             <div class="checkbox checkbox-primary pull-left p-t-0">
-              <input id="checkbox-signup" type="checkbox" class="mr-2 form-check-input" [(ngModel)]="showPW"
-                formControlName="showPW" (change)="showPassword()">
+              <input
+                id="checkbox-signup"
+                type="checkbox"
+                class="mr-2 form-check-input"
+                [(ngModel)]="showPW"
+                formControlName="showPW"
+                (change)="showPassword()"
+              />
               <label for="checkbox-signup">Ver contraseña </label>
             </div>
           </div>
@@ -46,14 +82,17 @@
 
         <div class="form-group text-center m-t-20">
           <div class="col-xs-12">
-            <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="submit">Ingresar</button>
+            <button
+              class="btn btn-info btn-lg btn-block text-uppercase btn-rounded"
+              type="submit"
+            >
+              Ingresar
+            </button>
           </div>
         </div>
       </form>
 
-
       <div id="google-sign-in" class="d-flex justify-content-center"></div>
-
     </div>
   </div>
 </section>

@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
   inputType: string = 'password';
 
   constructor(
-    private router: Router,
+    private _router: Router,
     private fb: FormBuilder,
-    private usuarioService: UsuarioService,
+    private _usuario_service: UsuarioService,
     private ngZone: NgZone,
     private _tooslServe: ToolsService,
     private _alerService: AlertPersonalService,
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.usuarioService.loginGoogle();
+    this._usuario_service.loginGoogle();
   }
 
   public loginForm = this.fb.group({
@@ -63,19 +63,24 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.usuarioService.logout();
+    this._usuario_service.logout();
   }
 
   login() {
     // Se validan los datos de entrada
-    if (!this.loginForm.value.login && !this.loginForm.value.password) {
-      return;
-    }
+    if (this.loginForm.value.login && this.loginForm.value.password) {
+      let user: any={
+        email: this.loginForm.value.login,
+        pws:this.loginForm.value.password
+      }
+      this._usuario_service.loginLocalUser(user)
+      .subscribe((resp:any) => {
+          if(resp){
+            this._router.navigate(['/dashboard/']);
+          }
+      });
 
-    let userLogin: UserLogin = new UserLogin(
-      this._tooslServe.encrypt(this.loginForm.value.login!),
-      this._tooslServe.encrypt(this.loginForm.value.password!)
-    );
+    }
   }
 
   showPassword() {

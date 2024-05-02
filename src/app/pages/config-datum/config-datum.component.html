@@ -1,36 +1,26 @@
-<div class="container-fluid">
+<div class="container-fluid
+ cf-custom">
   <div class="row">
     <div class="col-lg-12 col-xlg-12 text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
-              <th scope="col">Identificador</th>
+              <th scope="col">Id</th>
               <th scope="col">Parámetro</th>
               <th scope="col">Valor</th>
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="modalAddDatum()"
-                  style="border-radius: 10px"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Nuevo dato"
-                >
-                  <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
-                    aria-hidden="true"
-                  ></i>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddDatum()"
+                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo dato">
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              *ngFor="
+          <tbody class="tbody-custom">
+            <tr *ngFor="
                 let item of lstDatum
                   | paginate
                     : {
@@ -38,28 +28,18 @@
                         itemsPerPage: per_page,
                         currentPage: current_page
                       }
-              "
-            >
+              ">
               <td scope="row">{{ item.id }}</td>
-              <td scope="row">{{ item.param_id }}</td>
+              <td scope="row">{{ item.param_name }}</td>
               <td scope="row">{{ item.value }}</td>
-              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
-                <a (click)="modalEditDatum(item.id)" class="mr-2" title="Editar"
-                  ><i class="fa fa-pencil-square-o"></i
-                ></a>
-                <a
-                  (click)="removeDatum(item.id, item.name)"
-                  class="mr-2"
-                  title="Eliminar"
-                  ><i class="fa fa-times"></i
-                ></a>
-                <a
-                  (click)="modalDetailsDatum(item.id)"
-                  class="mr-2"
-                  title="Detalle"
-                  ><i class="fa fa-table"></i
-                ></a>
+                <a (click)="modalEditDatum(item.id)" class="mr-3" title="Editar"><i
+                    class="fa-solid fa-pencil"></i></a>
+                <a (click)="removeDatum(item.id, item.name)" class="mr-3" title="Eliminar"><i
+                    class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i></a>
+                <a (click)="modalDetailsDatum(item.id)" class="mr-3" title="Detalle"><i
+                    class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"></i></a>
               </td>
             </tr>
           </tbody>
@@ -69,37 +49,22 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls
-        (pageChange)="changePageTable($event)"
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-      ></pagination-controls>
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo datum-->
-<div
-  class="modal animated fadeInDown"
-  id="DatumNew"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="datumInsertLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="DatumNew" tabindex="3" role="dialog" aria-labelledby="datumInsertLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="datumInsertLabel" style="font-weight: 600">
           Dato
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="modalClose()"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalClose()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -107,16 +72,12 @@
         <div class="row">
           <div class="col">
             <form [formGroup]="forms">
+              <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="param_id">Parámetro</label>
-                <select
-                  class="form-control custom-select"
-                  id="param_id"
-                  [(ngModel)]="datum.param_id"
-                  [class.is-invalid]="paramidNoValido"
-                  formControlName="param_id"
-                >
-                  <option value="-1">Seleccione parámetro</option>
+                <select class="form-control custom-select" id="param_id" [class.is-invalid]="paramidNoValido"
+                  formControlName="param_id">
+                  <option value="">Seleccione parámetro</option>
                   <option value="{{ item.id }}" *ngFor="let item of lstParams">
                     {{ item.name }}
                   </option>
@@ -124,46 +85,24 @@
               </div>
               <div class="form-group">
                 <label for="value">Valor</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="value"
-                  [(ngModel)]="datum.value"
-                  [class.is-invalid]="valueNoValido"
-                  formControlName="value"
-                  placeholder="Ingrese el valor del parámetro"
-                />
+                <input type="text" class="form-control" id="value" [class.is-invalid]="valueNoValido"
+                  formControlName="value" placeholder="Ingrese el valor del parámetro" />
               </div>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          *ngIf="!edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="newDatum()"
-        >
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success"
+          style="border-radius: 10px" (click)="newDatum()">
           Guardar
         </button>
-        <button
-          *ngIf="edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="editDatum()"
-        >
+        <button *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
+          (click)="editDatum()">
           Editar
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cancelar
         </button>
       </div>
@@ -172,31 +111,15 @@
 </div>
 
 <!-- Modal detalle-->
-<div
-  class="modal animated fadeInDown"
-  id="DatumDetails"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="DatumDetailsLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="DatumDetails" tabindex="3" role="dialog" aria-labelledby="DatumDetailsLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="DatumDetailsLabel"
-          style="font-weight: 600"
-        >
+        <h4 class="modal-title" id="DatumDetailsLabel" style="font-weight: 600">
           Detalle Dato
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          (click)="modalClose()"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" (click)="modalClose()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -205,7 +128,7 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-                
+
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información Dato</strong></h3>
@@ -218,7 +141,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Parámetro </span>
-                      {{ datum.param_id }}
+                      {{ datum.param_name }}
                     </p>
                   </div>
                 </div>
@@ -230,20 +153,15 @@
                     </p>
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cerrar
         </button>
       </div>

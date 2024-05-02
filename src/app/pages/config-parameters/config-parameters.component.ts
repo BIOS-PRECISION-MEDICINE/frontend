@@ -12,7 +12,6 @@ declare var $: any;
 @Component({
   selector: 'app-config-parameters',
   templateUrl: './config-parameters.component.html',
-  styleUrls: ['./config-parameters.component.css'],
 })
 export class ConfigParametersComponent {
   public edit_state: boolean = false;
@@ -22,7 +21,7 @@ export class ConfigParametersComponent {
   public per_page: number = 10;
   public total_items: number = 0;
   public lstSubTasks: any = [];
-  public lstTypes: any = ['Integer','Double','String','Array'];
+  public lstTypes: any = ['integer','time', 'string', 'file'];
   public lstParameters: any = [];
 
   constructor(
@@ -44,27 +43,32 @@ export class ConfigParametersComponent {
   }
 
   get subtaskNoValido() {
-    return this.forms.get('subtask_id')?.invalid && this.forms.get('subtask_id')?.touched;
+    return (
+      this.forms.get('subtask_id')?.invalid &&
+      this.forms.get('subtask_id')?.touched
+    );
   }
 
   get optionalNoValido() {
-    return this.forms.get('optional')?.invalid && this.forms.get('optional')?.touched;
+    return (
+      this.forms.get('optional')?.invalid && this.forms.get('optional')?.touched
+    );
   }
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id: [],
       name: ['', Validators.required],
-      subtask_id: ['', Validators.required],
       type: ['', Validators.required],
       optional: ['', Validators.required],
-      default_value: ['']
     });
   }
 
   ngOnInit(): void {
-    this.changePageTable(1);
+    $('.preloader').show();
     this._subtask_service.getAllListingSubTasks().subscribe((resp) => {
       this.lstSubTasks = resp.data;
+      this.changePageTable(1);
     });
   }
 
@@ -80,24 +84,30 @@ export class ConfigParametersComponent {
   }
 
   modalClose(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#NewParameter').modal('hide');
   }
 
   modalAddParameter(): void {
+    this.forms.reset();
     this.edit_state = false;
-    this._parameters_service.getAllListingParameters().subscribe((resp) => {
-      this.lstParameters = resp.data;
-      this.forms.reset();
-      $('#NewParameter').modal({ backdrop: 'static', keyboard: false });
+    this.forms.get('type')?.setValue('', {
+      onlySelf: true,
     });
+    $('#NewParameter').modal({ backdrop: 'static', keyboard: false });
   }
 
   modalEditParameter(id_param: string): void {
+    this.forms.reset();
     this.edit_state = true;
     this._parameters_service.getParameterById(id_param).subscribe((resp) => {
-      this.param = resp;
+      this.forms.setValue({
+        id: resp.id,
+        name: resp.name,
+        type: resp.type,
+        optional: resp.optional,
+      });
       $('#NewParameter').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -118,8 +128,8 @@ export class ConfigParametersComponent {
       );
     } else {
       $('.preloader').show();
-
-      this._parameters_service.createNewParameter(this.param).subscribe((resp) => {
+      let param: Parametro = this.forms.value;
+      this._parameters_service.createNewParameter(param).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
@@ -147,7 +157,8 @@ export class ConfigParametersComponent {
       );
     } else {
       $('.preloader').show();
-      this._parameters_service.updateParameter(this.param).subscribe((resp) => {
+      let param: Parametro = this.forms.value;
+      this._parameters_service.updateParameter(param).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(

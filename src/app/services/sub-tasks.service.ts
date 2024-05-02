@@ -40,6 +40,23 @@ export class SubTasksService {
     );
   }
 
+  //Obtiene listado de tareas activos en el sistema
+  getListingSubTasksByFilters(
+    id_process: number,
+    order_task: number,
+    order_subtask: number
+  ): Observable<any> {
+    let url = URL_SUBTASKS;
+    url+= (order_task <0) ?  '?process_id='+id_process :'?process_id='+id_process+'&order_task='+order_task+'&order_subtask='+order_subtask;
+    
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+    
+  }
+
   //Obtiene listado de todos las subTareas activos en el sistema
   getAllListingSubTasks(): Observable<ResponseApi> {
     let url = URL_SUBTASKS + '?page=1&per_page=1000';

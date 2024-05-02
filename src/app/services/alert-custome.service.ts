@@ -74,11 +74,11 @@ export class AlertPersonalService {
       timer: 3000
     });
 
-    if(tipo === 'success'){ Toast.fire( {type : 'success',  title: mensaje, icon: 'success'}); }
-    if(tipo === 'info'){ Toast.fire( {type : 'info',  title: mensaje, icon: 'info'}); }
-    if(tipo === 'error'){Toast.fire( {type : 'error',  title: mensaje, icon: 'error'});  }
-    if(tipo === 'warning'){Toast.fire( {type : 'warning',  title: mensaje,icon: 'warning'});   }
-    if(tipo === 'question'){Toast.fire( {type : 'question',  title: mensaje, icon: 'question'});  }
+    if(tipo === 'success'){ Toast.fire( {title: mensaje, icon: 'success'}); }
+    if(tipo === 'info'){ Toast.fire( {title: mensaje, icon: 'info'}); }
+    if(tipo === 'error'){Toast.fire( {title: mensaje, icon: 'error'});  }
+    if(tipo === 'warning'){Toast.fire( {title: mensaje,icon: 'warning'});   }
+    if(tipo === 'question'){Toast.fire( {title: mensaje, icon: 'question'});  }
   }
 
 

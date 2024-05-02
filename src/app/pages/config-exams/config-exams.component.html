@@ -1,36 +1,26 @@
-<div class="container-fluid">
+<div class="container-fluid
+ cf-custom">
   <div class="row">
     <div class="col-lg-12 col-xlg-12 text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
-              <th scope="col">Identificador</th>
+              <th scope="col">Id</th>
               <th scope="col">Nombre</th>
               <th scope="col">Paciente</th>
               <th scope="col">Modificado</th>
               <th scope="col">
                 <span class="span-title-actions">Acciones</span>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="modalAddExam()"
-                  style="border-radius: 10px"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Nuevo examen"
-                >
-                  <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
-                    aria-hidden="true"
-                  ></i>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddExam()"
+                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nuevo examen">
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              *ngFor="
+          <tbody class="tbody-custom">
+            <tr *ngFor="
                 let item of lstExams
                   | paginate
                     : {
@@ -38,25 +28,18 @@
                         itemsPerPage: per_page,
                         currentPage: current_page
                       }
-              "
-            >
+              ">
               <td scope="row">{{ item.id }}</td>
               <td scope="row">{{ item.name }}</td>
-              <td scope="row">{{ item.patient_id }}</td>
-              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">{{ item.patient_name }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
-                <a (click)="modalEditExam(item.id)" class="mr-2" title="Editar"
-                  ><i class="fa fa-pencil-square-o"></i
-                ></a>
-                <a (click)="removeExam(item.id)" class="mr-2" title="Eliminar"
-                  ><i class="fa fa-times"></i
-                ></a>
-                <a
-                  (click)="modalDetailsExam(item.id)"
-                  class="mr-2"
-                  title="Detalle"
-                  ><i class="fa fa-table"></i
-                ></a>
+                <a (click)="modalEditExam(item.id)" class="mr-3" title="Editar"><i
+                    class="fa-solid fa-pencil"></i></a>
+                <a (click)="removeExam(item.id)" class="mr-3" title="Eliminar"><i
+                    class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i></a>
+                <a (click)="modalDetailsExam(item.id)" class="mr-3" title="Detalle"><i
+                    class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"></i></a>
               </td>
             </tr>
           </tbody>
@@ -66,37 +49,22 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls
-        (pageChange)="changePageTable($event)"
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-      ></pagination-controls>
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo exam-->
-<div
-  class="modal animated fadeInDown"
-  id="ExamNew"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="examInsertLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="ExamNew" tabindex="3" role="dialog" aria-labelledby="examInsertLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="examInsertLabel" style="font-weight: 600">
           Examen
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="modalClose()"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalClose()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -104,33 +72,19 @@
         <div class="row">
           <div class="col">
             <form [formGroup]="forms">
+              <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  [(ngModel)]="exam.name"
-                  [class.is-invalid]="nameNoValido"
-                  formControlName="name"
-                  placeholder="Ingrese el nombre del examen"
-                />
+                <input type="text" class="form-control" id="name"
+                  [class.is-invalid]="nameNoValido" formControlName="name" placeholder="Ingrese el nombre del examen" />
               </div>
 
               <div class="form-group">
                 <label for="patient_id">Paciente</label>
-                <select
-                  class="form-control custom-select"
-                  id="patient_id"
-                  [(ngModel)]="exam.patient_id"
-                  [class.is-invalid]="patientNoValido"
-                  formControlName="patient_id"
-                >
-                  <option value="-1">Seleccione paciente</option>
-                  <option
-                    value="{{ item.id }}"
-                    *ngFor="let item of lstPatients"
-                  >
+                <select class="form-control custom-select" id="patient_id"
+                  [class.is-invalid]="patientNoValido" formControlName="patient_id">
+                  <option value="">Seleccione paciente</option>
+                  <option value="{{ item.id }}" *ngFor="let item of lstPatients">
                     {{ item.name }} {{item.lastname}}
                   </option>
                 </select>
@@ -140,31 +94,16 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          *ngIf="!edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="newExam()"
-        >
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
+          (click)="newExam()">
           Guardar
         </button>
-        <button
-          *ngIf="edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="editExam()"
-        >
+        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
+          (click)="editExam()">
           Editar
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cancelar
         </button>
       </div>
@@ -173,31 +112,15 @@
 </div>
 
 <!-- Modal detalle-->
-<div
-  class="modal animated fadeInDown"
-  id="ExamDetails"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="examDetailsLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="ExamDetails" tabindex="3" role="dialog" aria-labelledby="examDetailsLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="examDetailsLabel"
-          style="font-weight: 600"
-        >
+        <h4 class="modal-title" id="examDetailsLabel" style="font-weight: 600">
           Detalle Examen
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          (click)="modalClose()"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" (click)="modalClose()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -206,7 +129,7 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-                
+
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información de examen</strong></h3>
@@ -227,28 +150,21 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Paciente </span>
-                      {{ exam.patient_id }}
+                      {{ exam.patient_name }}
                     </p>
                   </div>
-                </div>                
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cerrar
         </button>
       </div>
     </div>
   </div>
 </div>
-
-
