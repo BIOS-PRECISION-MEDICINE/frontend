@@ -146,39 +146,53 @@ export class ConfigNewInstancePipelineComponent {
           if (resp.Meta.StatusCode == 200) {
             this.id_exam = resp.Data.id;
           }
-          // Create new instance of test
-          if (this.id_exam > 0) {
-            let test: any = {
-              exam_id: this.id_exam,
-              description: description,
-              subtask_id: this.subTask.id,
-              dataSubTaskExam: params_form,
-            };
-
-            this._subtask_exam_service
-              .createNewSubTaskExam(test)
-              .subscribe((resp) => {
-                if (resp.Meta.StatusCode == 200) {
-                  this._alert.mostrarAlertTipoToast(
-                    ALERT_TYPE.OK,
-                    'Examen creado exitosamente.'
-                  );
-                } else {
-                  this._alert.mostrarAlertTipoToast(
-                    ALERT_TYPE.ERROR,
-                    resp.Meta.TipoRespuesta
-                  );
-                }
-                $('.preloader').hide();
-                this.sendToPreviusPage();
-              });
-          } else {
-            $('.preloader').hide();
-            this._alert.mostrarAlertTipoToast(
-              ALERT_TYPE.ERROR,
-              'Ocurrio un error creando el nuevo examen. Por favor contacte con el administrador'
-            );
+          let payload:SubTareaExamen = {
+            "exam_id": this.id_exam,
+            "subtask_id": this.subTask.id,
+            "dataSubTaskExam":[
+              {param_id:1,value:22}
+            ]
           }
+          console.log("INICIADO -->",JSON.stringify(payload))
+          this._subtask_exam_service.createNewSubTaskExam(payload).subscribe(data => {
+            this._alert.mostrarAlertTipoToast(
+                  ALERT_TYPE.OK,
+                  'Tarea 1, subproceso 1 iniciado'
+                );
+          })
+          // // Create new instance of test
+          // if (this.id_exam > 0) {
+          //   let test: any = {
+          //     exam_id: this.id_exam,
+          //     description: description,
+          //     subtask_id: this.subTask.id,
+          //     dataSubTaskExam: params_form,
+          //   };
+
+          //   this._subtask_exam_service
+          //     .createNewSubTaskExam(test)
+          //     .subscribe((resp) => {
+          //       if (resp.Meta.StatusCode == 200) {
+          //         this._alert.mostrarAlertTipoToast(
+          //           ALERT_TYPE.OK,
+          //           'Examen creado exitosamente.'
+          //         );
+          //       } else {
+          //         this._alert.mostrarAlertTipoToast(
+          //           ALERT_TYPE.ERROR,
+          //           resp.Meta.TipoRespuesta
+          //         );
+          //       }
+          //       $('.preloader').hide();
+          //       this.sendToPreviusPage();
+          //     });
+          // } else {
+          //   $('.preloader').hide();
+          //   this._alert.mostrarAlertTipoToast(
+          //     ALERT_TYPE.ERROR,
+          //     'Ocurrio un error creando el nuevo examen. Por favor contacte con el administrador'
+          //   );
+          // }
         });
       }
     } else {

@@ -1,0 +1,10 @@
+.contenedor {
+    width: 100%; /* Establece el ancho del contenedor al 100% del contenedor padre */
+    height: 300px; /* Establece una altura de ejemplo, puedes ajustarla según sea necesario */
+}
+
+.contenedor iframe {
+    width: 100%; /* Establece el ancho del iframe al 100% del contenedor */
+    height: 100%; /* Establece la altura del iframe al 100% del contenedor */
+    display: block; /* Asegura que el iframe se muestre como un bloque */
+}

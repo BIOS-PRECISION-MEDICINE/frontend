@@ -5,6 +5,8 @@ import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
 import { ParametersService } from 'src/app/services/parameters.service';
 import { SubTaskExamService } from 'src/app/services/sub-task-exam.service';
+import { environment } from 'src/environments/environment';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 declare var $: any;
 
@@ -24,13 +26,15 @@ export class ConfigExecSubTaskExamComponent {
   public lst_subtask_exam_prev: any = [];
   public lstExecSubTaskExam: any = [];
   public lstDatumSubTaskExam: any = [];
+  public urlOutReport:string="https://10.0.80.43/uploads/patient-2/exam-5/subtask-1/out_report.html"
 
   constructor(
     private _router: Router,
     private _activatedroute: ActivatedRoute,
     private _params_service: ParametersService,
     private _subTask_exam_service: SubTaskExamService,
-    private _alert: AlertPersonalService
+    private _alert: AlertPersonalService,
+    private sanitizer: DomSanitizer
   ) {
     this._router.getCurrentNavigation()?.extras.state;
   }
@@ -51,6 +55,7 @@ export class ConfigExecSubTaskExamComponent {
     this.addEventsTabsClick();
   }
 
+  
   addEventsTabsClick():void{
     $(".tab-container").on("click", ".tabs a", function(e:any) {
       e.preventDefault(),
@@ -74,7 +79,7 @@ export class ConfigExecSubTaskExamComponent {
   }
 
   getListingSubTaskExamByIds(): void {
-    $('.preloader').show();
+    //$('.preloader').show();
     let lst_subtask_exam: any = this.lst_config_subtask_exam.map(
       (a: any) => a.id_subtask_exam
     );
@@ -82,6 +87,8 @@ export class ConfigExecSubTaskExamComponent {
       this._subTask_exam_service
         .getSubTaskExamByLstId(lst_subtask_exam.toString())
         .subscribe((resp) => {
+          
+          console.log(JSON.stringify(resp))
           this.lstExecSubTaskExam = resp;
           this.SetParametersForNewExecSubTaskExam();
           this.getPreviousSubTaskExamNameById();
@@ -89,9 +96,19 @@ export class ConfigExecSubTaskExamComponent {
         });
     }
   }
+  getOutReport(array:any[]){
+    let respuesta=""
+    for (let i = 0; i < array.length; i++) {
+      if(array[i].datum.param.name=="out_report"){
+        respuesta= environment.url_main_backend+"/"+array[i]["datum"]["value"]
+      }
+    }
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(respuesta);
+  } 
 
   getListingPrevSubTaskExamById(): void {
-    $('.preloader').show();
+    //$('.preloader').show();
     if (this.lst_prev_ids_ste) {
       this._subTask_exam_service
         .getSubTaskExamByLstId(this.lst_prev_ids_ste.toString())
@@ -300,6 +317,8 @@ export class ConfigExecSubTaskExamComponent {
                       type_tag = 'string';
                   }
                   // Insert values of parameters associated to a subtask in list of executions
+                  
+
                   this.lstExecSubTaskExam[idNewExec].data_sub_task_exam.push({
                     datum: {
                       value: value,

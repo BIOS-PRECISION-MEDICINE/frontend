@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExamsService } from 'src/app/services/exam.service';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 
 declare var $: any;
 
@@ -17,8 +18,15 @@ export class DetailsExamProcessComponent {
   constructor(
     private _router: Router,
     private _exam_service: ExamsService,
-    private _activatedroute: ActivatedRoute
-  ) {}
+    private _activatedroute: ActivatedRoute,
+    private webSocketService:WebSocketService
+  ) {
+    this.webSocketService.setNameEvent("event")
+    this.webSocketService.callback.subscribe(res=>{
+      console.log("Llegando notificación desde el backend->"+JSON.stringify(res))
+      this.ngOnInit()
+    })
+  }
 
   ngOnInit(): void {
     this._activatedroute.params.subscribe((params) => {

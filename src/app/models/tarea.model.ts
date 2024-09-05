@@ -4,7 +4,7 @@ export class Tarea {
 
     constructor() {        
     }
-    id!: string;
+    id!: number;
     name!: string;
     description!: string;
     order!: string;
