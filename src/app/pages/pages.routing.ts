@@ -29,6 +29,7 @@ import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
 import { DetailsExamProcessComponent } from './details-exam-process/details-exam-process.component';
 import { ConfigExecSubTaskExamComponent } from './config-exec-subtask-exam/config-exec-subtask-exam.component';
+import { ManageExecutionPipelineComponent } from './manage-execution-pipeline/manage-execution-pipeline.component';
 
 
 const routes: Routes = [
@@ -56,6 +57,7 @@ const routes: Routes = [
             {path:'config-exams',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExamsComponent, data: { titulo: 'Examenes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'details-exam-process/:id_exam/:id_process/:id_patient',canActivate:[ PermissionGuard,TokenGuard], component: DetailsExamProcessComponent, data: { titulo: 'Examen Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-exec-subtask-exam',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExecSubTaskExamComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'manage-execution-pipeline', component: ManageExecutionPipelineComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }}
             ]
 }
 ]

@@ -29,6 +29,7 @@ import { DetailsExamProcessComponent } from './details-exam-process/details-exam
 import { ConfigExecSubTaskExamComponent } from './config-exec-subtask-exam/config-exec-subtask-exam.component';
 import { ConfigNewInstancePipelineComponent } from './config-new-instance-pipeline/config-new-instance-pipeline.component';
 import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.component';
+import { ManageExecutionPipelineComponent } from './manage-execution-pipeline/manage-execution-pipeline.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.com
     DetailsExamProcessComponent,
     ConfigExecSubTaskExamComponent,
     ConfigNewInstancePipelineComponent,
+    ManageExecutionPipelineComponent,
   ],
   exports: [
     DashboardComponent,

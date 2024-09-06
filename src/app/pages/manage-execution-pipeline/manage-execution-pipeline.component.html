@@ -1,0 +1,57 @@
+<div class="container-fluid cf-custom">
+    <!--Panel subtarea -->
+    <div class="row">
+        <div class="col">
+            <div class="row justify-content-end">
+                <div class="col-lg-4 col-xlg-4">
+                    <span class="state_red label_state_icon"></span><span class="label_state">Pendiente</span><span
+                        class="state_yellow label_state_icon"></span><span class="label_state">En ejecución</span><span
+                        class="state_green label_state_icon"></span><span class="label_state">Finalizado</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header card-header-color">Tarea:</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="title-custom-te">
+                                        <h1>Subtarea:</h1>
+                                        <!-- Sección panel -->
+                                        <div class="row">
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+                                                    <a class="nav-item nav-link active" id="nav-home-tab"
+                                                        (click)="setTab('Home')" data-toggle="tab" href="#nav-home"
+                                                        role="tab" aria-controls="nav-home"
+                                                        aria-selected="true">Home</a>
+                                                    <a class="nav-item nav-link" id="nav-profile-tab"
+                                                        (click)="setTab('Profile')" data-toggle="tab"
+                                                        href="#nav-profile" role="tab" aria-controls="nav-profile"
+                                                        aria-selected="false">Profile</a>
+                                                    <a class="nav-item nav-link" id="nav-contact-tab"
+                                                        (click)="setTab('Contact')" data-toggle="tab"
+                                                        href="#nav-contact" role="tab" aria-controls="nav-contact"
+                                                        aria-selected="false">Contact</a>
+                                                        
+                                                </div>
+                                            </nav>
+                                            <div class="tab-content" id="nav-tabContent">
+                                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                                    aria-labelledby="nav-home-tab">
+                                                    {{ selectedTab }} content
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
