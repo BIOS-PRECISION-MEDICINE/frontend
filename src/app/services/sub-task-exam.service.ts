@@ -53,6 +53,17 @@ export class SubTaskExamService {
     );
   }
 
+  listSubTasksExamsByExamAndSubTask(id_exam: string,id_subtask:string): Observable<any> {
+    let url =
+      URL_SUBTASKS_EXAM + "/exam/"+id_exam+"/subtask/"+id_subtask;
+      console.log("ruta "+url)
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+  }
+
   //Crea e inserta una nueva subtarea-exam en el sistema
   createNewSubTaskExam(subtareaExam: SubTareaExamen): Observable<any> {
     return this.http.post(URL_SUBTASKS_EXAM + '/', subtareaExam, {}).pipe(

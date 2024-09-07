@@ -101,6 +101,26 @@ export class DetailsExamProcessComponent {
     this.TaskCompletionPercentage(this.detailsExam.theProcess.tasks);
   }
 
+  // SendToConfigExecSubTaskExam(
+  //   task_name: string,
+  //   subtask_name: string,
+  //   id_subtask: number,
+  //   prev_subtex_exam: any,
+  //   lst_config: any
+  // ): void {
+  //   this._router.navigateByUrl('/config-exec-subtask-exam', {
+  //     state: {
+  //       id_patient: this.id_patient,
+  //       id_subtask: id_subtask,
+  //       id_exam: this.id_exam,
+  //       task_name: task_name,
+  //       subtask_name: subtask_name,
+  //       prev_subtex_exam: prev_subtex_exam,
+  //       lst_config_subtask_exec: lst_config,
+  //     },
+  //   });
+  // }
+
   SendToConfigExecSubTaskExam(
     task_name: string,
     subtask_name: string,
@@ -108,19 +128,8 @@ export class DetailsExamProcessComponent {
     prev_subtex_exam: any,
     lst_config: any
   ): void {
-    this._router.navigateByUrl('/config-exec-subtask-exam', {
-      state: {
-        id_patient: this.id_patient,
-        id_subtask: id_subtask,
-        id_exam: this.id_exam,
-        task_name: task_name,
-        subtask_name: subtask_name,
-        prev_subtex_exam: prev_subtex_exam,
-        lst_config_subtask_exec: lst_config,
-      },
-    });
+    this._router.navigateByUrl('/manage-execution-pipeline/exam/'+this.id_exam+'/subtask/'+id_subtask);
   }
-
   sendToPreviousPage(): void {
     this._router.navigate(['/exams-by-patient/' + this.id_patient]);
   }
