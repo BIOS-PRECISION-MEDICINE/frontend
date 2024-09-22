@@ -40,7 +40,7 @@ export const environment = {
   url_api_process_pipeline: 'http://127.0.0.1:3333/xx',
   //API get exams by id_process
   url_api_get_exams_by_idprocess: 'http://127.0.0.1:3333/xx',
-
+  //secret_google: "468010351371-uuakplj3cnqjbhu0n11b7rvucop0dcse.apps.googleusercontent.com"
 };
 
 /*
