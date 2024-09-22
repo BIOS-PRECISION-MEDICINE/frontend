@@ -33,20 +33,23 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="tbody-custom">
-                                                        <tr *ngFor="let item of subTask.input_params">
-                                                            <td>{{item.name}}</td>
-                                                            <td>{{item.type}}</td>
-                                                            <td>
-                                                                <input [type]="getInputTypeFromDatumType(item.type)"
-                                                                    class="form-control" [value]="item.default_value">
-                                                            </td>
-                                                        </tr>
+                                                        <ng-container *ngFor="let item of subTask.input_params">
+                                                            <tr *ngIf="getInputTypeFromDatumType(item.type) !== 'file'">
+                                                                <td>{{item.name}}</td>
+                                                                <td>{{item.type}}</td>
+                                                                <td>
+                                                                    <input [type]="getInputTypeFromDatumType(item.type)"
+                                                                        class="form-control"
+                                                                        [(ngModel)]="item.default_value">
+                                                                </td>
+                                                            </tr>
+                                                        </ng-container>
                                                     </tbody>
                                                     <tr>
                                                         <td></td>
                                                         <td></td>
                                                         <td><button class="btn btn-success btn-sm mr-2 btn-block"
-                                                                type="button ">Iniciar
+                                                                (click)="startExecution()" type="button ">Iniciar
                                                                 Ejecución</button></td>
                                                     </tr>
                                                 </table>

@@ -75,4 +75,11 @@ export class ManageExecutionPipelineComponent implements OnInit {
   getOutReport(){
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.urlOutMainDatum);
   } 
+  startExecution(){
+    this.subTask.input_params.forEach(item => {
+      item["value"] = item.default_value;
+    });
+    console.log(JSON.stringify(this.subTask.input_params))
+    //falta llamar el backend para iniciar la tarea
+  }
 }
