@@ -6,10 +6,12 @@ import { SubTarea } from 'src/app/models/subtarea.model';
 import { SubTareaExamen } from 'src/app/models/subTareaExamen.nodel';
 import { Tarea } from 'src/app/models/tarea.model';
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
+import { ExamsService } from 'src/app/services/exam.service';
 import { SubTaskExamService } from 'src/app/services/sub-task-exam.service';
 import { SubTasksService } from 'src/app/services/sub-tasks.service';
 import { environment } from 'src/environments/environment';
 
+declare var $: any;
 @Component({
   selector: 'app-manage-execution-pipeline',
   templateUrl: './manage-execution-pipeline.component.html',
@@ -29,16 +31,19 @@ export class ManageExecutionPipelineComponent implements OnInit {
   seleccionada: number = 0;
   optionsSubTasks:any=[]
   subtaskExamPreviousId:any=0;
+  public detailsExam!: any;
 
   constructor(private route: ActivatedRoute,
     private subtaskService: SubTasksService,
     private subtasksExamService: SubTaskExamService,
     private sanitizer: DomSanitizer,
     private _alert: AlertPersonalService,
-    private router: Router) {
+    private router: Router,
+    private _exam_service: ExamsService) {
 
   }
   ngOnInit(): void {
+    
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         console.log("recargado")
@@ -55,7 +60,83 @@ export class ManageExecutionPipelineComponent implements OnInit {
     console.log("exam id " + this.examId)
     this.getSubTask()
     this.getSubTasksExam()
+    this.getDetailsOfProcessExam();
+  }
+  getDetailsOfProcessExam(): void {
+    $('.preloader').show();
+    this._exam_service
+      .getExamById(this.examId.toString())
+      .subscribe((resp) => {
+        this.detailsExam = resp;
+        this.setStateOfSubTaskExam();
+        $('.preloader').hide();
+      });
+  }
+  setStateOfSubTaskExam(): void {
+    let id_last_subtask: number = -1;
+    let order_last_subtask: number = -1;
+    // Iterates list of task for get sub Objects for each task
+    this.detailsExam.theProcess.tasks.forEach((task: any) => {
+      //Iterates list of subtask for get sub Objects for each subtask
+      task.subTasks.forEach((subtask: any) => {
+        subtask.lst_config_subtask_exec = [];
+        subtask.state = subtask.subTaskExam.length == 0 ? 'state_red' : null;
+        // Check if exist a previous subtask_exam for set in config
+        let prev_subtask_exam = this.detailsExam.theProcess.tasks.find(
+          (t: any) => {
+            return t.subTasks.find((st: any) => {
+              return (
+                st.id === id_last_subtask &&
+                st.order == order_last_subtask &&
+                st.subTaskExam.find((ste: any) => {
+                  return ste.finished_at;
+                })
+              );
+            });
+          }
+        );
+        if (prev_subtask_exam) {
+          subtask.prevSubTexExam =
+            prev_subtask_exam.subTasks[0].lst_config_subtask_exec.map(
+              (st: any) => st.id_subtask_exam
+            );
+          subtask.state = 'state_yellow';
+        }
 
+        //Iterates list of subtask_exam for set state of subtask
+        subtask.subTaskExam.forEach((subtask_exam: any) => {
+          // Creates basic config for each subtask
+          subtask.lst_config_subtask_exec.push({
+            id_subtask_exam: subtask_exam.id,
+          });
+          // Configuration of state for subtask_exam
+          if (subtask_exam.finished_at) {
+            subtask.state = 'state_green';
+          } else {
+            subtask.state = 'state_yellow';
+          }
+        });
+        //Configuracion nuevo estado, guarda las variables del subtask_exam valor
+        id_last_subtask = subtask.id;
+        order_last_subtask = subtask.order;
+        // Fin configuracion nuevo estado
+      });
+    });
+    this.TaskCompletionPercentage(this.detailsExam.theProcess.tasks);
+  }
+  TaskCompletionPercentage(lstTasks: any): void {
+    lstTasks.forEach((task: any) => {
+      let total: number = task.subTasks.length;
+      let cpt: number = 0;
+      task.subTasks.forEach((sub_task: any) => {
+        let ste_finished: any = sub_task.subTaskExam.find((ste: any) => {
+          return ste.subtask_id == sub_task.id && ste.finished_at;
+        });
+        cpt += ste_finished ? 1 : 0;
+      });
+      let per = cpt > 0 ? (cpt * 100) / total : 0;
+      task.per_finished = Math.trunc(per);
+    });
   }
   getSubTask() {
     this.subtaskService.getSubtaskById(this.subtaskId).subscribe(data => {
