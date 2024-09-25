@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
@@ -25,7 +25,11 @@ export class ManageExecutionPipelineComponent implements OnInit {
   executionNumber: number = 0;
   previousSubtaskExamId: any = 0;
   urlOutMainDatum: any = {};
-  @ViewChild('exampleModal') modal!: ElementRef;
+  isModalOpen = false;
+  seleccionada: number = 0;
+  optionsSubTasks:any=[]
+  subtaskExamPreviousId:any=0;
+
   constructor(private route: ActivatedRoute,
     private subtaskService: SubTasksService,
     private subtasksExamService: SubTaskExamService,
@@ -67,12 +71,24 @@ export class ManageExecutionPipelineComponent implements OnInit {
         this.router.navigate(['/manage-execution-pipeline/exam/' + this.examId + '/subtask/' + data[0]["id"] + '/previous/' + subtaskExamPreviousId], { queryParams: { reload: new Date().getTime() } })
       } else {
         console.log("varios, se debe seleccionar el siguiente paso")
-        const modalElement = this.modal.nativeElement;
-        modalElement.style.display = 'block';
+        this.openModal()
+        this.optionsSubTasks=data
+        this.subtaskExamPreviousId=subtaskExamPreviousId
       }
-
     })
+  }
+  nextExecutionBySelection() {
+    this.subtasksExamService.getNextSubTask(this.examId, this.subtaskId).subscribe(data => {
+      console.log("siguiente " + JSON.stringify(data))
+      this.router.navigate(['/manage-execution-pipeline/exam/' + this.examId + '/subtask/' + this.seleccionada + '/previous/' + this.subtaskExamPreviousId], { queryParams: { reload: new Date().getTime() } })
+    })
+  }
+  openModal() {
+    this.isModalOpen = true;
+  }
 
+  closeModal() {
+    this.isModalOpen = false;
   }
   getSubTasksExam() {
     this.subtasksExamService.listSubTasksExamsByExamAndSubTask(this.examId, this.subtaskId).subscribe(data => {
@@ -140,5 +156,9 @@ export class ManageExecutionPipelineComponent implements OnInit {
       );
     })
 
+  }
+  onSelection(id: number) {
+    this.seleccionada = id;
+    console.log(`ID seleccionado: ${this.seleccionada}`);
   }
 }
