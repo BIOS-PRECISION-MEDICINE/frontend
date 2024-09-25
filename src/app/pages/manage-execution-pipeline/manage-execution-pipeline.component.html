@@ -2,167 +2,223 @@
     <!--Panel subtarea -->
     <div class="row">
         <div class="col">
-            <div class="row justify-content-end">
-                <div class="col-lg-4 col-xlg-4">
-                    <span class="state_red label_state_icon"></span><span class="label_state">Pendiente</span>
-                    <span class="state_yellow label_state_icon"></span><span class="label_state">En ejecución</span>
-                    <span class="state_green label_state_icon"></span><span class="label_state">Finalizado</span>
-                </div>
-            </div>
+
+            <h2>Tarea {{subTask.task.order}}: {{subTask.task.name}} - Subtarea {{subTask.order}}: {{subTask.name}}</h2>
             <div class="card">
-                <div class="card-header card-header-color">Tarea:{{subTask.task.name}}</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="title-custom-te">
-                                        <h1>Subtarea: {{subTask.name}}</h1>
-                                        <!-- Sección panel -->
-                                        <h3>Configuración Nueva Ejecución</h3>
-                                        <div class="row">
-                                            <div class="table-responsive animated fadeInLeftBig">
-                                                <table class="table table-sm table-bordered table-background">
-                                                    <thead class="thead-custom">
-                                                        <tr>
-                                                            <th class="text-center">Nombre</th>
-                                                            <th class="text-center">Tipo</th>
-                                                            <!-- <th class="text-center">Opcional</th> -->
-                                                            <th class="text-center">Valor</th>
-                                                            <th class="text-center"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="tbody-custom">
-                                                        <ng-container *ngFor="let item of subTask.input_params">
-                                                            <tr *ngIf="getInputTypeFromDatumType(item.type) !== 'file'">
-                                                                <td>{{item.name}}</td>
-                                                                <td>{{item.type}}</td>
-                                                                <td>
-                                                                    <input [type]="getInputTypeFromDatumType(item.type)"
-                                                                        class="form-control"
-                                                                        [(ngModel)]="item.default_value">
-                                                                </td>
-                                                            </tr>
-                                                        </ng-container>
-                                                    </tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><button class="btn btn-success btn-sm mr-2 btn-block"
-                                                                (click)="startExecution()" type="button ">Iniciar
-                                                                Ejecución</button></td>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    <h3>Configuración Nueva Ejecución</h3>
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-responsive animated fadeInLeftBig">
+                                        <table class="table table-sm table-bordered table-background">
+                                            <thead class="thead-custom">
+                                                <tr>
+                                                    <th class="text-center">Nombre</th>
+                                                    <th class="text-center">Tipo</th>
+                                                    <!-- <th class="text-center">Opcional</th> -->
+                                                    <th class="text-center">Valor</th>
+                                                    <th class="text-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-custom">
+                                                <ng-container *ngFor="let item of subTask.input_params">
+                                                    <tr *ngIf="getInputTypeFromDatumType(item.type) !== 'file'">
+                                                        <td>{{item.name}}</td>
+                                                        <td>{{item.type}}</td>
+                                                        <td>
+                                                            <input [type]="getInputTypeFromDatumType(item.type)"
+                                                                class="form-control" [(ngModel)]="item.default_value">
+                                                        </td>
                                                     </tr>
-                                                </table>
-                                            </div>
-
-                                        </div>
-                                        <h3>Ejecuciones </h3>
-                                        <div class="row">
-                                            <nav>
-                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-                                                    <a *ngFor="let item of subTasksExam; let i = index"
-                                                        class="nav-item nav-link active" id="nav-home-tab"
-                                                        (click)="setTab(item.id,i)" data-toggle="tab" href="#nav-home"
-                                                        role="tab" aria-controls="nav-home" aria-selected="true">
-
-                                                        <span *ngIf="item.state==0"
-                                                            class="state_red label_state_icon"></span>
-                                                        <span *ngIf="item.state==1"
-                                                            class="state_yellow label_state_icon"></span>
-                                                        <span *ngIf="item.state==2"
-                                                            class="state_green label_state_icon"></span>
-
-                                                        <span class="label_state">Ejecución {{ i + 1 }}</span>
-                                                    </a>
-                                                </div>
-                                            </nav>
-                                            <div class="tab-content" id="nav-tabContent">
-                                                <div id="nav-home">
-                                                    <br>
-                                                    <h4>Ejecución {{executionNumber+1}}</h4>
-                                                    <br>
-                                                    <div class="row">
-                                                        <div class="col-3">
-                                                            <p>Estado:</p>
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <span *ngIf="actualSubTasksExam.state==0">
-                                                                <span class="state_red label_state_icon"></span><span
-                                                                    class="label_state">Pendiente</span>
-                                                            </span>
-                                                            <span *ngIf="actualSubTasksExam.state==1">
-                                                                <span class="state_yellow label_state_icon"></span><span
-                                                                    class="label_state">En ejecución</span>
-                                                            </span>
-                                                            <span *ngIf="actualSubTasksExam.state==2">
-                                                                <span class="state_green label_state_icon"></span><span
-                                                                    class="label_state">Finalizado</span>
-                                                            </span>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-3">
-                                                            <p>Descripción:</p>
-                                                        </div>
-                                                        <div class="col-9">
-                                                            {{actualSubTasksExam.description}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-3">
-                                                            <p>Inicio de ejecución:</p>
-                                                        </div>
-                                                        <div class="col-9">
-                                                            {{actualSubTasksExam.created_at}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-3">
-                                                            <p>Fin de ejecución:</p>
-                                                        </div>
-                                                        <div class="col-9">
-                                                            {{actualSubTasksExam.finished_at}}
-                                                        </div>
-                                                    </div>
-                                                    <table class="table table-sm table-bordered table-background">
-                                                        <thead class="thead-custom">
-                                                            <tr>
-                                                                <th class="text-center">Nombre</th>
-                                                                <th class="text-center">Tipo</th>
-                                                                <th class="text-center">Valor</th>
-                                                                <th class="text-center"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="tbody-custom">
-                                                            <tr
-                                                                *ngFor="let item of actualSubTasksExam.data_sub_task_exam">
-                                                                <td *ngIf="item.type=='input'">{{item.datum.param.name}}
-                                                                </td>
-                                                                <td *ngIf="item.type=='input'">{{item.datum.param.type}}
-                                                                </td>
-                                                                <td *ngIf="item.type=='input'">{{item.datum.value}}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <br>
-                                        <br>
-                                        <div *ngIf="actualSubTasksExam.state==2">
-                                            <h3>Resultados </h3>
-                                            <iframe [src]="getOutReport()" class="iframe"></iframe>
-                                        </div>
-
+                                                </ng-container>
+                                            </tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><button class="btn btn-success btn-block" (click)="startExecution()"
+                                                        type="button ">Iniciar
+                                                        Ejecución</button></td>
+                                            </tr>
+                                        </table>
                                     </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                    <h3>Ejecuciones </h3>
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+
+                                <div class="row justify-content-end">
+                                    <div class="col-lg-4 col-xlg-4">
+                                        <span class="state_red label_state_icon"></span><span
+                                            class="label_state">Pendiente</span>
+                                        <span class="state_yellow label_state_icon"></span><span class="label_state">En
+                                            ejecución</span>
+                                        <span class="state_green label_state_icon"></span><span
+                                            class="label_state">Finalizado</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <nav>
+
+                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+                                            <a *ngFor="let item of subTasksExam; let i = index"
+                                                class="nav-item nav-link active" id="nav-home-tab"
+                                                (click)="setTab(item.id,i)" data-toggle="tab" href="#nav-home"
+                                                role="tab" aria-controls="nav-home" aria-selected="true">
+
+                                                <span *ngIf="item.state==0" class="state_red label_state_icon"></span>
+                                                <span *ngIf="item.state==1"
+                                                    class="state_yellow label_state_icon"></span>
+                                                <span *ngIf="item.state==2" class="state_green label_state_icon"></span>
+
+                                                <span class="label_state">Ejecución {{ i + 1 }}</span>
+
+                                            </a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div id="nav-home">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <h4>Ejecución {{executionNumber + 1}}</h4>
+                                                </div>
+                                                <div class="col-4">
+                                                    <!-- Espacio vacío -->
+                                                </div>
+                                                <div class="col-4 d-flex justify-content-end">
+                                                    <button class="btn btn-success  btn-block"
+                                                        (click)="nextExecution(actualSubTasksExam.id)">Continuar desde
+                                                        esta ejecución</button>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <p>Estado:</p>
+                                                </div>
+                                                <div class="col-9">
+                                                    <span *ngIf="actualSubTasksExam.state==0">
+                                                        <span class="state_red label_state_icon"></span><span
+                                                            class="label_state">Pendiente</span>
+                                                    </span>
+                                                    <span *ngIf="actualSubTasksExam.state==1">
+                                                        <span class="state_yellow label_state_icon"></span><span
+                                                            class="label_state">En ejecución</span>
+                                                    </span>
+                                                    <span *ngIf="actualSubTasksExam.state==2">
+                                                        <span class="state_green label_state_icon"></span><span
+                                                            class="label_state">Finalizado</span>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <p>Descripción:</p>
+                                                </div>
+                                                <div class="col-9">
+                                                    {{actualSubTasksExam.description}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <p>Inicio de ejecución:</p>
+                                                </div>
+                                                <div class="col-9">
+                                                    {{actualSubTasksExam.created_at}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <p>Fin de ejecución:</p>
+                                                </div>
+                                                <div class="col-9">
+                                                    {{actualSubTasksExam.finished_at}}
+                                                </div>
+                                            </div>
+                                            <table class="table table-sm table-bordered table-background">
+                                                <thead class="thead-custom">
+                                                    <tr>
+                                                        <th class="text-center">Nombre</th>
+                                                        <th class="text-center">Tipo</th>
+                                                        <th class="text-center">Valor</th>
+                                                        <th class="text-center"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tbody-custom">
+                                                    <tr *ngFor="let item of actualSubTasksExam.data_sub_task_exam">
+                                                        <td *ngIf="item.type=='input'">{{item.datum.param.name}}
+                                                        </td>
+                                                        <td *ngIf="item.type=='input'">{{item.datum.param.type}}
+                                                        </td>
+                                                        <td *ngIf="item.type=='input'">{{item.datum.value}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div *ngIf="actualSubTasksExam.state==2">
+                                    <h3>Resultados </h3>
+                                    <iframe [src]="getOutReport()" class="iframe"></iframe>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

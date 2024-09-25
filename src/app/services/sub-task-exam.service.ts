@@ -53,6 +53,17 @@ export class SubTaskExamService {
     );
   }
 
+  getNextSubTask(id_exam: string,id_subtask:string): Observable<any> {
+    let url =
+    environment.url_main_backend + "/next-subtasks/"+id_subtask+"/exam/"+id_exam;
+      console.log("ruta "+url)
+    return this.http.get<any>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+  }
+  
   listSubTasksExamsByExamAndSubTask(id_exam: string,id_subtask:string): Observable<any> {
     let url =
       URL_SUBTASKS_EXAM + "/exam/"+id_exam+"/subtask/"+id_subtask;

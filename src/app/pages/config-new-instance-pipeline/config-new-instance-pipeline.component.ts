@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
@@ -28,7 +28,7 @@ export class ConfigNewInstancePipelineComponent {
   public id_process: number = -1;
   public lstInputParams: any = [];
   public lstProcesses: any = [];
-
+  
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -86,6 +86,7 @@ export class ConfigNewInstancePipelineComponent {
   }
 
   getConfigSubTask(): any {
+    //URGENTE OJO
     $('.preloader').show();
     this._subtask_service
       .getListingSubTasksByFilters(this.id_process, 1, 1)
@@ -142,24 +143,27 @@ export class ConfigNewInstancePipelineComponent {
         let exam: Examen = new Examen();
         exam.patient_id = this.id_patient.toString();
         exam.name = name_examm;
+        const newList = this.lstInputParams.map((item: any) => ({
+          param_id: item.id as number,
+          value: item.default_value as string
+        }));
         this._exams_service.createNewExam(exam).subscribe((resp) => {
           if (resp.Meta.StatusCode == 200) {
             this.id_exam = resp.Data.id;
+            let payload: SubTareaExamen = {
+              "exam_id": this.id_exam,
+              "subtask_id": this.subTask.id,
+              "dataSubTaskExam": newList
+            }
+            console.log("INICIADO -->", JSON.stringify(payload))
+            this._subtask_exam_service.createNewSubTaskExam(payload).subscribe(data => {
+              this._alert.mostrarAlertTipoToast(
+                ALERT_TYPE.OK,
+                'Tarea 1, subproceso 1 iniciado'
+              );
+            })
           }
-          let payload:SubTareaExamen = {
-            "exam_id": this.id_exam,
-            "subtask_id": this.subTask.id,
-            "dataSubTaskExam":[
-              {param_id:1,value:22}
-            ]
-          }
-          console.log("INICIADO -->",JSON.stringify(payload))
-          this._subtask_exam_service.createNewSubTaskExam(payload).subscribe(data => {
-            this._alert.mostrarAlertTipoToast(
-                  ALERT_TYPE.OK,
-                  'Tarea 1, subproceso 1 iniciado'
-                );
-          })
+
           // // Create new instance of test
           // if (this.id_exam > 0) {
           //   let test: any = {
