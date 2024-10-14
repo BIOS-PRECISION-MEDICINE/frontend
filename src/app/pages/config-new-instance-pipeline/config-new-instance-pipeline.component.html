@@ -8,42 +8,23 @@
             <form [formGroup]="forms">
               <div class="input-group mb-2">
                 <div class="form-control">
-                  <select
-                    id="id_process"
-                    class="form-control custom-select"
-                    [class.is-invalid]="processNoValido"
-                    formControlName="id_process"
-                    (change)="changeSelectIdProcess($event)"
-                  >
+                  <select id="id_process" class="form-control custom-select" [class.is-invalid]="processNoValido"
+                    formControlName="id_process" (change)="changeSelectIdProcess($event)">
                     <option value="">Seleccione Proceso</option>
-                    <option
-                      value="{{ item.id }}"
-                      *ngFor="let item of lstProcesses"
-                    >
+                    <option value="{{ item.id }}" *ngFor="let item of lstProcesses">
                       {{ item.name }}
                     </option>
                   </select>
                 </div>
                 <div class="form-control">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    [class.is-invalid]="nameNoValido"
-                    formControlName="name"
-                    placeholder="Ingrese el nombre del examen"
-                  />
+                  <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
+                    formControlName="name" placeholder="Ingrese el nombre del examen" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="description">Descripción</label>
-                <textarea
-                  id="description"
-                  class="form-control"
-                  [class.is-invalid]="descNoValido"
-                  formControlName="description"
-                  rows="2"
-                ></textarea>
+                <textarea id="description" class="form-control" [class.is-invalid]="descNoValido"
+                  formControlName="description" rows="2"></textarea>
               </div>
             </form>
 
@@ -61,11 +42,7 @@
                 <div class="col">
                   <div class="row">
                     <div class="col">
-                      <input
-                        type="hidden"
-                        id="id_subtask_global"
-                        value="{{ subTask.id }}"
-                      />
+                      <input type="hidden" id="id_subtask_global" value="{{ subTask.id }}" />
 
                       <div class="title-custom-te">
                         <h1>
@@ -81,16 +58,14 @@
                   <div class="row">
                     <div class="col">
                       <div class="title-custom-te">
-                        <h1>Pámetros:</h1>
+                        <h1>Parámetros:</h1>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col">
                       <div class="table-responsive animated fadeInLeftBig">
-                        <table
-                          class="table table-sm table-bordered table-striped"
-                        >
+                        <table class="table table-sm table-bordered table-striped">
                           <thead class="thead-custom">
                             <tr>
                               <th class="text-center">Nombre</th>
@@ -109,25 +84,40 @@
                               </td>
                               <td class="text-center">
                                 <div class="form-outline">
-                                  <input
-                                    class="form-control"
-                                    id="param_{{ param.id }}"
-                                    type="{{ param.type_tag }}"
+                                  <input class="form-control" id="param_{{ param.id }}" type="{{ param.type_tag }}"
                                     value="{{
                                       param.optional === 1
                                         ? param.default_value
                                         : param.value
-                                    }}"
-                                  />
-                                  <span
-                                    class="icon-info-custome fa fas fa-info error-icon-custom d-none"
-                                  ></span>
+                                    }}" />
+                                  <span class="icon-info-custome fa fas fa-info error-icon-custom d-none"></span>
+                                </div>
+                              </td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">Lecturas Crudas</td>
+                              <td class="text-center">Archivo</td>
+                              <td class="text-center">No</td>
+                              <td class="text-center">
+                                <!-- Inicio elección archivo FastQ -->
+                                <div class="form-group">
+                                  <input type="text" class="form-control" id="dynamicSelect" [(ngModel)]="searchTerm"
+                                    (input)="onSearch()" placeholder="Escriba para buscar..."  autocomplete="off"/>
+                                  <ul class="list-group floating-dropdown" *ngIf="filteredOptions.length">
+                                    <li class="list-group-item" *ngFor="let option of filteredOptions"
+                                      (click)="selectOption(option)">
+                                      {{ option }}
+                                    </li>
+                                  </ul>
                                 </div>
                               </td>
                               <td></td>
                             </tr>
                           </tbody>
                         </table>
+
+
                       </div>
                     </div>
                   </div>
@@ -138,21 +128,11 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-success"
-          [disabled]="lstInputParams.length == 0"
-          style="border-radius: 10px"
-          (click)="newSubTaskExam()"
-        >
+        <button type="button" class="btn btn-outline-success" [disabled]="lstInputParams.length == 0"
+          style="border-radius: 10px" (click)="newSubTaskExam()">
           Guardar
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          (click)="sendToPreviusPage()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" (click)="sendToPreviusPage()">
           Cancelar
         </button>
       </div>

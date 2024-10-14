@@ -16,6 +16,7 @@ import { ALERT_TYPE } from '../constants/alerts.constans';
 import { Datum } from '../models/datum.model';
 
 const URL_DATOS = environment.url_api_data;
+const URL_BASE = environment.url_base_api;
 const per_page : number = environment.pagination_size;  
 
 declare var $: any;
@@ -44,6 +45,15 @@ export class DatumService {
   //Obtiene listado de datos activos en el sistema
   getAllListingDatums(): Observable<ResponseApi> {
     let url = URL_DATOS + '?page=1&per_page=1000';
+    return this.http.get<ResponseApi>(url).pipe(
+      map((resp) => {
+        return resp;
+      })
+    );
+  }
+
+  getFastQFiles(id:string): Observable<any> {
+    let url = URL_BASE + '/fastq-files/'+id;
     return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;

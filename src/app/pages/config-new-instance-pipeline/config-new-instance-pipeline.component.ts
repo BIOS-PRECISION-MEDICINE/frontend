@@ -8,6 +8,7 @@ import { SubTareaExamen } from 'src/app/models/subTareaExamen.nodel';
 import { SubTarea } from 'src/app/models/subtarea.model';
 import { Tarea } from 'src/app/models/tarea.model';
 import { AlertPersonalService } from 'src/app/services/alert-custome.service';
+import { DatumService } from 'src/app/services/datum.service';
 import { ExamsService } from 'src/app/services/exam.service';
 import { ParametersService } from 'src/app/services/parameters.service';
 import { ProcessesService } from 'src/app/services/processes.service';
@@ -28,7 +29,11 @@ export class ConfigNewInstancePipelineComponent {
   public id_process: number = -1;
   public lstInputParams: any = [];
   public lstProcesses: any = [];
-  
+
+  searchTerm: string = '';
+  allOptions: any[] = [];
+  filteredOptions: string[] = [];
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -37,7 +42,8 @@ export class ConfigNewInstancePipelineComponent {
     private _exams_service: ExamsService,
     private _subtask_service: SubTasksService,
     private _processes_service: ProcessesService,
-    private _subtask_exam_service: SubTaskExamService
+    private _subtask_exam_service: SubTaskExamService,
+    private _datum_service: DatumService,
   ) {
     this.task = new Tarea();
     this.subTask = new SubTarea();
@@ -89,7 +95,7 @@ export class ConfigNewInstancePipelineComponent {
     //URGENTE OJO
     $('.preloader').show();
     this._subtask_service
-      .getListingSubTasksByFilters(this.id_process, 1, 1)
+      .getListingSubTasksByFilters(this.id_process, 2, 1)
       .subscribe((resp) => {
         this.subTask = resp.length > 0 ? resp[0] : new SubTarea();
         this.task = this.subTask.task;
@@ -244,5 +250,27 @@ export class ConfigNewInstancePipelineComponent {
       });
     });
     return test;
+  }
+  // Filtrar opciones al escribir
+  onSearch() {
+    
+    if (this.searchTerm) {
+      this._datum_service.getFastQFiles(this.searchTerm).subscribe(data=>{
+        this.allOptions=data
+        console.log(data)
+        this.filteredOptions = this.allOptions.filter(option =>
+          option.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
+      })
+      
+    } else {
+      this.filteredOptions = [];
+    }
+  }
+
+  // Seleccionar una opción
+  selectOption(option: string) {
+    this.searchTerm = option;
+    this.filteredOptions = [];
   }
 }
