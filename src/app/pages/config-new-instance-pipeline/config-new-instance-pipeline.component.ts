@@ -29,6 +29,7 @@ export class ConfigNewInstancePipelineComponent {
   public id_process: number = -1;
   public lstInputParams: any = [];
   public lstProcesses: any = [];
+  public fastqFileId:any=0;
 
   searchTerm: string = '';
   allOptions: any[] = [];
@@ -99,6 +100,10 @@ export class ConfigNewInstancePipelineComponent {
       .subscribe((resp) => {
         this.subTask = resp.length > 0 ? resp[0] : new SubTarea();
         this.task = this.subTask.task;
+        this.fastqFileId=this.subTask.input_params
+        .filter(obj => obj.type === 'file')
+        .map(obj => obj.id)[0];
+
         this.lstInputParams = this.subTask.input_params.filter((obj) => {
           return obj.type != 'file';
         });
@@ -109,7 +114,7 @@ export class ConfigNewInstancePipelineComponent {
               item.type_tag = 'number';
               break;
             case 'time':
-              item.type_tag = 'date';
+              item.type_tag = 'string';
               break;
             default:
               item.type_tag = 'string';
@@ -153,6 +158,10 @@ export class ConfigNewInstancePipelineComponent {
           param_id: item.id as number,
           value: item.default_value as string
         }));
+        newList.push({
+          param_id:this.fastqFileId,
+          value:this.searchTerm
+        })
         this._exams_service.createNewExam(exam).subscribe((resp) => {
           if (resp.Meta.StatusCode == 200) {
             this.id_exam = resp.Data.id;

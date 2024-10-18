@@ -10,8 +10,8 @@ export const environment = {
   url_base:"http://localhost:4200/login",
   url_login:"http://localhost:4200/login",
   // Apis propias para hacer el canal de comunicación con back-end.
-  url_base_api:'http://localhost:3333',
-  url_auth: 'http://localhost:3333/login-fake',
+  url_base_api:'http://10.0.80.43',
+  url_auth: 'http://10.0.80.43/login-fake',
   //API permissions
   url_api_permissions: 'http://10.0.80.43/permissions',
   //API rols
