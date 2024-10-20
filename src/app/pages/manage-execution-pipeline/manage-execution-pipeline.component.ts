@@ -28,9 +28,9 @@ export class ManageExecutionPipelineComponent implements OnInit {
   previousSubtaskExamId: any = 0;
   urlOutMainDatum: any = {};
   isModalOpen = false;
-  seleccionada: number = 0;
-  optionsSubTasks:any=[]
-  subtaskExamPreviousId:any=0;
+  idSubTareaSeleccionada: number = 0;
+  optionsSubTasks: any = []
+  subtaskExamPreviousId: any = 0;
   public detailsExam!: any;
 
   constructor(private route: ActivatedRoute,
@@ -43,7 +43,7 @@ export class ManageExecutionPipelineComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         console.log("recargado")
@@ -67,7 +67,9 @@ export class ManageExecutionPipelineComponent implements OnInit {
     this._exam_service
       .getExamById(this.examId.toString())
       .subscribe((resp) => {
+        
         this.detailsExam = resp;
+        console.log("detalles "+JSON.stringify(this.detailsExam))
         this.setStateOfSubTaskExam();
         $('.preloader').hide();
       });
@@ -153,16 +155,20 @@ export class ManageExecutionPipelineComponent implements OnInit {
       } else {
         console.log("varios, se debe seleccionar el siguiente paso")
         this.openModal()
-        this.optionsSubTasks=data
-        this.subtaskExamPreviousId=subtaskExamPreviousId
+        this.optionsSubTasks = data
+        console.log("aqui-->" + JSON.stringify(this.optionsSubTasks))
+        this.subtaskExamPreviousId = subtaskExamPreviousId
       }
     })
   }
   nextExecutionBySelection() {
     this.subtasksExamService.getNextSubTask(this.examId, this.subtaskId).subscribe(data => {
       console.log("siguiente " + JSON.stringify(data))
-      this.router.navigate(['/manage-execution-pipeline/exam/' + this.examId + '/subtask/' + this.seleccionada + '/previous/' + this.subtaskExamPreviousId], { queryParams: { reload: new Date().getTime() } })
+      this.router.navigate(['/manage-execution-pipeline/exam/' + this.examId + '/subtask/' + this.idSubTareaSeleccionada + '/previous/' + this.subtaskExamPreviousId], { queryParams: { reload: new Date().getTime() } })
     })
+  }
+  SendToConfigExecSubTaskExam(subtask:any,previous_subtask_exam_id:any): void {
+    this.router.navigate(['/manage-execution-pipeline/exam/'+this.examId+'/subtask/'+ subtask+ '/previous/' + previous_subtask_exam_id], { queryParams: { reload: new Date().getTime() } });
   }
   openModal() {
     this.isModalOpen = true;
@@ -206,10 +212,11 @@ export class ManageExecutionPipelineComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.urlOutMainDatum);
   }
   startExecution() {
+    console.log("iniciando ejecucion")
     this.subTask.input_params.forEach(item => {
       item["value"] = item.default_value;
     });
-    console.log(JSON.stringify(this.subTask.input_params))
+    //console.log(JSON.stringify(this.subTask.input_params))
     //falta llamar el backend para iniciar la tarea
     const newList = this.subTask.input_params
       .filter((item: any) => item.default_value !== null && item.default_value !== undefined)
@@ -218,12 +225,21 @@ export class ManageExecutionPipelineComponent implements OnInit {
         value: item.default_value as string
       }));
 
+    // if(this.optionsSubTasks.length>0){
+
+    //   payload = {
+    //     "exam_id": this.examId,
+    //     "subtask_id": this.idSubTareaSeleccionada,
+    //     "dataSubTaskExam": newList
+    //   }
+    // }else{
     let payload: SubTareaExamen = {
       "exam_id": this.examId,
       "subtask_id": this.subTask.id,
-
       "dataSubTaskExam": newList
     }
+    console.log("PAYLOAD-> " + JSON.stringify(payload))
+
     if (this.previousSubtaskExamId != 0) {
       payload["previous_subtask_exam_id"] = this.previousSubtaskExamId
     }
@@ -237,9 +253,10 @@ export class ManageExecutionPipelineComponent implements OnInit {
       );
     })
 
+
   }
   onSelection(id: number) {
-    this.seleccionada = id;
-    console.log(`ID seleccionado: ${this.seleccionada}`);
+    this.idSubTareaSeleccionada = id;
+    console.log(`ID seleccionado: ${this.idSubTareaSeleccionada}`);
   }
 }

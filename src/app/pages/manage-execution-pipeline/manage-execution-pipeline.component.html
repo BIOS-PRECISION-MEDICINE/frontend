@@ -25,22 +25,25 @@
                         <strong>Sub-tareas:</strong>
                         <div *ngFor="let subtask of task.subTasks; index as j">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-7">
                                     <span [ngClass]="subtask.state"></span>
-                                    <strong>{{ subtask.name }}</strong>
-                                    <a class="btn-config-exec-subtask-exam" *ngIf="subtask.state !== 'state_red'"
-                                        (click)="
-                      SendToConfigExecSubTaskExam(
-                        task.name,
-                        subtask.name,
-                        subtask.id,
-                        subtask.prevSubTexExam,
-                        subtask?.lst_config_subtask_exec
-                      )
-                    ">
-                                        <i class="fa-solid fa-gears"></i>
-                                        {{subtask.id}}-{{subtask.prevSubTexExam}}
-                                    </a>
+                                    <strong>{{ subtask.name }}:</strong>
+                                    <!-- <i class="fa-solid fa-gears"></i> -->
+
+                                </div>
+                                <div class="col-5">
+                                    <ng-container
+                                        *ngFor="let item of subtask.subTaskExam; let i = index; let last = last">
+                                        <a (click)="
+                                            SendToConfigExecSubTaskExam(
+                                                subtask.id,
+                                                item.previous_subtask_exam_id
+                                            )
+                                            " class="link">
+                                            {{ i + 1 }}<span *ngIf="!last">,
+                                            </span>
+                                        </a>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +57,7 @@
     </div>
     <!-- End listing Tasks -->
 
-    
+
     <!--Panel subtarea -->
     <div class="row">
         <div class="col">
@@ -259,7 +262,8 @@
         <span class="close" (click)="closeModal()">&times;</span>
         <h2>Selección de próxima subtarea</h2>
         <p>La siguiente subtarea puede ser ejecutada de diferentes formas, seleccione una de las siguientes:</p>
-        <select class="form-control" [(ngModel)]="seleccionada" (change)="onSelection(seleccionada)">
+        <select class="form-control" [(ngModel)]="idSubTareaSeleccionada"
+            (change)="onSelection(idSubTareaSeleccionada)">
             <option *ngFor="let option of optionsSubTasks" [value]="option.id">{{ option.name }}</option>
         </select>
         <br>

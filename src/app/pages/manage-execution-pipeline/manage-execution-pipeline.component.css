@@ -6,7 +6,11 @@
 .table-background {
     background: rgb(224, 231, 238)
 }
-
+a:not([href]):not([tabindex]) {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 .iframe {
     width: 100%;
     height: 500px;
