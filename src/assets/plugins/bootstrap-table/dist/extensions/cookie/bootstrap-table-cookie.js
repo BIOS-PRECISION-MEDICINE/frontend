@@ -78,8 +78,8 @@
             case 'localStorage':
                 localStorage.setItem(cookieName, cookieValue);
             break;
-            case 'sessionStorage':
-                sessionStorage.setItem(cookieName, cookieValue);
+            case 'localStorage':
+                localStorage.setItem(cookieName, cookieValue);
             break;
             default:
                 return false;
@@ -104,8 +104,8 @@
                 return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(cookieName).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
             case 'localStorage':
                 return localStorage.getItem(cookieName);
-            case 'sessionStorage':
-                return sessionStorage.getItem(cookieName);
+            case 'localStorage':
+                return localStorage.getItem(cookieName);
             default:
                 return null;
         }
@@ -126,8 +126,8 @@
             case 'localStorage':
                 localStorage.removeItem(cookieName);
             break;
-            case 'sessionStorage':
-                sessionStorage.removeItem(cookieName);
+            case 'localStorage':
+                localStorage.removeItem(cookieName);
             break;
 
         }
@@ -210,7 +210,7 @@
             'bs.table.columns', 'bs.table.searchText',
             'bs.table.filterControl'
         ],
-        cookieStorage: 'cookieStorage', //localStorage, sessionStorage
+        cookieStorage: 'cookieStorage', //localStorage, localStorage
         //internal variable
         filterControls: [],
         filterControlValuesLoaded: false

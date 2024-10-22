@@ -43,15 +43,15 @@ export class UsuarioService {
   ) { }
 
   get token(): string {
-    return sessionStorage.getItem('token') || '';
+    return localStorage.getItem('token') || '';
   }
 
-  saveSessionStorage(name: string, object: any) {
-    sessionStorage.setItem(name, JSON.stringify(object));
+  savelocalStorage(name: string, object: any) {
+    localStorage.setItem(name, JSON.stringify(object));
   }
 
   logout() {
-    sessionStorage.clear();
+    localStorage.clear();
     localStorage.removeItem('menu');
     this.router.navigateByUrl('/login');
     window.onload = () => {
@@ -94,7 +94,7 @@ export class UsuarioService {
 
     // Se define la lista de permisos.
     const permisos: number[] = JSON.parse(
-      sessionStorage.getItem('variablesDeUsuarioLogadoDTO')!
+      localStorage.getItem('variablesDeUsuarioLogadoDTO')!
     ).Permisos;
 
     // Se valida que el permiso este en el arreglo.
@@ -106,11 +106,11 @@ export class UsuarioService {
   }
 
   public handleCredentialResponse(response: googleSignInResponse) {
-    this.saveSessionStorage('token', response.credential);
+    this.savelocalStorage('token', response.credential);
     let VariablesDeUsuarioLogadoDTO: googleCredentials = this.decodeJwtResponse(
       response.credential
     );
-    this.saveSessionStorage(
+    this.savelocalStorage(
       'variablesDeUsuarioLogadoDTO',
       VariablesDeUsuarioLogadoDTO
     );
@@ -270,11 +270,11 @@ export class UsuarioService {
       .pipe(
         map((resp: any) => {
           if(resp.token){
-          this.saveSessionStorage('token', resp.token);
+          this.savelocalStorage('token', resp.token);
           let VariablesDeUsuarioLogadoDTO = {
             email:"admin@admin.com"
           };
-          this.saveSessionStorage(
+          this.savelocalStorage(
             'variablesDeUsuarioLogadoDTO',
             VariablesDeUsuarioLogadoDTO
           );

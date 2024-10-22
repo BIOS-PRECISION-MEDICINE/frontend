@@ -5323,7 +5323,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
        */
       windowProperties    = [
         "parent", "top", "opener", "frameElement", "frames",
-        "localStorage", "globalStorage", "sessionStorage", "indexedDB"
+        "localStorage", "globalStorage", "localStorage", "indexedDB"
       ],
       /**
        * Properties on the window object which are set to an empty function

@@ -16,9 +16,19 @@ export class HeaderComponent {
 
   constructor( private usuarioService: UsuarioService,
                private router: Router ) {
+    this.usuario={
+      email:"",
+      nombre:"",
 
-    var usuario: googleCredentials = JSON.parse(sessionStorage.getItem('variablesDeUsuarioLogadoDTO')!);
-    this.usuario = new Usuario(usuario.name,usuario.email,'',usuario.picture);
+    }
+    if(localStorage.getItem('variablesDeUsuarioLogadoDTO') === null){
+      this.router.navigate(["/login"])
+    }else{
+      let usuario: googleCredentials = JSON.parse(localStorage.getItem('variablesDeUsuarioLogadoDTO')!);
+      console.log("Nuevo logueado "+JSON.stringify(usuario))
+      this.usuario = new Usuario(usuario.name,usuario.email,'',usuario.picture);
+    }
+    
   }
 
   logout() {
