@@ -21,11 +21,11 @@ var QUnit,
 	Date = window.Date,
 	defined = {
 	setTimeout: typeof window.setTimeout !== "undefined",
-	sessionStorage: (function() {
+	localStorage: (function() {
 		var x = "qunit-test-string";
 		try {
-			sessionStorage.setItem( x, x );
-			sessionStorage.removeItem( x );
+			localStorage.setItem( x, x );
+			localStorage.removeItem( x );
 			return true;
 		} catch( e ) {
 			return false;
@@ -199,11 +199,11 @@ Test.prototype = {
 			}
 
 			// store result when possible
-			if ( QUnit.config.reorder && defined.sessionStorage ) {
+			if ( QUnit.config.reorder && defined.localStorage ) {
 				if ( bad ) {
-					sessionStorage.setItem( "qunit-test-" + this.module + "-" + this.testName, bad );
+					localStorage.setItem( "qunit-test-" + this.module + "-" + this.testName, bad );
 				} else {
-					sessionStorage.removeItem( "qunit-test-" + this.module + "-" + this.testName );
+					localStorage.removeItem( "qunit-test-" + this.module + "-" + this.testName );
 				}
 			}
 
@@ -288,8 +288,8 @@ Test.prototype = {
 
 		// `bad` initialized at top of scope
 		// defer when previous test run passed, if storage is available
-		bad = QUnit.config.reorder && defined.sessionStorage &&
-						+sessionStorage.getItem( "qunit-test-" + this.module + "-" + this.testName );
+		bad = QUnit.config.reorder && defined.localStorage &&
+						+localStorage.getItem( "qunit-test-" + this.module + "-" + this.testName );
 
 		if ( bad ) {
 			run();
@@ -581,7 +581,7 @@ config = {
 	blocking: true,
 
 	// when enabled, show only failing tests
-	// gets persisted through sessionStorage and can be changed in UI via checkbox
+	// gets persisted through localStorage and can be changed in UI via checkbox
 	hidepassed: false,
 
 	// by default, run previously failed tests first
@@ -990,16 +990,16 @@ QUnit.load = function() {
 				tmp = " " + ol.className.replace( /[\n\t\r]/g, " " ) + " ";
 				ol.className = tmp.replace( / hidepass /, " " );
 			}
-			if ( defined.sessionStorage ) {
+			if ( defined.localStorage ) {
 				if (filter.checked) {
-					sessionStorage.setItem( "qunit-filter-passed-tests", "true" );
+					localStorage.setItem( "qunit-filter-passed-tests", "true" );
 				} else {
-					sessionStorage.removeItem( "qunit-filter-passed-tests" );
+					localStorage.removeItem( "qunit-filter-passed-tests" );
 				}
 			}
 		});
 
-		if ( config.hidepassed || defined.sessionStorage && sessionStorage.getItem( "qunit-filter-passed-tests" ) ) {
+		if ( config.hidepassed || defined.localStorage && localStorage.getItem( "qunit-filter-passed-tests" ) ) {
 			filter.checked = true;
 			// `ol` initialized at top of scope
 			ol = document.getElementById( "qunit-tests" );
@@ -1010,7 +1010,7 @@ QUnit.load = function() {
 		// `label` initialized at top of scope
 		label = document.createElement( "label" );
 		label.setAttribute( "for", "qunit-filter-pass" );
-		label.setAttribute( "title", "Only show tests and assertons that fail. Stored in sessionStorage." );
+		label.setAttribute( "title", "Only show tests and assertons that fail. Stored in localStorage." );
 		label.innerHTML = "Hide passed tests";
 		toolbar.appendChild( label );
 
@@ -1130,13 +1130,13 @@ function done() {
 		].join( " " );
 	}
 
-	// clear own sessionStorage items if all tests passed
-	if ( config.reorder && defined.sessionStorage && config.stats.bad === 0 ) {
+	// clear own localStorage items if all tests passed
+	if ( config.reorder && defined.localStorage && config.stats.bad === 0 ) {
 		// `key` & `i` initialized at top of scope
-		for ( i = 0; i < sessionStorage.length; i++ ) {
-			key = sessionStorage.key( i++ );
+		for ( i = 0; i < localStorage.length; i++ ) {
+			key = localStorage.key( i++ );
 			if ( key.indexOf( "qunit-test-" ) === 0 ) {
-				sessionStorage.removeItem( key );
+				localStorage.removeItem( key );
 			}
 		}
 	}

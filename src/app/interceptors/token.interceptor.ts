@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     // Se valida el sistema para agregar el correspondiente token(Core digital o intranet).
-    this.token = (request.url.indexOf('ApiRestOrigen') >= 0) ? JSON.parse(sessionStorage.getItem("token-origen")!) : JSON.parse(sessionStorage.getItem("token")!);
+    this.token = (request.url.indexOf('ApiRestOrigen') >= 0) ? JSON.parse(localStorage.getItem("token-origen")!) : JSON.parse(localStorage.getItem("token")!);
 
     // Se debe clonar la req para poder usarla multiples veces.
     const reqClone = request.clone({

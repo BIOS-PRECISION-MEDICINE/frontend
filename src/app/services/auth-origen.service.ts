@@ -46,7 +46,7 @@ export class AuthOrigenService {
       }),
       catchError( error => {
         $('.preloader').hide();
-        sessionStorage.removeItem('token-origen');
+        localStorage.removeItem('token-origen');
         this._alerService.mostrarAlertaSimplesPorTipo(ALERT_TYPE.ERROR, 'Ocurrió un error al obtener el token de acceso Origen', "Error inesperado");
         return of({});
       })

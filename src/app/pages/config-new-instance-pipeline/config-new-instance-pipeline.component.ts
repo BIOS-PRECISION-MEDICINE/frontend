@@ -170,13 +170,16 @@ export class ConfigNewInstancePipelineComponent {
               "subtask_id": this.subTask.id,
               "dataSubTaskExam": newList
             }
-            console.log("INICIADO -->", JSON.stringify(payload))
+            //console.log("INICIADO -->", JSON.stringify(payload))
             this._subtask_exam_service.createNewSubTaskExam(payload).subscribe(data => {
+              console.log("INICIANDO ----->"+JSON.stringify(data))
               this._alert.mostrarAlertTipoToast(
                 ALERT_TYPE.OK,
                 'Tarea 1, subproceso 1 iniciado'
               );
+                this._router.navigate(["/manage-execution-pipeline/exam/"+data["Data"]["exam_id"]+"/subtask/2"])
             })
+
           }
 
           // // Create new instance of test

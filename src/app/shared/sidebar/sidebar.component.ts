@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
 
   constructor( public sidebarService: SidebarService,
                private usuarioService: UsuarioService) {
-    var usuario: googleCredentials = JSON.parse(sessionStorage.getItem('variablesDeUsuarioLogadoDTO')!);
+    var usuario: googleCredentials = JSON.parse(localStorage.getItem('variablesDeUsuarioLogadoDTO')!);
     this.usuario = new Usuario(usuario.name,usuario.email);
   }
 

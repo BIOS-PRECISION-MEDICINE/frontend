@@ -94,7 +94,7 @@ export class TokenService {
   }
 
   renovarToken() {
-    sessionStorage.clear();
+    localStorage.clear();
     localStorage.removeItem('menu');
     this.router.navigateByUrl('/login');
     window.onload = () => {

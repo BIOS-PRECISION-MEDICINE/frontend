@@ -102,7 +102,7 @@ export class ManageExecutionPipelineComponent implements OnInit {
             prev_subtask_exam.subTasks[0].lst_config_subtask_exec.map(
               (st: any) => st.id_subtask_exam
             );
-          subtask.state = 'state_yellow';
+          //subtask.state = 'state_yellow';
         }
 
         //Iterates list of subtask_exam for set state of subtask

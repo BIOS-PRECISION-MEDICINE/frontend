@@ -16,7 +16,7 @@ export class MenuPipelineService {
   createMenuPipeline(): Array<Menu>{
     let menu: Array<Menu> = [
       {
-        titulo: 'Examenes',
+        titulo: 'Exámenes',
         icono: 'fa-solid fa-suitcase-medical',
         subMenu: [
           new SubMenu(
