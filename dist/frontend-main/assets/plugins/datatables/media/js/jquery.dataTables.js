@@ -10844,7 +10844,7 @@
 		"fnStateLoadCallback": function ( settings ) {
 			try {
 				return JSON.parse(
-					(settings.iStateDuration === -1 ? sessionStorage : localStorage).getItem(
+					(settings.iStateDuration === -1 ? localStorage : localStorage).getItem(
 						'DataTables_'+settings.sInstance+'_'+location.pathname
 					)
 				);
@@ -10945,7 +10945,7 @@
 		 */
 		"fnStateSaveCallback": function ( settings, data ) {
 			try {
-				(settings.iStateDuration === -1 ? sessionStorage : localStorage).setItem(
+				(settings.iStateDuration === -1 ? localStorage : localStorage).setItem(
 					'DataTables_'+settings.sInstance+'_'+location.pathname,
 					JSON.stringify( data )
 				);

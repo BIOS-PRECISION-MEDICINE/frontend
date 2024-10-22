@@ -27,11 +27,11 @@ var window = global.window;
 var defined = {
 	document: window && window.document !== undefined,
 	setTimeout: setTimeout !== undefined,
-	sessionStorage: ( function() {
+	localStorage: ( function() {
 		var x = "qunit-test-string";
 		try {
-			sessionStorage.setItem( x, x );
-			sessionStorage.removeItem( x );
+			localStorage.setItem( x, x );
+			localStorage.removeItem( x );
 			return true;
 		} catch ( e ) {
 			return false;
@@ -981,9 +981,9 @@ Test.prototype = {
 			] );
 		}
 
-		// Prioritize previously failed tests, detected from sessionStorage
-		priority = QUnit.config.reorder && defined.sessionStorage &&
-				+sessionStorage.getItem( "qunit-test-" + this.module.name + "-" + this.testName );
+		// Prioritize previously failed tests, detected from localStorage
+		priority = QUnit.config.reorder && defined.localStorage &&
+				+localStorage.getItem( "qunit-test-" + this.module.name + "-" + this.testName );
 
 		return synchronize( run, priority, config.seed );
 	},
@@ -2384,11 +2384,11 @@ var config = QUnit.config,
 	unfilteredUrl = setUrl( { filter: undefined, module: undefined,
 		moduleId: undefined, testId: undefined } ),
 	defined = {
-		sessionStorage: ( function() {
+		localStorage: ( function() {
 			var x = "qunit-test-string";
 			try {
-				sessionStorage.setItem( x, x );
-				sessionStorage.removeItem( x );
+				localStorage.setItem( x, x );
+				localStorage.removeItem( x );
 				return true;
 			} catch ( e ) {
 				return false;
@@ -2925,12 +2925,12 @@ QUnit.done( function( details ) {
 		].join( " " );
 	}
 
-	// Clear own sessionStorage items if all tests passed
-	if ( config.reorder && defined.sessionStorage && details.failed === 0 ) {
-		for ( i = 0; i < sessionStorage.length; i++ ) {
-			key = sessionStorage.key( i++ );
+	// Clear own localStorage items if all tests passed
+	if ( config.reorder && defined.localStorage && details.failed === 0 ) {
+		for ( i = 0; i < localStorage.length; i++ ) {
+			key = localStorage.key( i++ );
 			if ( key.indexOf( "qunit-test-" ) === 0 ) {
-				sessionStorage.removeItem( key );
+				localStorage.removeItem( key );
 			}
 		}
 	}
@@ -2967,8 +2967,8 @@ QUnit.testStart( function( details ) {
 
 	running = id( "qunit-testresult" );
 	if ( running ) {
-		bad = QUnit.config.reorder && defined.sessionStorage &&
-			+sessionStorage.getItem( "qunit-test-" + details.module + "-" + details.name );
+		bad = QUnit.config.reorder && defined.localStorage &&
+			+localStorage.getItem( "qunit-test-" + details.module + "-" + details.name );
 
 		running.innerHTML = ( bad ?
 			"Rerunning previously failed test: <br />" :
@@ -3086,11 +3086,11 @@ QUnit.testDone( function( details ) {
 	bad = details.failed;
 
 	// Store result when possible
-	if ( config.reorder && defined.sessionStorage ) {
+	if ( config.reorder && defined.localStorage ) {
 		if ( bad ) {
-			sessionStorage.setItem( "qunit-test-" + details.module + "-" + details.name, bad );
+			localStorage.setItem( "qunit-test-" + details.module + "-" + details.name, bad );
 		} else {
-			sessionStorage.removeItem( "qunit-test-" + details.module + "-" + details.name );
+			localStorage.removeItem( "qunit-test-" + details.module + "-" + details.name );
 		}
 	}
 
