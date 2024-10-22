@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+    production: true, 
     pagination_size: 10,
     client_id_google: '521818877411-nqqjaghippoeicsl68udp19eppo1m4na.apps.googleusercontent.com',
     url_main_backend: "https://190.7.134.182/api",
