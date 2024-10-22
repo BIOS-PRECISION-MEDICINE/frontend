@@ -8,13 +8,15 @@ import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 
 import { Paciente } from 'src/app/models/paciente.model';
 import Swal from 'sweetalert2';
+import { ValidatorDateGreaterTo } from 'src/app/validators/forms-custom-validators';
+import { Router } from '@angular/router';
+
 
 declare var $: any;
 
 @Component({
   selector: 'app-config-pacientes',
   templateUrl: './config-pacientes.component.html',
-  styleUrls: ['./config-pacientes.component.css'],
 })
 export class ConfigPacientesComponent {
   public edit_state: boolean = false;
@@ -27,6 +29,7 @@ export class ConfigPacientesComponent {
   public lstPatients: any = [];
 
   constructor(
+    private _router: Router,
     private fb: FormBuilder,
     private _patient_service: PatientService,
     private _alert: AlertPersonalService
@@ -60,10 +63,11 @@ export class ConfigPacientesComponent {
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id: [],
       name: ['', Validators.required],
       lastname: ['', Validators.required],
       document: ['', Validators.required],
-      birth_year: ['', Validators.required],
+      birth_year: ['', [Validators.required, ValidatorDateGreaterTo(new Date())]],
     });
   }
 
@@ -82,33 +86,41 @@ export class ConfigPacientesComponent {
     });
   }
 
+  sendToDetailExamsByIdPatient(id:number): void{
+    this._router.navigate(['/exams-by-patient/'+id]);
+  }
+
   modalClose(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#PatientNew').modal('hide');
   }
 
   modalAddPatients(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#PatientNew').modal({ backdrop: 'static', keyboard: false });
   }
 
-  modalEditPatient(id_patient:string): void {
+  modalEditPatient(id_patient: string): void {
     this.edit_state = true;
     this._patient_service.getPatientById(id_patient).subscribe((resp) => {
-      this.patient = resp;
-      this.txt_birth_year= resp.birth_year.split('T')[0];
-      this.patient.birth_year=this.txt_birth_year;
+      this.forms.setValue({
+        id: resp.id,
+        name: resp.name,
+        lastname: resp.lastname,
+        document: resp.document,
+        birth_year: resp.birth_year.split('T')[0]
+      });
       $('#PatientNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
 
-  modalPatientsDetails(id_patient:string): void {
+  modalPatientsDetails(id_patient: string): void {
     this._patient_service.getPatientById(id_patient).subscribe((resp) => {
       this.patient = resp;
-      this.txt_birth_year= resp.birth_year.split('T')[0];
-      this.patient.birth_year=this.txt_birth_year;
+      this.txt_birth_year = resp.birth_year.split('T')[0];
+      this.patient.birth_year = this.txt_birth_year;
       $('#PatientDetails').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -120,13 +132,12 @@ export class ConfigPacientesComponent {
         ALERT_TYPE.WARNING,
         'Por favor llene los campos obligatorios.'
       );
-    } 
+    }
     else {
       $('.preloader').show();
-      this.patient.birth_year= this.txt_birth_year;
-      Reflect.deleteProperty(this.patient, 'id');
-      this._patient_service.createNewPatient(this.patient).subscribe((resp) => {
-        if(resp.Meta.StatusCode == 200){
+      let patient: Paciente = this.forms.value;
+      this._patient_service.createNewPatient(patient).subscribe((resp) => {
+        if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.OK,
@@ -134,7 +145,7 @@ export class ConfigPacientesComponent {
           );
           this.changePageTable(1);
         }
-        else{
+        else {
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.ERROR,
             resp.Meta.TipoRespuesta
@@ -152,12 +163,12 @@ export class ConfigPacientesComponent {
         ALERT_TYPE.WARNING,
         'Por favor llene los campos obligatorios.'
       );
-    } 
+    }
     else {
       $('.preloader').show();
-      this.patient.birth_year=this.txt_birth_year;
-      this._patient_service.updatePatient(this.patient).subscribe((resp) => {
-        if(resp.Meta.StatusCode == 200){
+      let patient:Paciente = this.forms.value;
+      this._patient_service.updatePatient(patient).subscribe((resp) => {
+        if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.OK,
@@ -165,7 +176,7 @@ export class ConfigPacientesComponent {
           );
           this.changePageTable(1);
         }
-        else{
+        else {
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.ERROR,
             resp.Meta.TipoRespuesta
@@ -176,8 +187,8 @@ export class ConfigPacientesComponent {
     $('.preloader').hide();
   }
 
-  removePatient(id_patient:string,document:string): void {
-    
+  removePatient(id_patient: string, document: string): void {
+
     Swal.fire({
       title: 'Estás seguro?',
       text: `¿Desea eliminar el paciente con documento N° ${(document)} ?`,
@@ -185,28 +196,30 @@ export class ConfigPacientesComponent {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText:  'Eliminar',
+      confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       $('.preloader').show();
       if (result.isConfirmed) {
-        this._patient_service.deletePatient(id_patient).subscribe(resp =>{
-          if(resp.Meta.StatusCode == 200){
+        this._patient_service.deletePatient(id_patient).subscribe(resp => {
+          if (resp.Meta.StatusCode == 200) {
             this.changePageTable(1);
             this._alert.mostrarAlertTipoToast(
               ALERT_TYPE.OK,
               'Paciente eliminado exitosamente.'
-            );   
+            );
           }
-          else{
+          else {
             this._alert.mostrarAlertTipoToast(
               ALERT_TYPE.ERROR,
               resp.Meta.TipoRespuesta
-            );   
+            );
           }
         });
       }
       $('.preloader').hide();
     })
   }
+
+
 }

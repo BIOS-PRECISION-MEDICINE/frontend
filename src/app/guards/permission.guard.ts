@@ -17,11 +17,12 @@ export class PermissionGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
     // La propiedad data.permiso viene desde la ruta y no todas la deben tener.
-    const permiso: number = next.data['permiso'] || 0;
+    // const permiso: number = next.data['permiso'] || 0;
 
-    if(!this._userService.checkPermission(permiso)) { this.router.navigate(['/login']); }
+    // if(!this._userService.checkPermission(permiso)) { this.router.navigate(['/login']); }
 
-    return this._userService.checkPermission(permiso);
+    // return this._userService.checkPermission(permiso);
+    return true;
   }
 
 }

@@ -49,6 +49,7 @@ File: scss
 /*******************
 Global Styles
 *******************/
+/*
 @import url(../scss/icons/font-awesome/css/font-awesome.min.css);
 @import url(../scss/icons/simple-line-icons/css/simple-line-icons.css);
 @import url(../scss/icons/weather-icons/css/weather-icons.min.css);
@@ -56,6 +57,7 @@ Global Styles
 @import url(../scss/icons/themify-icons/themify-icons.css);
 @import url(../scss/icons/flag-icon-css/flag-icon.min.css);
 @import url(../scss/icons/material-design-iconic-font/css/materialdesignicons.min.css);
+*/
 @import url(../css/spinners.css);
 @import url(../css/animate.css);
 
@@ -950,7 +952,7 @@ Main sidebar
   top: 0px;
   z-index: 20;
   padding-top: 70px;
-  background: #F1BD46;
+  background: #f1bd46d9;
   -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
   box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
 }
@@ -1007,7 +1009,7 @@ sidebar navigation
 }
 
 .sidebar-nav ul li a {
-  color: #593383;
+  color: #432a7bde;
   padding: 8px 35px 8px 15px;
   display: block;
   font-size: 14px;
@@ -1061,7 +1063,7 @@ sidebar navigation
   font-size: 24px;
   display: inline-block;
   vertical-align: middle;
-  color: #555f6d;
+  color: #432a7bde;
 }
 
 .sidebar-nav>ul>li>a .label {
@@ -1332,12 +1334,12 @@ File: scss
 }
 
 .topbar .navbar-collapse {
-  background: #432A7B;
-  padding: 0 10px;
+  background: #432a7b;
+  height: 50px;
 }
 
 .topbar .top-navbar {
-  min-height: 70px;
+  min-height: 50px;
   padding: 0px;
 }
 
@@ -5666,7 +5668,7 @@ table.dataTable thead .sorting:after {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  *cursor: hand;
+  cursor: hand;
   color: #67757c;
   border: 1px solid #ddd;
 }
@@ -7811,43 +7813,64 @@ File: scss
   display: block;
 }
 
-.thead-custom{
+.thead-custom tr th{
   background: #80C0C4;
+  text-align: center;
+  font-weight: bold;
+  color: #000000;
 }
 
+.tbody-custom tr td{
+  color: #000000;
+}
+
+.tbody-custom tr td a:hover{
+  cursor: pointer;
+}
+
+.btn-custom-1 {
+  margin: 10px 10px;
+  padding: 3px 6px !important;
+  border-radius: 10px
+}
+
+.btn-custom-1:disabled{
+  color: #343a40a1;
+  background-color: #343a40a1;
+}
 .state_yellow{
-  width: 20px;
-  height: 20px;
+  width: 6px;
+  height: 6px;
   position: relative;
-  background-color: yellow;
+  background-color: #ffff00ad;
   float: left;
-  margin: 8px 15px;
-  border-radius: 15px;
+  margin: 8px 3px;
+  border-radius: 10px;
 }
 
 .state_red{
-  width: 20px;
-  height: 20px;
+  width: 6px;
+  height: 6px;
   position: relative;
-  background-color: red;
+  background-color: #ff0000c7;
   float: left;
-  margin: 8px 15px;
-  border-radius: 15px;
+  margin: 8px 3px;
+  border-radius: 10px;
 }
 
 .state_green{
-  width: 20px;
-  height: 20px;
+  width: 6px;
+  height: 6px;
   position: relative;
-  background-color: green;
+  background-color: #00ff22a6;
   float: left;
-  margin: 8px 15px;
-  border-radius: 15px;
+  margin: 8px 3px;
+  border-radius: 10px;
 }
 .label_state_icon{
-  width: 15px;
-  height: 15px;
-  margin: 10px 10px;
+  width: 10px;
+  height: 10px;
+  margin: 12px 5px;
 }
 .label_state{
   position: relative;

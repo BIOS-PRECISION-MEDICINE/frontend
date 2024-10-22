@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {NgxPaginationModule} from 'ngx-pagination'; 
+import {NgxPaginationModule} from 'ngx-pagination';
 
 // Modules.
 import { SharedModule } from '../shared/shared.module';
@@ -25,10 +25,11 @@ import { ConfigParametersComponent } from './config-parameters/config-parameters
 import { ConfigPacientesComponent } from './config-pacientes/config-pacientes.component';
 import { ConfigDatumComponent } from './config-datum/config-datum.component';
 import { ConfigExamsComponent } from './config-exams/config-exams.component';
-import { ConfigDatumSubTaskExamComponent } from './config-datum-sub-task-exam/config-datum-sub-task-exam.component';
-import { ProcessPipelineComponent } from './process-pipeline/process-pipeline.component';
-import { ConfigExamSubtasksComponent } from './config-exam-subtasks/config-exam-subtasks.component';
-import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process/config-exam-subtask-process.component';
+import { DetailsExamProcessComponent } from './details-exam-process/details-exam-process.component';
+import { ConfigExecSubTaskExamComponent } from './config-exec-subtask-exam/config-exec-subtask-exam.component';
+import { ConfigNewInstancePipelineComponent } from './config-new-instance-pipeline/config-new-instance-pipeline.component';
+import { ExamsByPatientComponent } from './exams-by-patient/exams-by-patient.component';
+import { ManageExecutionPipelineComponent } from './manage-execution-pipeline/manage-execution-pipeline.component';
 
 
 @NgModule({
@@ -48,10 +49,11 @@ import { ConfigExamSubtaskProcessComponent } from './config-exam-subtask-process
     ConfigPacientesComponent,
     ConfigDatumComponent,
     ConfigExamsComponent,
-    ConfigDatumSubTaskExamComponent,
-    ProcessPipelineComponent,
-    ConfigExamSubtasksComponent,
-    ConfigExamSubtaskProcessComponent
+    ExamsByPatientComponent,
+    DetailsExamProcessComponent,
+    ConfigExecSubTaskExamComponent,
+    ConfigNewInstancePipelineComponent,
+    ManageExecutionPipelineComponent,
   ],
   exports: [
     DashboardComponent,

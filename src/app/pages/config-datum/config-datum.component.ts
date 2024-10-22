@@ -12,7 +12,6 @@ declare var $: any;
 @Component({
   selector: 'app-config-datum',
   templateUrl: './config-datum.component.html',
-  styleUrls: ['./config-datum.component.css']
 })
 export class ConfigDatumComponent {
   public edit_state: boolean = false;
@@ -39,15 +38,18 @@ export class ConfigDatumComponent {
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id: [],
       value: ['', Validators.required],
       param_id: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.changePageTable(1);
+    $('.preloader').show();
+    
     this._parameters_service.getAllListingParameters().subscribe((resp) => {
       this.lstParams = resp.data;
+      this.changePageTable(1);
     });
   }
 
@@ -58,13 +60,20 @@ export class ConfigDatumComponent {
       this.current_page =resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+      // Sets name of patient for each exam in list
+      this.lstDatum.forEach((item: any) => {
+        item.param_name= this.lstParams.find((obj: any) => {
+          return obj.id === item.param_id;
+        }).name;
+        
+      });
       $('.preloader').hide();
       });
   }
 
   modalClose(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#DatumNew').modal('hide');
   }
 
@@ -73,6 +82,9 @@ export class ConfigDatumComponent {
     this._datum_service.getAllListingDatums().subscribe((resp) => {
       this.lstDatum = resp.data;
       this.forms.reset();
+      this.forms.get('param_id')?.setValue('', {
+        onlySelf: true,
+      });
       $('#DatumNew').modal({ backdrop: 'static', keyboard: false });
     });    
   }
@@ -80,7 +92,12 @@ export class ConfigDatumComponent {
   modalEditDatum(id_dato: string): void {
     this.edit_state = true;
     this._datum_service.getDatumById(id_dato).subscribe((resp) => {
-      this.datum = resp;
+      
+      this.forms.setValue({
+        id: resp.id,
+        param_id: resp.param_id,
+        value: resp.value
+      });
       $('#DatumNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -88,6 +105,9 @@ export class ConfigDatumComponent {
   modalDetailsDatum(id_datum: string): void {
     this._datum_service.getDatumById(id_datum).subscribe((resp) => {
       this.datum = resp;
+      this.datum.param_name= this.lstParams.find((obj: any) => {
+        return obj.id === resp.param_id;
+      }).name;
       $('#DatumDetails').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -101,8 +121,8 @@ export class ConfigDatumComponent {
       );
     } else {
       $('.preloader').show();
-
-      this._datum_service.createNewDatum(this.datum).subscribe((resp) => {
+      let datum: Datum = this.forms.value;
+      this._datum_service.createNewDatum(datum).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
@@ -131,7 +151,8 @@ export class ConfigDatumComponent {
     } 
     else {
       $('.preloader').show();
-      this._datum_service.updateDatum(this.datum).subscribe((resp) => {
+      let datum: Datum = this.forms.value;
+      this._datum_service.updateDatum(datum).subscribe((resp) => {
         if(resp.Meta.StatusCode == 200){
           this.modalClose();
           this._alert.mostrarAlertTipoToast(

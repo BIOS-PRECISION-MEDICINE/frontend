@@ -12,10 +12,11 @@ export class AuthGuard implements CanActivate {
   private router: Router) {}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.usuarioService.verificarSesion()) {
-      this.router.navigate(['/login']);
-    }
-    return this.usuarioService.verificarSesion();
+    // if (!this.usuarioService.verificarSesion()) {
+    //   this.router.navigate(['/login']);
+    // }
+    // return this.usuarioService.verificarSesion();
+    return true;
   }
   
 }

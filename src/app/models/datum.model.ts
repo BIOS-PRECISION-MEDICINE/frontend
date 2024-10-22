@@ -4,8 +4,9 @@ export class Datum {
     }
     value!: string;
     param_id!: string;
-    created_at!: string;
-    updated_at!: string;
+    param_name?: string;
+    created_at?: string;
+    updated_at?: string;
     id!: string;
 
 }

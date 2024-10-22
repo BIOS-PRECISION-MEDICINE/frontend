@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<div class="container-fluid cf-custom">
   <div class="row">
     <div class="col-lg-12 col-xlg-12 text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
-              <th scope="col">Identificador</th>
+              <th scope="col">Id</th>
               <th scope="col">Documento</th>
               <th scope="col">Nombre</th>
               <th scope="col">Apellidos</th>
@@ -22,15 +22,12 @@
                   data-placement="top"
                   title="Nuevo paciente"
                 >
-                  <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
-                    aria-hidden="true"
-                  ></i>
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="tbody-custom">
             <tr
               *ngFor="
                 let item of lstPatients
@@ -46,23 +43,35 @@
               <td scope="row">{{ item.document }}</td>
               <td scope="row">{{ item.name }}</td>
               <td scope="row">{{ item.lastname }}</td>
-              <td scope="row">{{ item.birth_year | date : "dd/MM/yyyy" }}</td>
-              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
+              <td scope="row">{{ item.birth_year | date : "dd-MM-yyyy" }}</td>
+              <td scope="row">{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
               <td scope="row">
                 <a
                   (click)="modalEditPatient(item.id)"
-                  class="mr-2"
+                  class="mr-3"
                   title="Editar"
-                  ><i class="fa fa-pencil-square-o"></i
+                  ><i class="fa-solid fa-pencil"></i>
+                </a>
+                <a
+                  (click)="modalPatientsDetails(item.id)"
+                  class="mr-3"
+                  title="Detalle"
+                  ><i
+                    class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"
+                  ></i
                 ></a>
                 <a
+                  (click)="sendToDetailExamsByIdPatient(item.id)"
+                  class="mr-3"
+                  title="Examenes"
+                >
+                  <i class="fa-solid fa-file-medical btn-grid-exams"></i>
+                </a>
+                <a
                   (click)="removePatient(item.id, item.document)"
-                  class="mr-2"
+                  class="mr-3"
                   title="Eliminar"
-                  ><i class="fa fa-times"></i
-                ></a>
-                <a (click)="modalPatientsDetails(item.id)" class="mr-2" title="Detalle"
-                  ><i class="fa fa-table"></i
+                  ><i class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i
                 ></a>
               </td>
             </tr>
@@ -114,14 +123,28 @@
       <div class="modal-body parent">
         <div class="row">
           <div class="col">
+            <div class="form-group">
+              <div class="form__group field">
+                <input
+                  type="input"
+                  class="form-control form__field"
+                  placeholder="Ingrese el docuemnto"
+                  name="name"
+                  id="name"
+                  required
+                />
+                <label for="name" class="form__label">Name</label>
+              </div>
+            </div>
+
             <form [formGroup]="forms">
+              <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="document">Documento</label>
                 <input
                   type="text"
                   class="form-control"
                   id="document"
-                  [(ngModel)]="patient.document"
                   [class.is-invalid]="documentNoValido"
                   formControlName="document"
                   placeholder="Ingrese el número de documento"
@@ -134,7 +157,6 @@
                   type="text"
                   class="form-control"
                   id="name"
-                  [(ngModel)]="patient.name"
                   [class.is-invalid]="nameNoValido"
                   formControlName="name"
                   placeholder="Ingrese el nombre del paciente"
@@ -147,7 +169,6 @@
                   type="text"
                   class="form-control"
                   id="lastname"
-                  [(ngModel)]="patient.lastname"
                   [class.is-invalid]="lastnameNoValido"
                   formControlName="lastname"
                   placeholder="Ingrese los apellidos del paciente"
@@ -160,11 +181,17 @@
                   type="date"
                   class="form-control"
                   id="birth_year"
-                  [(ngModel)]="txt_birth_year"
                   [class.is-invalid]="birth_yearNoValido"
                   formControlName="birth_year"
                   placeholder="dd-MM-yyyy"
                 />
+
+                <div
+                  class="alert alert-danger"
+                  *ngIf="forms.get('birth_year')?.errors?.invalidDate"
+                >
+                  Fecha de nacimiento invalida.
+                </div>
               </div>
             </form>
           </div>
@@ -172,8 +199,9 @@
       </div>
       <div class="modal-footer justify-content-center">
         <button
-          *ngIf="!edit_state"
           type="button"
+          *ngIf="!edit_state"
+          [disabled]="!forms.valid"
           class="btn btn-outline-success"
           style="border-radius: 10px"
           (click)="newPatient()"
@@ -181,8 +209,9 @@
           Guardar
         </button>
         <button
-          *ngIf="edit_state"
           type="button"
+          *ngIf="edit_state"
+          [disabled]="!forms.valid"
           class="btn btn-outline-success"
           style="border-radius: 10px"
           (click)="editPatient()"
@@ -237,7 +266,6 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-                
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información personal</strong></h3>
@@ -277,11 +305,10 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Fecha nacimiento </span>
-                      {{ patient.birth_year }}
+                      {{ patient.birth_year | date : "dd-MM-yyyy" }}
                     </p>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -301,3 +328,4 @@
     </div>
   </div>
 </div>
+

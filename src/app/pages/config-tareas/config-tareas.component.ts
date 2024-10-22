@@ -13,7 +13,6 @@ declare var $: any;
 @Component({
   selector: 'app-config-tareas',
   templateUrl: './config-tareas.component.html',
-  styleUrls: ['./config-tareas.component.css'],
 })
 export class ConfigTareasComponent {
   public edit_state: boolean = false;
@@ -51,6 +50,7 @@ export class ConfigTareasComponent {
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id: [],
       name: ['', Validators.required],
       process_id: ['', Validators.required],
       order: ['', Validators.required],
@@ -59,9 +59,10 @@ export class ConfigTareasComponent {
   }
 
   ngOnInit(): void {
-    this.changePageTable(1);
+    $('.preloader').show();
     this._processes_service.getAllListingProcesses().subscribe((resp) => {
       this.lstProcesses = resp.data;
+      this.changePageTable(1);
     });
   }
 
@@ -72,6 +73,13 @@ export class ConfigTareasComponent {
       this.current_page = resp.meta.current_page;
       this.per_page = resp.meta.per_page;
       this.total_items = resp.meta.total;
+
+      // Sets name of process for each task in list
+      this.lstTasks.forEach((item: any) => {
+        item.process_name = this.lstProcesses.find((obj: any) => {
+          return obj.id === item.process_id;
+        }).name
+      });
       $('.preloader').hide();
     });
   }
@@ -84,24 +92,38 @@ export class ConfigTareasComponent {
 
   modalAddTask(): void {
     this.edit_state = false;
+    this.forms.reset();
     this._processes_service.getAllListingProcesses().subscribe((resp) => {
       this.lstProcesses = resp.data;
-      this.forms.reset();
       $('#TaskNew').modal({ backdrop: 'static', keyboard: false });
-    });    
+    });
   }
 
   modalEditTask(id_tarea: string): void {
     this.edit_state = true;
+    this.forms.reset();
     this._tasks_service.getTaskById(id_tarea).subscribe((resp) => {
-      this.task = resp;
+
+      this.forms.setValue({
+        id: resp.id,
+        name: resp.name,
+        process_id: resp.process_id,
+        order: resp.order,
+        description: resp.description,
+      });
+
       $('#TaskNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
 
   modalDetailsTask(id_task: string): void {
     this._tasks_service.getTaskById(id_task).subscribe((resp) => {
+      
       this.task = resp;
+      this.task.process_name = this.lstProcesses.find((obj: any) => {
+        return obj.id === this.task.process_id;
+      }).name;
+
       $('#TaskDetails').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -115,8 +137,8 @@ export class ConfigTareasComponent {
       );
     } else {
       $('.preloader').show();
-
-      this._tasks_service.createNewTask(this.task).subscribe((resp) => {
+      let task:Tarea = this.forms.value;
+      this._tasks_service.createNewTask(task).subscribe((resp) => {
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
@@ -142,11 +164,12 @@ export class ConfigTareasComponent {
         ALERT_TYPE.WARNING,
         'Por favor llene los campos obligatorios.'
       );
-    } 
+    }
     else {
       $('.preloader').show();
-      this._tasks_service.updateTask(this.task).subscribe((resp) => {
-        if(resp.Meta.StatusCode == 200){
+      let task: Tarea = this.forms.value;
+      this._tasks_service.updateTask(task).subscribe((resp) => {
+        if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.OK,
@@ -154,7 +177,7 @@ export class ConfigTareasComponent {
           );
           this.changePageTable(1);
         }
-        else{
+        else {
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.ERROR,
             resp.Meta.TipoRespuesta
@@ -173,24 +196,24 @@ export class ConfigTareasComponent {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText:  'Eliminar',
+      confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       $('.preloader').show();
       if (result.isConfirmed) {
-        this._tasks_service.deleteTask(id_task).subscribe(resp =>{
-          if(resp.Meta.StatusCode == 200){
+        this._tasks_service.deleteTask(id_task).subscribe(resp => {
+          if (resp.Meta.StatusCode == 200) {
             this.changePageTable(1);
             this._alert.mostrarAlertTipoToast(
               ALERT_TYPE.OK,
               'Tarea eliminado exitosamente.'
-            );   
+            );
           }
-          else{
+          else {
             this._alert.mostrarAlertTipoToast(
               ALERT_TYPE.ERROR,
               resp.Meta.TipoRespuesta
-            );   
+            );
           }
         });
       }

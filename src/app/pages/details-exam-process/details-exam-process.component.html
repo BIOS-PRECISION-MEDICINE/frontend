@@ -1,0 +1,94 @@
+<div class="container-fluid cf-custom">
+  <div class="row">
+    <div class="col-lg-8 col-xlg-8">
+      <h2>>Examen: {{ detailsExam?.name }}</h2>
+    </div>
+    <div class="col-lg-4 col-xlg-4">
+      <span class="state_red label_state_icon"></span>
+      <span class="label_state">Pendiente</span>
+      <span class="state_yellow label_state_icon"></span>
+      <span class="label_state">En ejecución</span>
+      <span class="state_green label_state_icon"></span>
+      <span class="label_state">Finalizado</span>
+    </div>
+  </div>
+  <!-- Listing Tasks -->
+  <div class="row">
+    <div
+      class="col"
+      *ngFor="let task of detailsExam?.theProcess.tasks; index as i"
+    >
+      <div class="row justify-content-center">
+        <!-- Step indicator -->
+        <div class="col">
+          <div class="box">
+            <div class="shadow"></div>
+            <div class="content">
+              <div
+                class="percent"
+                [attr.data-text]="task.name"
+                style="--num: {{task.per_finished}}"
+              >
+                <div class="dot"></div>
+                <svg>
+                  <circle cx="57" cy="57" r="53"></circle>
+                  <circle cx="57" cy="57" r="53"></circle>
+                </svg>
+              </div>
+              <div class="number">
+                <h2>{{task.per_finished}}<span>%</span></h2>
+              </div>
+            </div>
+          </div>
+          <!-- Listing SubTasks -->
+          <div class="subtask-list-details">
+            <strong>Sub-tareas:</strong>
+            <div *ngFor="let subtask of task.subTasks; index as j">
+              <div class="row">
+                <div class="col">
+                  <span [ngClass]="subtask.state"></span>
+                  <strong>{{ subtask.name }}</strong>
+                  <a class="btn-config-exec-subtask-exam"
+                    *ngIf="subtask.state !== 'state_red'"
+                    (click)="
+                      SendToConfigExecSubTaskExam(
+                        task.name,
+                        subtask.name,
+                        subtask.id,
+                        subtask.prevSubTexExam,
+                        subtask?.lst_config_subtask_exec
+                      )
+                    "
+                  >
+                    <i class="fa-solid fa-gears"></i>
+                    {{subtask.id}}-{{subtask.prevSubTexExam}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End listing SubTasks -->
+        </div>
+        <!-- End step indicator -->
+      </div>
+    </div>
+    <!-- End Listing Task -->
+  </div>
+  <!-- End listing Tasks -->
+
+  <div class="row">
+    <div class="col">
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="border-radius: 10px"
+          data-dismiss="modal"
+          (click)="sendToPreviousPage()"
+        >
+          Volver
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

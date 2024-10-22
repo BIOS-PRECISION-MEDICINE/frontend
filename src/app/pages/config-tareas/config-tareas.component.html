@@ -1,38 +1,28 @@
-<div class="container-fluid">
+<div class="container-fluid
+ cf-custom">
   <div class="row">
     <div class="col-lg-12 col-xlg-12 text-center">
       <div class="table-responsive mt-3 animated fadeInLeftBig">
         <table class="table table-sm table-bordered table-striped">
           <thead class="thead-custom">
             <tr>
-              <th scope="col">Identificador</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Descripción</th>
-              <th scope="col">Proceso</th>
-              <th scope="col">Orden</th>
-              <th scope="col">Modificado</th>
-              <th scope="col">
+              <th class="text-center">Id</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Descripción</th>
+              <th class="text-center">Proceso</th>
+              <th class="text-center">Orden</th>
+              <th class="text-center">Modificado</th>
+              <th class="text-center">
                 <span class="span-title-actions">Acciones</span>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="modalAddTask()"
-                  style="border-radius: 10px"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Nueva tarea"
-                >
-                  <i
-                    class="fa fa-plus fa-4 btn-grid-plus"
-                    aria-hidden="true"
-                  ></i>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="modalAddTask()"
+                  style="border-radius: 10px" data-toggle="tooltip" data-placement="top" title="Nueva tarea">
+                  <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              *ngFor="
+          <tbody class="tbody-custom">
+            <tr *ngFor="
                 let item of lstTasks
                   | paginate
                     : {
@@ -40,30 +30,20 @@
                         itemsPerPage: per_page,
                         currentPage: current_page
                       }
-              "
-            >
-              <td scope="row">{{ item.id }}</td>
-              <td scope="row">{{ item.name }}</td>
-              <td scope="row">{{ item.description }}</td>
-              <td scope="row">{{ item.process_id }}</td>
-              <td scope="row">{{ item.order }}</td>
-              <td scope="row">{{ item.updated_at | date : "dd/MM/yyyy" }}</td>
-              <td scope="row">
-                <a (click)="modalEditTask(item.id)" class="mr-2" title="Editar"
-                  ><i class="fa fa-pencil-square-o"></i
-                ></a>
-                <a
-                  (click)="removeTask(item.id, item.name)"
-                  class="mr-2"
-                  title="Eliminar"
-                  ><i class="fa fa-times"></i
-                ></a>
-                <a
-                  (click)="modalDetailsTask(item.id)"
-                  class="mr-2"
-                  title="Detalle"
-                  ><i class="fa fa-table"></i
-                ></a>
+              ">
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ (item.description !==null ) ? item.description.substring(0,50) + '...' : '' }}</td>
+              <td>{{ item.process_name }}</td>
+              <td>{{ item.order }}</td>
+              <td>{{ item.updated_at | date : "dd-MM-yyyy" }}</td>
+              <td>
+                <a (click)="modalEditTask(item.id)" class="mr-3" title="Editar"><i
+                    class="fa-solid fa-pencil"></i></a>
+                <a (click)="removeTask(item.id, item.name)" class="mr-3" title="Eliminar"><i
+                    class="fa-solid fa-trash-can-arrow-up btn-grid-delete"></i></a>
+                <a (click)="modalDetailsTask(item.id)" class="mr-3" title="Detalle"><i
+                    class="fa-sharp fa-solid fa-magnifying-glass btn-grid-detail"></i></a>
               </td>
             </tr>
           </tbody>
@@ -73,41 +53,22 @@
   </div>
   <div class="row">
     <div class="text-center col-lg-12 col-xlg-12">
-      <pagination-controls
-        (pageChange)="changePageTable($event)"
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-      ></pagination-controls>
+      <pagination-controls (pageChange)="changePageTable($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
     </div>
   </div>
 </div>
 
 <!-- Modal nuevo tarea-->
-<div
-  class="modal animated fadeInDown"
-  id="TaskNew"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="TaskNewInsertLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="TaskNew" tabindex="3" role="dialog" aria-labelledby="TaskNewInsertLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="TaskNewInsertLabel"
-          style="font-weight: 600"
-        >
+        <h4 class="modal-title" id="TaskNewInsertLabel" style="font-weight: 600">
           Tarea
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          (click)="modalClose()"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalClose()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -115,89 +76,47 @@
         <div class="row">
           <div class="col">
             <form [formGroup]="forms">
+              <input type="hidden" id="id" />
               <div class="form-group">
                 <label for="name">Nombre</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  [(ngModel)]="task.name"
-                  [class.is-invalid]="nameNoValido"
-                  formControlName="name"
-                  placeholder="Ingrese el Nombre"
-                />
+                <input type="text" class="form-control" id="name" [class.is-invalid]="nameNoValido"
+                  formControlName="name" placeholder="Ingrese el Nombre" />
               </div>
               <div class="form-group">
                 <label for="process_id">Proceso</label>
-                <select
-                  class="form-control custom-select"
-                  id="process_id"
-                  [(ngModel)]="task.process_id"
-                  [class.is-invalid]="processNoValido"
-                  formControlName="process_id"
-                >
-                  <option value="-1">Seleccione proceso</option>
-                  <option
-                    value="{{ item.id }}"
-                    *ngFor="let item of lstProcesses"
-                  >
+                <select class="form-control custom-select" id="process_id" [class.is-invalid]="processNoValido"
+                  formControlName="process_id">
+                  <option value="">Seleccione proceso</option>
+                  <option value = "{{ item.id }}" *ngFor="let item of lstProcesses">
                     {{ item.name }}
                   </option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="order">Orden</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="order"
-                  [(ngModel)]="task.order"
-                  [class.is-invalid]="orderNoValido"
-                  formControlName="order"
-                  placeholder="Ingrese el orden del proceso"
-                />
-                </div>
-              
-                <div class="form-group">
+                <input type="number" class="form-control" id="order" [class.is-invalid]="orderNoValido"
+                  formControlName="order" placeholder="Ingrese el orden del proceso" />
+              </div>
+
+              <div class="form-group">
                 <label for="description">Descripción</label>
-                <textarea
-                  class="form-control"
-                  id="description"
-                  [(ngModel)]="task.description"
-                  formControlName="description"
-                  rows="3"
-                ></textarea>
-                </div>
+                <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
+              </div>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          *ngIf="!edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="newTask()"
-        >
+        <button type="button" *ngIf="!edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
+          (click)="newTask()">
           Guardar
         </button>
-        <button
-          *ngIf="edit_state"
-          type="button"
-          class="btn btn-outline-success"
-          style="border-radius: 10px"
-          (click)="editTask()"
-        >
+        <button type="button" *ngIf="edit_state" [disabled]="!forms.valid" class="btn btn-outline-success" style="border-radius: 10px"
+          (click)="editTask()">
           Editar
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cancelar
         </button>
       </div>
@@ -207,31 +126,15 @@
 
 
 <!-- Modal detalle-->
-<div
-  class="modal animated fadeInDown"
-  id="TaskDetails"
-  tabindex="3"
-  role="dialog"
-  aria-labelledby="taskDetailsLabel"
-  aria-hidden="true"
->
+<div class="modal animated fadeInDown" id="TaskDetails" tabindex="3" role="dialog" aria-labelledby="taskDetailsLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="taskDetailsLabel"
-          style="font-weight: 600"
-        >
+        <h4 class="modal-title" id="taskDetailsLabel" style="font-weight: 600">
           Detalle tarea
         </h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          (click)="modalClose()"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" (click)="modalClose()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -240,7 +143,7 @@
           <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
               <div class="card-body">
-                
+
                 <div class="row">
                   <div class="col">
                     <h3><strong>Información tarea</strong></h3>
@@ -261,7 +164,7 @@
                   <div class="col">
                     <p>
                       <span class="font-weight-bold"> Proceso </span>
-                      {{ task.process_id }}
+                      {{ task.process_name }}
                     </p>
                   </div>
                 </div>
@@ -287,17 +190,11 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="border-radius: 10px"
-          data-dismiss="modal"
-          (click)="modalClose()"
-        >
+        <button type="button" class="btn btn-outline-danger" style="border-radius: 10px" data-dismiss="modal"
+          (click)="modalClose()">
           Cerrar
         </button>
       </div>
     </div>
   </div>
 </div>
-

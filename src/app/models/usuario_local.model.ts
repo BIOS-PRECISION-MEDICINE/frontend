@@ -2,12 +2,12 @@ export class Usuario {
 
     constructor() {        
     }
+    id!: number;
     name!: string;
     nick_name!: string;
     email!: string;
-    rol_id!: string;
+    role_id!: string;
     created_at!: string;
-    updated_at!: string;
-    id!: number;
+    updated_at!: string;    
 
 }

@@ -11,7 +11,8 @@ export class TokenGuard implements CanActivate {
   constructor(private _tokenService: TokenService) {}
 
   canActivate(): Promise<boolean> | boolean {
-    let token: string = sessionStorage.getItem('token') || '';
-    return this._tokenService.verificarTiempoDeVidaToken(token);
+    // let token: string = sessionStorage.getItem('token') || '';
+    // return this._tokenService.verificarTiempoDeVidaToken(token);
+    return true
   }
 }

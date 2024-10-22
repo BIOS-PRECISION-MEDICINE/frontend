@@ -17,7 +17,7 @@ export class MenuHistoricoService {
     let menu: Array<Menu> = [
       {
         titulo: 'Histórico',
-        icono: 'fa fa-history',
+        icono: 'fa-solid fa-notes-medical',
         subMenu: [
           new SubMenu(
             'Usuario', 'historico-usuario', ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN

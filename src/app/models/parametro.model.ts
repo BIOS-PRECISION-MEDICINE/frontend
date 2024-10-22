@@ -4,9 +4,10 @@ export class Parametro {
     }
     name!: string;
     type!: string;
+    type_tag!: string;
     optional!: string;
     default_value!: string;
-    sub_task_id!: string;
+    value!: string;
     created_at!: string;
     updated_at!: string;
     id!: string;

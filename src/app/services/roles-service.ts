@@ -11,8 +11,9 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
 //Interfaces
-import { Permissions } from '../interfaces/permission';
 import { ResponseApi } from '../interfaces/responseApi';
+import { Role } from '../models/role.model';
+import { ALERT_TYPE } from '../constants/alerts.constans';
 
 const URL_ROLES = environment.url_api_roles;
 const per_page : number = environment.pagination_size;  
@@ -54,4 +55,80 @@ export class RolesService {
 
   }
 
+    //Crea e inserta un nuevo rol en el sistema
+    createNewRole(role: Role): Observable<any> {
+
+      return this.http.post(URL_ROLES + "/", role)
+        .pipe(
+          map((resp: any) => {
+            return {
+              Data: resp,
+              Meta: {
+                StatusCode: 200,
+                ResultadoExitoso: true,
+                TipoRespuesta: '',
+              },
+            };
+          }),
+          catchError(error => {
+            $('.preloader').hide();
+            return of(
+              {
+                "Data": null,
+                "Meta": {
+                  "StatusCode": 500,
+                  "ResultadoExitoso": false,
+                  "TipoRespuesta": "Ocurrio un error al realizar la actualización"
+                }
+              }
+            );
+          })
+        );
+  
+    }
+
+    //Elimina un rol del sistema
+    deleteRoleById(id_role: string): Observable<any> {
+    return this.http.delete(URL_ROLES + '/' + id_role, {}).pipe(
+      map((resp: any) => {
+        return {
+          Data: resp,
+          Meta: {
+            StatusCode: 200,
+            ResultadoExitoso: true,
+            TipoRespuesta: '',
+          },
+        };
+      }),
+      catchError((error) => {
+        $('.preloader').hide();
+        let msg = this.getErrorResponse(error);
+        
+        return of({
+          Data: null,
+          Meta: {
+            StatusCode: 500,
+            ResultadoExitoso: false,
+            TipoRespuesta: msg,
+          },
+        });
+      })
+    );
+  }
+
+  getErrorResponse(error: any): string {
+    let msg = '';
+    let errors = error.errors;
+    if (errors) {
+      for (var i = 0; i < errors.length; i++) {
+        msg += errors[i].field + ' : ' + errors[i].message + '\n';
+      }
+    } else if (error.message) {
+      msg = error.message;
+    }
+    else if (error.error) {
+      msg = error.error;
+    }
+    return msg;
+  }
 }

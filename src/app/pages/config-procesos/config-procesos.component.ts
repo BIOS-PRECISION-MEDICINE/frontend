@@ -11,12 +11,11 @@ declare var $: any;
 @Component({
   selector: 'app-config-procesos',
   templateUrl: './config-procesos.component.html',
-  styleUrls: ['./config-procesos.component.css'],
 })
 export class ConfigProcesosComponent {
+  public process!: Proceso;
   public edit_state: boolean = false;
   public forms!: FormGroup;
-  public process!: Proceso;
   public current_page: number = 1;
   public per_page: number = 10;
   public total_items: number = 0;
@@ -27,7 +26,6 @@ export class ConfigProcesosComponent {
     private _process_service: ProcessesService,
     private _alert: AlertPersonalService
   ) {
-    this.process = new Proceso();
     this.crearFormulario();
   }
 
@@ -37,6 +35,7 @@ export class ConfigProcesosComponent {
 
   crearFormulario() {
     this.forms = this.fb.group({
+      id:[],
       name: ['', Validators.required],
       description: [],
     });
@@ -58,21 +57,27 @@ export class ConfigProcesosComponent {
   }
 
   modalClose(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#ProcessNew').modal('hide');
   }
 
   modalAddProcess(): void {
-    this.edit_state = false;
     this.forms.reset();
+    this.edit_state = false;
     $('#ProcessNew').modal({ backdrop: 'static', keyboard: false });
   }
 
   modalEditProcess(id_process: string): void {
     this.edit_state = true;
     this._process_service.getProcessById(id_process).subscribe((resp) => {
-      this.process = resp;
+      
+      this.forms.setValue({
+        id:resp.id,
+        name:resp.name,
+        description: resp.description
+      });
+
       $('#ProcessNew').modal({ backdrop: 'static', keyboard: false });
     });
   }
@@ -93,12 +98,14 @@ export class ConfigProcesosComponent {
       );
     } else {
       $('.preloader').show();
-      this._process_service.createNewProcess(this.process).subscribe((resp) => {
+      let process: Proceso = this.forms.value;
+      this._process_service.createNewProcess(process).subscribe((resp) => {
+        
         if (resp.Meta.StatusCode == 200) {
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.OK,
-            'Paciente creado exitosamente.'
+            'Proceso creado exitosamente.'
           );
           this.changePageTable(1);
         } else {
@@ -122,12 +129,13 @@ export class ConfigProcesosComponent {
     } 
     else {
       $('.preloader').show();
-      this._process_service.updateProcess(this.process).subscribe((resp) => {
+      let process: Proceso = this.forms.value;
+      this._process_service.updateProcess(process).subscribe((resp) => {
         if(resp.Meta.StatusCode == 200){
           this.modalClose();
           this._alert.mostrarAlertTipoToast(
             ALERT_TYPE.OK,
-            'Procesp actualizado exitosamente.'
+            'Proceso actualizado exitosamente.'
           );
           this.changePageTable(1);
         }
