@@ -10,8 +10,8 @@ export const environment = {
   url_base:"http://localhost:4200/login",
   url_login:"http://localhost:4200/login",
   // Apis propias para hacer el canal de comunicación con back-end.
-  url_base_api:'http://10.0.80.43',
-  url_auth: 'http://10.0.80.43/login-fake',
+  url_base_api:'http://localhost:3333',
+  url_auth: 'http://localhost:3333/login-fake',
   //API permissions
   url_api_permissions: 'http://10.0.80.43/permissions',
   //API rols
@@ -23,9 +23,9 @@ export const environment = {
   //API tasks
   url_api_tasks: 'http://10.0.80.43/tasks',
   //API sub-tasks
-  url_api_subtasks: 'http://10.0.80.43/subtasks',
+  url_api_subtasks: 'http://127.0.0.1:3333/subtasks',
   //API sub-tasks-EXAM
-  url_api_subtask_exam: 'http://10.0.80.43/subtasks-exam',
+  url_api_subtask_exam: 'http://localhost:3333/subtasks-exam',
   //API parameters
   url_api_parameters: 'http://10.0.80.43/params',
   //API patients
@@ -35,12 +35,12 @@ export const environment = {
   //API exam
   url_api_exam: 'http://10.0.80.43/exams',
   //API data
-  url_api_data_subtask_exam: 'http://10.0.80.43/datum_sub_task_exam',
+  url_api_data_subtask_exam: 'http://127.0.0.1:3333/datum_sub_task_exam',
   //API process pipeline
-  url_api_process_pipeline: 'http://10.0.80.43/xx',
+  url_api_process_pipeline: 'http://127.0.0.1:3333/xx',
   //API get exams by id_process
-  url_api_get_exams_by_idprocess: 'http://10.0.80.43/xx',
-  //secret_google: "468010351371-uuakplj3cnqjbhu0n11b7rvucop0dcse.apps.googleusercontent.com"
+  url_api_get_exams_by_idprocess: 'http://127.0.0.1:3333/xx',
+
 };
 
 /*

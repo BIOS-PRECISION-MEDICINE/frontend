@@ -9,7 +9,7 @@ WORKDIR /usr/local/app
 RUN npm cache clean --force
 # Copy files from local machine to virtual directory in docker image
 COPY ./ /usr/local/app/
-# 
+#
 RUN npm install
 
 RUN npm run build
@@ -21,6 +21,6 @@ FROM nginx:latest AS ngi
 
 COPY --from=node /usr/local/app/dist/frontend-main /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
-# Exposing a port, here it means that inside the container 
+# Exposing a port, here it means that inside the container
 # the app will be using Port 8080 while running
 EXPOSE 8080
