@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   pagination_size: 10,
   client_id_google:'468010351371-m4ag72ad3mhp261bvp9ko3rhgctq6ef3.apps.googleusercontent.com',
   url_main_backend:"http://origen.bios-io.co/api",
