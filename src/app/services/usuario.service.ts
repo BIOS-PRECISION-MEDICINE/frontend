@@ -23,6 +23,7 @@ const URL_BASE = environment.url_base;
 const URL_LOGIN = environment.url_login;
 const URL_USERS = environment.url_api_users;
 const URL_AUTH = environment.url_auth;
+const URL_MAIN_BACKEND = environment.url_main_backend;
 const per_page: number = environment.pagination_size;
 
 declare var $: any;
@@ -51,6 +52,7 @@ export class UsuarioService {
   }
 
   logout() {
+    localStorage.removeItem('notifications');
     localStorage.clear();
     localStorage.removeItem('menu');
     this.router.navigateByUrl('/login');
@@ -106,6 +108,7 @@ export class UsuarioService {
   }
 
   public handleCredentialResponse(response: googleSignInResponse) {
+    console.log("toda la respuesta " + JSON.stringify(response))
     this.savelocalStorage('token', response.credential);
     let VariablesDeUsuarioLogadoDTO: googleCredentials = this.decodeJwtResponse(
       response.credential
@@ -114,8 +117,23 @@ export class UsuarioService {
       'variablesDeUsuarioLogadoDTO',
       VariablesDeUsuarioLogadoDTO
     );
-    this.router.navigate(['/dashboard']);
+    console.log("llegando " + JSON.stringify(VariablesDeUsuarioLogadoDTO))
+    console.log("token " + response.credential)
+    this.create(response.credential).subscribe(data => {
+      console.log("luego de login " + JSON.stringify(data))
+      this.router.navigate(['/dashboard']);
+    })
+
   }
+
+  create(token: string) {
+    return this.http.post<any>(`${URL_MAIN_BACKEND}/login`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+
 
   public decodeJwtResponse(token: string) {
     var base64Url = token.split('.')[1];
@@ -265,20 +283,20 @@ export class UsuarioService {
 
   //Obtiene usuario por id activo en el sistema
   loginLocalUser(user: any): Observable<any> {
-    user = {email:'admin@admin.com'}
-    return this.http.post(URL_AUTH, user )
+    user = { email: 'admin@admin.com' }
+    return this.http.post(URL_AUTH, user)
       .pipe(
         map((resp: any) => {
-          if(resp.token){
-          this.savelocalStorage('token', resp.token);
-          let VariablesDeUsuarioLogadoDTO = {
-            email:"admin@admin.com"
-          };
-          this.savelocalStorage(
-            'variablesDeUsuarioLogadoDTO',
-            VariablesDeUsuarioLogadoDTO
-          );
-          this.router.navigate(['/dashboard']);
+          if (resp.token) {
+            this.savelocalStorage('token', resp.token);
+            let VariablesDeUsuarioLogadoDTO = {
+              email: "admin@admin.com"
+            };
+            this.savelocalStorage(
+              'variablesDeUsuarioLogadoDTO',
+              VariablesDeUsuarioLogadoDTO
+            );
+            this.router.navigate(['/dashboard']);
           }
           return resp;
         }),

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 import { Router } from '@angular/router';
@@ -10,10 +10,10 @@ import { WebSocketService } from 'src/app/services/web-socket.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   public usuario: Usuario;
-  public notifications:any[]=[]
+  public notifications: any[] = []
 
   constructor(private usuarioService: UsuarioService,
     private router: Router,
@@ -23,6 +23,7 @@ export class HeaderComponent {
     this.webSocketService.callback.subscribe(res => {
       console.log("Llegando notificación desde el backend->" + JSON.stringify(res))
       this.notifications.unshift(res)
+      localStorage.setItem('notifications', JSON.stringify(this.notifications));
       console.log(JSON.stringify(this.notifications))
     })
     this.usuario = {
@@ -39,8 +40,18 @@ export class HeaderComponent {
     }
 
   }
-  redirect(item:any){
-    console.log("redireccionando "+JSON.stringify(item))
+  ngOnInit(): void {
+   const savedNotifications = localStorage.getItem('notifications');
+    this.notifications = savedNotifications ? JSON.parse(savedNotifications) : [];
+  }
+  redirect(item: any) {
+    console.log("redireccionando " + JSON.stringify(item))
+    if (item.subtaskExam.previous_subtask_exam_id == null) {
+      this.router.navigate(["manage-execution-pipeline/exam/" + item.subtaskExam.exam.id + "/subtask/" + item.subtaskExam.sub_task.id])
+    } else {
+      this.router.navigate(["manage-execution-pipeline/exam/" + item.subtaskExam.exam.id + "/subtask/" + item.subtaskExam.sub_task.id + "/previous/" + item.subtaskExam.previous_subtask_exam_id])
+    }
+
   }
 
   logout() {
