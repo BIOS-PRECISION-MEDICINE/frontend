@@ -7,7 +7,7 @@
         <!-- Logo -->
         <!-- ============================================================== -->
         <div class="navbar-header">
-          <img src="assets/images/icon/logo.png"alt="homepage" class="light-logo icon-center" />
+            <img src="assets/images/icon/logo.png" alt="homepage" class="light-logo icon-center" />
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
@@ -18,8 +18,10 @@
             <!-- ============================================================== -->
             <ul class="navbar-nav mr-auto">
                 <!-- This is  -->
-                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect icon-orange" href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a> </li>
-                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect icon-orange" href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a> </li>
+                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect icon-orange"
+                        href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a> </li>
+                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect icon-orange"
+                        href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a> </li>
                 <li class="nav-item hidden-sm-down"></li>
             </ul>
             <!-- ============================================================== -->
@@ -29,15 +31,36 @@
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
+                <li class="nav-item dropdown" *ngIf="notifications.length > 0">
+                    <a class="nav-link dropdown-toggle waves-effect icon-orange" href="" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-bell"></i>
+                        <span *ngIf="notifications.length > 0" class="badge">{{ notifications.length }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right animated fadeIn fast">
+                        <ul class="dropdown-user">
+                            <!-- role="separator"  -->
+                            <li class="notification" *ngFor="let item of notifications | slice:0:10">
+                                <a (click)="redirect(item)">{{item.message}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+                <!-- ============================================================== -->
+                <!-- Profile -->
+                <!-- ============================================================== -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect icon-orange" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle waves-effect icon-orange" href="" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         <i class="fa-solid fa-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animated fadeIn fast">
                         <ul class="dropdown-user">
                             <li>
                                 <div class="dw-user-box">
-                                     <div class="u-img"><img [src]="usuario.img" alt="user"></div>
+                                    <div class="u-img"><img [src]="usuario.img" alt="user"></div>
                                     <div class="u-text">
                                         <h4>{{ usuario.nombre }}</h4>
                                         <p class="text-muted">
@@ -59,6 +82,7 @@
                     </div>
                 </li>
             </ul>
+
         </div>
     </nav>
 </header>
