@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ALERT_TYPE } from 'src/app/constants/alerts.constans';
 import { SubTarea } from 'src/app/models/subtarea.model';
@@ -32,7 +32,7 @@ export class ManageExecutionPipelineComponent implements OnInit {
   optionsSubTasks: any = []
   subtaskExamPreviousId: any = 0;
   public detailsExam!: any;
-
+  outReportUrl:any;
   constructor(private route: ActivatedRoute,
     private subtaskService: SubTasksService,
     private subtasksExamService: SubTaskExamService,
@@ -40,7 +40,8 @@ export class ManageExecutionPipelineComponent implements OnInit {
     private _alert: AlertPersonalService,
     private router: Router,
     private _exam_service: ExamsService) {
-
+      
+      this.outReportUrl=null;
   }
   ngOnInit(): void {
 
@@ -206,6 +207,7 @@ export class ManageExecutionPipelineComponent implements OnInit {
     let outMainDatum = this.actualSubTasksExam.data_sub_task_exam?.find(item => item.datum.param.name === "out_report");
     this.urlOutMainDatum = environment.url_main_backend + "/" + outMainDatum["datum"]["value"]
     console.log("res-->" + JSON.stringify(this.urlOutMainDatum))
+    this.outReportUrl = this.getOutReport();
   }
 
   getOutReport() {

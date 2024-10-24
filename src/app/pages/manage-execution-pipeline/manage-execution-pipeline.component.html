@@ -245,7 +245,13 @@
                                 </div>
                                 <div *ngIf="actualSubTasksExam.state==2">
                                     <h3>Resultados </h3>
-                                    <iframe [src]="getOutReport()" class="iframe"></iframe>
+                                    <div class="row">
+                                        Ver resultados: <a [href]="urlOutMainDatum" target="_blank" rel="noopener noreferrer">aquí</a>
+                                    </div>
+                                    <div class="row">
+                                        <iframe [src]="outReportUrl" class="iframe"></iframe>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
