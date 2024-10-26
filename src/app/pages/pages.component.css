@@ -2,6 +2,9 @@
     width: 100%; /* Establece el ancho del contenedor al 100% del contenedor padre */
     height: 300px; /* Establece una altura de ejemplo, puedes ajustarla según sea necesario */
 }
+.page-wrapper-modificado{
+    margin-left: 0px !important;
+}
 
 .contenedor iframe {
     width: 100%; /* Establece el ancho del iframe al 100% del contenedor */

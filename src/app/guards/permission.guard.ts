@@ -15,7 +15,7 @@ export class PermissionGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-
+      
     // La propiedad data.permiso viene desde la ruta y no todas la deben tener.
     // const permiso: number = next.data['permiso'] || 0;
 

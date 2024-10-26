@@ -38,9 +38,9 @@ export class SidebarService {
     // Se agregan los menu por cada proyecto(Core).
 
     this.createMenu(menu, this._menuPipeline.createMenuPipeline());
-    this.createMenu(menu, this._menuHistorico.createMenuHistorico());
+    // this.createMenu(menu, this._menuHistorico.createMenuHistorico());
     this.createMenu(menu, this._menuConfig.createMenuConfig());
-    this.createMenu(menu, this._menuPruebas.createMenuPruebas());
+    // this.createMenu(menu, this._menuPruebas.createMenuPruebas());
 
     this.validatePermissionMenu(menu);
   }
