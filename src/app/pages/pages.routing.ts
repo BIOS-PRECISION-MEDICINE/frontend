@@ -58,8 +58,9 @@ const routes: Routes = [
             {path:'details-exam-process/:id_exam/:id_process/:id_patient',canActivate:[ PermissionGuard,TokenGuard], component: DetailsExamProcessComponent, data: { titulo: 'Examen Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-exec-subtask-exam',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExecSubTaskExamComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'manage-execution-pipeline/exam/:examId/subtask/:subtaskId', component: ManageExecutionPipelineComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'manage-execution-pipeline/exam/:examId/subtask/:subtaskId/previous/:subtaskExamPreviousId', component: ManageExecutionPipelineComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }}
-            ]
+            {path:'manage-execution-pipeline/exam/:examId/subtask/:subtaskId/previous/:subtaskExamPreviousId', component: ManageExecutionPipelineComponent, data: { titulo: 'Configuración ejecución de examen', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            { path: '', redirectTo: '/dashboard', pathMatch: 'full' }  
+          ]
 }
 ]
 @NgModule({

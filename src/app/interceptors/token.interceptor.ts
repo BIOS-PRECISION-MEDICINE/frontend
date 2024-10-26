@@ -9,6 +9,7 @@ import {
 import { catchError } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 declare var $: any;
 
@@ -52,7 +53,9 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   private procesarError(error: HttpErrorResponse) {
+    Swal.fire("Advertencia","No tiene permisos suficientes, contacte al administrador del sistema","warning")
     this.router.navigate(["/dashboard"])
+    $('.preloader').hide();
     return throwError("");
   }
 }
