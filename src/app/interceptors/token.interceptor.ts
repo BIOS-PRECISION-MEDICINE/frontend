@@ -8,8 +8,9 @@ import {
 } from '@angular/common/http';
 import { catchError } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
-declare var $:any;
+declare var $: any;
 
 @Injectable({
   providedIn: "root",
@@ -17,35 +18,41 @@ declare var $:any;
 export class TokenInterceptor implements HttpInterceptor {
 
   token: string = '';
-  constructor() {}
+  constructor(private router:Router) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     // Si las rutas son de auth no se clonan.
-    if (
-      request.url.indexOf("api/Login/Authenticate") >= 0  ||
-      request.url.indexOf("ActiveDirectory/LoginFT") >= 0 ||
-      request.url.indexOf("TokenOrigen") >= 0
-    ) {
-      let reqCloneSinToken = request.clone();
-      return next.handle(reqCloneSinToken);
-    }
+    // if (
+    //   request.url.indexOf("api/Login/Authenticate") >= 0 ||
+    //   request.url.indexOf("ActiveDirectory/LoginFT") >= 0 ||
+    //   request.url.indexOf("TokenOrigen") >= 0
+    // ) {
+    //   let reqCloneSinToken = request.clone();
+    //   return next.handle(reqCloneSinToken);
+    // }
+    
 
     // Se valida el sistema para agregar el correspondiente token(Core digital o intranet).
-    this.token = (request.url.indexOf('ApiRestOrigen') >= 0) ? JSON.parse(localStorage.getItem("token-origen")!) : JSON.parse(localStorage.getItem("token")!);
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log("agregando token "+token )
+      // Se debe clonar la req para poder usarla multiples veces.
+      const reqClone = request.clone({
+        headers: request.headers.append('Authorization', `Bearer ${token}`).append('content-type', 'application/json')
+      });
+      return next.handle(reqClone).pipe(
+        catchError((error: HttpErrorResponse) => this.procesarError(error))
+      );
+    }
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => this.procesarError(error))
+    );
 
-    // Se debe clonar la req para poder usarla multiples veces.
-    const reqClone = request.clone({
-      headers: request.headers.append('Authorization',`Bearer ${ this.token }`).append('content-type','application/json')
-    });
-
-    return next.handle(reqClone).pipe(catchError(this.procesarError));
   }
 
   private procesarError(error: HttpErrorResponse) {
-    $('.preloader').hide();
-
-    console.warn(error);
-    return throwError(error.error);
+    this.router.navigate(["/dashboard"])
+    return throwError("");
   }
 }

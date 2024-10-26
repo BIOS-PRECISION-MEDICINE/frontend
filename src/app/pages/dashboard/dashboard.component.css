@@ -1,30 +1,47 @@
 /* Contenedor general */
-.container {
-    height: 80vh;                    /* Ajusta la altura al 80% del viewport */
-    width: 100%;                     /* Asegura que el contenedor ocupe el ancho completo */
-    overflow: hidden;                /* Oculta cualquier desbordamiento */
-    margin: 10px 10px 10px 10px;                       /* Elimina márgenes */
-    padding: 0;                      /* Elimina padding */
-    max-width: 100% !important;
-}
+
 
 /* Pantallas extragrandes (Ultra HD / 4K) */
-@media (min-width: 1920px) {
+@media (min-width: 1701px) {
     .container {
+        height: 75vh;
+        width: 100%;
+        overflow: hidden;
+        margin: 10px;
+        padding: 0;
+        max-width: 100% !important;
         background-image: url('/assets/images/background/fondo_ultra_hd.jpg');
-        background-size: cover;       /* Asegura que la imagen cubra el contenedor */
-        background-position: center;   /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+        background-size: 100% auto;
+        /* Ajusta el ancho al 100% y la altura automáticamente */
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
     }
 }
 
 /* Pantallas grandes (Desktop) */
-@media (min-width:1100px) and (max-width: 1919px) {
+@media (min-width: 1100px) and (max-width: 1700px) {
+    .container {
+        height: 75vh;
+        /* Ajusta la altura al 80% del viewport */
+        width: 100%;
+        /* Asegura que el contenedor ocupe el ancho completo */
+        overflow: hidden;
+        /* Oculta cualquier desbordamiento */
+        margin: 10px;
+        /* Elimina márgenes */
+        padding: 0;
+        /* Elimina padding */
+        max-width: 100% !important;
+        /* Asegura que el contenedor no exceda el ancho máximo */
+    }
+
     .container {
         background-image: url('/assets/images/background/fondo_grande.jpg');
-        background-size: cover;        /* Asegura que la imagen cubra el contenedor */
-        background-position: center;   /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+        background-size: 100% auto;
+        /* Ajusta el ancho al 100% y la altura automáticamente */
+
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
     }
 }
 
@@ -32,9 +49,12 @@
 @media (min-width: 768px) and (max-width: 1099px) {
     .container {
         background-image: url('/assets/images/background/fondo_medio.jpg');
-        background-size: cover;        /* Asegura que la imagen cubra el contenedor */
-        background-position: center;   /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+        background-size: 100% auto;
+        /* Ajusta el ancho al 100% y la altura automáticamente */
+        background-position: center;
+        /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
     }
 }
 
@@ -42,8 +62,11 @@
 @media (max-width: 767px) {
     .container {
         background-image: url('/assets/images/background/fondo_pequeño.jpg');
-        background-size: cover;        /* Asegura que la imagen cubra el contenedor */
-        background-position: center;   /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+        background-size: 100% auto;
+        /* Ajusta el ancho al 100% y la altura automáticamente */
+        background-position: center;
+        /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat;
+        /* Evita que la imagen se repita */
     }
 }
