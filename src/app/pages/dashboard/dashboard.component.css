@@ -1,0 +1,49 @@
+/* Contenedor general */
+.container {
+    height: 80vh;                    /* Ajusta la altura al 80% del viewport */
+    width: 100%;                     /* Asegura que el contenedor ocupe el ancho completo */
+    overflow: hidden;                /* Oculta cualquier desbordamiento */
+    margin: 10px 10px 10px 10px;                       /* Elimina márgenes */
+    padding: 0;                      /* Elimina padding */
+    max-width: 100% !important;
+}
+
+/* Pantallas extragrandes (Ultra HD / 4K) */
+@media (min-width: 1920px) {
+    .container {
+        background-image: url('/assets/images/background/fondo_ultra_hd.jpg');
+        background-size: cover;       /* Asegura que la imagen cubra el contenedor */
+        background-position: center;   /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+    }
+}
+
+/* Pantallas grandes (Desktop) */
+@media (min-width:1100px) and (max-width: 1919px) {
+    .container {
+        background-image: url('/assets/images/background/fondo_grande.jpg');
+        background-size: cover;        /* Asegura que la imagen cubra el contenedor */
+        background-position: center;   /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+    }
+}
+
+/* Pantallas medianas (Tablets) */
+@media (min-width: 768px) and (max-width: 1099px) {
+    .container {
+        background-image: url('/assets/images/background/fondo_medio.jpg');
+        background-size: cover;        /* Asegura que la imagen cubra el contenedor */
+        background-position: center;   /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+    }
+}
+
+/* Pantallas pequeñas (Móviles) */
+@media (max-width: 767px) {
+    .container {
+        background-image: url('/assets/images/background/fondo_pequeño.jpg');
+        background-size: cover;        /* Asegura que la imagen cubra el contenedor */
+        background-position: center;   /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat;  /* Evita que la imagen se repita */
+    }
+}
