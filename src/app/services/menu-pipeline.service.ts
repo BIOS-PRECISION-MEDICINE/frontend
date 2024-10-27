@@ -18,12 +18,12 @@ export class MenuPipelineService {
       {
         titulo: 'Exámenes',
         icono: 'fa-solid fa-suitcase-medical',
-
-        subMenu: [
-          new SubMenu(
-            'Pacientes', 'config-pacientes' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
-          )
-        ]
+        path:"/config-pacientes"
+        // subMenu: [
+        //   new SubMenu(
+        //     'Pacientes', 'config-pacientes' , ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN
+        //   )
+        // ]
       }
     ];
 

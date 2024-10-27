@@ -45,21 +45,24 @@
     }
 }
 
-/* Pantallas medianas (Tablets) */
-@media (min-width: 768px) and (max-width: 1099px) {
-    .container {
-        background-image: url('/assets/images/background/fondo_medio.jpg');
-        background-size: 100% auto;
-        /* Ajusta el ancho al 100% y la altura automáticamente */
-        background-position: center;
-        /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat;
-        /* Evita que la imagen se repita */
-    }
-}
+
 
 /* Pantallas pequeñas (Móviles) */
-@media (max-width: 767px) {
+@media (max-width: 1099px) {
+    .container {
+        height: 75vh;
+        /* Ajusta la altura al 80% del viewport */
+        width: 100%;
+        /* Asegura que el contenedor ocupe el ancho completo */
+        overflow: hidden;
+        /* Oculta cualquier desbordamiento */
+        margin: 10px;
+        /* Elimina márgenes */
+        padding: 0;
+        /* Elimina padding */
+        max-width: 100% !important;
+        /* Asegura que el contenedor no exceda el ancho máximo */
+    }
     .container {
         background-image: url('/assets/images/background/fondo_pequeño.jpg');
         background-size: 100% auto;

@@ -5,7 +5,9 @@ export class Menu {
     constructor(
         public titulo: string,
         public icono: string,
-        public subMenu: Array<SubMenu>,
+        
+        public subMenu?: Array<SubMenu>,
+        public path?:string
 
     ){}
 }

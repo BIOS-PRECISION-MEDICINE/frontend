@@ -32,6 +32,7 @@ export class SidebarComponent implements OnInit {
       this.isActive = false;
       console.log("NO existe")
     }
+    this.sidebarService.loadMenu()
     this.sidebarService.menu;
   }
 
