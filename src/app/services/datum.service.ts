@@ -53,7 +53,7 @@ export class DatumService {
   }
 
   getFastQFiles(id:string): Observable<any> {
-    let url = URL_BASE + '/fastq-files/'+id;
+    let url = URL_BASE + '/fastq-files?fileId='+id;
     return this.http.get<ResponseApi>(url).pipe(
       map((resp) => {
         return resp;
