@@ -58,7 +58,8 @@ export class ExamsByPatientComponent {
   }
 
   sendToDetailExamSubTasks(id:number,id_process:number): void{
-    this._router.navigate(['/details-exam-process/'+id+'/'+id_process+'/'+this.id_patient]);
+    //this._router.navigate(['/details-exam-process/'+id+'/'+id_process+'/'+this.id_patient]);
+    this._router.navigate(["/manage-execution-pipeline/exam/"+id+"/subtask/2"])
   }
 
   sendToPreviousPage(): void{

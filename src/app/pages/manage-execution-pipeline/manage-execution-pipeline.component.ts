@@ -253,6 +253,7 @@ export class ManageExecutionPipelineComponent implements OnInit {
         ALERT_TYPE.OK,
         'Sub Tarea Iniciada'
       );
+      this.ngOnInit()
     })
 
 
