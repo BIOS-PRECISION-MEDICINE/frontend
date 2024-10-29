@@ -10,7 +10,7 @@ export const environment = {
   url_base:"http://localhost:4200/login",
   url_login:"http://localhost:4200/login",
   // Apis propias para hacer el canal de comunicación con back-end.
-  url_base_api:'http://10.0.80.43',
+  url_base_api:'https://origen.bios-io.co/api',
   url_auth: 'http://10.0.80.43/login-fake',
   //API permissions
   url_api_permissions: 'http://10.0.80.43/permissions',

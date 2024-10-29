@@ -3,12 +3,12 @@
   <app-header></app-header>
 
   <app-sidebar></app-sidebar>
-
-  <div class="page-wrapper" [ngClass]="!isActive ? 'page-wrapper-modificado' : ''">
+    <!-- <div class="page-wrapper" [ngClass]="!isActive ? 'page-wrapper-modificado' : ''"> -->
+  <div class="page-wrapper" >
       <div class="container-fluid 
  cf-custom">
           <!-- Breadcrumbs -->
-          <!-- <app-breadcrumbs></app-breadcrumbs> -->
+          <app-breadcrumbs></app-breadcrumbs>
 
           <!-- Mi sistema de rutas -->
           <router-outlet></router-outlet>

@@ -38,7 +38,7 @@ const routes: Routes = [
     component: PagesComponent,
     canActivate: [ AuthGuard, TokenGuard ],
     children: [
-            { path: 'dashboard', canActivate:[TokenGuard, AuthGuard], component: DashboardComponent, data: { titulo: 'Home' } },
+            { path: 'dashboard', canActivate:[TokenGuard, AuthGuard], component: DashboardComponent, data: { titulo: 'Inicio' } },
             {path:'config-usuarios',canActivate:[ PermissionGuard,TokenGuard], component: ConfigUsuariosComponent, data: { titulo: 'Configuración usuarios', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-roles',canActivate:[ PermissionGuard,TokenGuard], component: ConfigRolesComponent, data: { titulo: 'Configuración roles', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-permisos',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPermisosComponent, data: { titulo: 'Configuración permisos', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
@@ -51,7 +51,7 @@ const routes: Routes = [
             {path:'config-procesos',canActivate:[ PermissionGuard,TokenGuard], component: ConfigProcesosComponent, data: { titulo: 'Procesos', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigTareasComponent, data: { titulo: 'Tareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-sub-tareas',canActivate:[ PermissionGuard,TokenGuard], component: ConfigSubTareasComponent, data: { titulo: 'Subtareas', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
-            {path:'config-parametros',canActivate:[ PermissionGuard,TokenGuard], component: ConfigParametersComponent, data: { titulo: 'Parameters', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
+            {path:'config-parametros',canActivate:[ PermissionGuard,TokenGuard], component: ConfigParametersComponent, data: { titulo: 'Parámetros', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-pacientes',canActivate:[ PermissionGuard,TokenGuard], component: ConfigPacientesComponent, data: { titulo: 'Pacientes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-datum',canActivate:[ PermissionGuard,TokenGuard], component: ConfigDatumComponent, data: { titulo: 'Data', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},
             {path:'config-exams',canActivate:[ PermissionGuard,TokenGuard], component: ConfigExamsComponent, data: { titulo: 'Exámenes', permiso: ORIGEN_PERMISSIONS.ACCESS_MODULE_ORIGEN }},

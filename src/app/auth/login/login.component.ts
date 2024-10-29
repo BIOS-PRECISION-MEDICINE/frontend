@@ -48,12 +48,13 @@ export class LoginComponent implements OnInit {
     private _msjService: MessageService // Se inyecta el servicio para que inicialice los mensajes.
   ) {
     // Mensajes de configuración para mostrar en la app.
-    this.messages = JSON.parse(localStorage.getItem('messages')!);
-    this.setMessages();
+    // this.messages = JSON.parse(localStorage.getItem('messages')!);
+    // this.setMessages();
   }
 
   ngAfterViewInit(): void {
-    this._usuario_service.loginGoogle();
+    console.log("ngAfterViewInit")
+    //
   }
 
   public loginForm = this.fb.group({
@@ -63,7 +64,10 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    console.log("finalizando")
     this._usuario_service.logout();
+    console.log("lanzando")
+    this._usuario_service.loginGoogle();
   }
 
   login() {

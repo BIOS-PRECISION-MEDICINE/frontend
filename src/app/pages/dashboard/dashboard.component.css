@@ -4,7 +4,7 @@
 /* Pantallas extragrandes (Ultra HD / 4K) */
 @media (min-width: 1701px) {
     .container {
-        height: 75vh;
+        height: 65vh;
         width: 100%;
         overflow: hidden;
         margin: 10px;
@@ -21,7 +21,7 @@
 /* Pantallas grandes (Desktop) */
 @media (min-width: 1100px) and (max-width: 1700px) {
     .container {
-        height: 75vh;
+        height: 65vh;
         /* Ajusta la altura al 80% del viewport */
         width: 100%;
         /* Asegura que el contenedor ocupe el ancho completo */

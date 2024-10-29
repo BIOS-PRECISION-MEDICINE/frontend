@@ -8,10 +8,13 @@ import { environment } from '../../environments/environment';
 export class WebSocketService extends Socket {
   callback:EventEmitter<any>=new EventEmitter();
   nameEvent:string;
+  
   constructor() {
     super({
-      url:environment.url_base_api,
+      //url:environment.url_base_api,
+      url: 'https://origen.bios-io.co/api/',
       options:{
+        path: '/api/socket.io/'
         // query:{
         //   "id":"id-prueba"
         // }

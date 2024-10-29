@@ -34,6 +34,7 @@ export class ConfigPacientesComponent {
     private _patient_service: PatientService,
     private _alert: AlertPersonalService
   ) {
+    
     this.patient = new Paciente();
     this.crearFormulario();
   }

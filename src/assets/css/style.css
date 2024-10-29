@@ -2018,7 +2018,7 @@ ul#themecolors li a.working:before {
 /*******************
  Footer
 *******************/
-.footer {
+/* .footer {
   bottom: 0;
   color: #67757c;
   left: 0px;
@@ -2027,7 +2027,7 @@ ul#themecolors li a.working:before {
   right: 0;
   border-top: 1px solid rgba(120, 130, 140, 0.13);
   background: #ffffff;
-}
+} */
 
 /*******************
  scrollbar

@@ -55,15 +55,16 @@ export class UsuarioService {
     localStorage.removeItem('notifications');
     localStorage.clear();
     localStorage.removeItem('menu');
-    this.router.navigateByUrl('/login');
-    window.onload = () => {
-      google.accounts.id.disableAutoSelect();
-    };
+    console.log("navegando")
+    this.router.navigate(["/login"]);
+    // window.onload = () => {
+    //   google.accounts.id.disableAutoSelect();
+    // };
   }
 
   // Autenticación con servicio Google
   loginGoogle() {
-    window.onload = () => {
+    // window.onload = () => {
       google.accounts.id.initialize({
         client_id: CLIENT_ID,
         login_uri: URL_LOGIN,
@@ -80,7 +81,7 @@ export class UsuarioService {
       );
 
       google.accounts.id.prompt();
-    };
+    // };
   }
 
   verificarSesion(): boolean {
